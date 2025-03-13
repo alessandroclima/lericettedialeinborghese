@@ -1,34 +1,45 @@
 <div class="container">
     <h1 class="mt-3">Add Recipe</h1>
     <div class="mt-3">
-        <form>
+        <form #form="ngForm" (ngSubmit)="onSubmit()">
             <div class="mb-3">
                 <label for="title" class="form-label">Recipe Title</label>
-                <input type="text" class="form-control" id="recipeTitle" formControlName="title">
+                <input type="text" class="form-control" id="recipeTitle" name="recipeTitle" [(ngModel)]="model.titolo">
             </div>
             <div class="mb-3">
                 <label for="description" class="form-label">Description</label>
-                <textarea class="form-control" id="description" formControlName="description"></textarea>
+                <input type="text" class="form-control" id="description" name="description" [(ngModel)]="model.descrizione" >
             </div>
             <div class="mb-3">
                 <label for="cookTime" class="form-label">Cook Time</label>
-                <input type="text" class="form-control" id="cookTime" formControlName="cookTime">
+                <input type="text" class="form-control" id="cookTime" name="cookTime" [(ngModel)]="model.tempocottura">
             </div>
             <div class="mb-3">
                 <label for="servings" class="form-label">Servings</label>
-                <input type="number" class="form-control" id="servings" formControlName="servings">
+                <input type="number" class="form-control" id="servings" name="servings" [(ngModel)]="model.porzioni" >
             </div>
             <div class="mb-3">
                 <label for="ingredients" class="form-label">Ingredients</label>
-                <textarea class="form-control" id="ingredients" formControlName="ingredients"></textarea>
+                <div class="input-group mb-3">
+                    <select class="form-select" [(ngModel)]="selectedIngredient" name="selectedIngredient">
+                        <option *ngFor="let ingredient of availableIngredients" [value]="ingredient.id">{{ ingredient.name }}</option>
+                    </select>
+                    <input type="text" class="form-control" placeholder="Quantity" [(ngModel)]="ingredientQuantity" name="ingredientQuantity">
+                    <button type="button" class="btn btn-outline-secondary" (click)="addIngredient()">+</button>
+                </div>
+                <ul class="list-group">
+                    <li *ngFor="let ingredient of model.ingredienti" class="list-group-item">
+                        {{ ingredient.ingredientName }} - {{ ingredient.quantity }}
+                    </li>
+                </ul>
             </div>
             <div class="mb-3">
                 <label for="steps" class="form-label">Steps</label>
-                <textarea class="form-control" id="steps" formControlName="steps"></textarea>
+                <textarea class="form-control" id="steps" name="steps" [(ngModel)]="model.procedimento"></textarea>
             </div>
             <div class="mb-3">
                 <label for="image" class="form-label">Image</label>
-                <input type="file" class="form-control" id="image" formControlName="image">
+                <input type="file" class="form-control" id="image" name="image" [(ngModel)]="model.immagineUrl">
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
