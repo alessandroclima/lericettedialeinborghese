@@ -8,7 +8,8 @@
             </div>
             <div class="mb-3">
                 <label for="description" class="form-label">Description</label>
-                <input type="text" class="form-control" id="description" name="description" [(ngModel)]="model.descrizione" >
+                <input type="text" class="form-control" id="description" name="description"
+                    [(ngModel)]="model.descrizione">
             </div>
             <div class="mb-3">
                 <label for="cookTime" class="form-label">Cook Time</label>
@@ -16,20 +17,22 @@
             </div>
             <div class="mb-3">
                 <label for="servings" class="form-label">Servings</label>
-                <input type="number" class="form-control" id="servings" name="servings" [(ngModel)]="model.porzioni" >
+                <input type="number" class="form-control" id="servings" name="servings" [(ngModel)]="model.porzioni">
             </div>
             <div class="mb-3">
                 <label for="ingredients" class="form-label">Ingredients</label>
                 <div class="input-group mb-3">
                     <select class="form-select" [(ngModel)]="selectedIngredient" name="selectedIngredient">
-                        <option *ngFor="let ingredient of availableIngredients" [value]="ingredient.id">{{ ingredient.name }}</option>
+                        <option *ngFor="let ingredient of availableIngredients" [value]="ingredient.id">{{
+                            ingredient.name }}</option>
                     </select>
-                    <input type="text" class="form-control" placeholder="Quantity" [(ngModel)]="ingredientQuantity" name="ingredientQuantity">
+                    <input type="text" class="form-control" placeholder="Quantity" [(ngModel)]="ingredientQuantity"
+                        name="ingredientQuantity">
                     <button type="button" class="btn btn-outline-secondary" (click)="addIngredient()">+</button>
                 </div>
                 <ul class="list-group">
-                    <li *ngFor="let ingredient of model.ingredienti" class="list-group-item">
-                        {{ ingredient.ingredientName }} - {{ ingredient.quantity }}
+                    <li *ngFor="let ingredient of model.ingredientiquantita" class="list-group-item">
+                        {{ ingredient.ingredienteNome }} - {{ ingredient.quantita }}
                     </li>
                 </ul>
             </div>
@@ -38,8 +41,8 @@
                 <textarea class="form-control" id="steps" name="steps" [(ngModel)]="model.procedimento"></textarea>
             </div>
             <div class="mb-3">
-                <label for="image" class="form-label">Image</label>
-                <input type="file" class="form-control" id="image" name="image" [(ngModel)]="model.immagineUrl">
+                <label>Carica un'immagine:</label>
+                <input type="file" (change)="onFileSelected($event)" accept="image/*">
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>

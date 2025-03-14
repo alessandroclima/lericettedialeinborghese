@@ -10,6 +10,7 @@ import { AddRecipeComponent } from './features/recipe/add-recipe/add-recipe.comp
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { IngredientListComponent } from './features/recipe/ingredient-list/ingredient-list.component';
+import { RecipeDetailsComponent } from './features/recipe/recipe-details/recipe-details.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { IngredientListComponent } from './features/recipe/ingredient-list/ingre
     NavbarComponent,
     RecipeListComponent,
     AddRecipeComponent,
-    IngredientListComponent
+    IngredientListComponent,
+    RecipeDetailsComponent
   ],
   imports: [
     BrowserModule,

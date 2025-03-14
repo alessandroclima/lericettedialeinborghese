@@ -1,13 +1,12 @@
 import { IngredientQuantity } from "./ingredient-quantity.model";
 
-export interface AddRecipeRequest {
+export interface GetRecipeResponse {
+    id: string;
     titolo: string;
     descrizione: string;
     tempocottura: number;
     porzioni: number;
     procedimento: string;
-    immagineUrl: string;
-
+    immagineurl: string;
     ingredientiquantita: IngredientQuantity[];
-
 }
