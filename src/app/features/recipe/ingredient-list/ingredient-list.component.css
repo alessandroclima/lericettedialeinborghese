@@ -1,0 +1,21 @@
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px; /* Aggiunge spazio sopra */
+  }
+
+  .search-box {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
+  .search-container {
+    display: flex;
+    justify-content: center;  /* Centra orizzontalmente */
+    align-items: center;      /* Centra verticalmente */
+    margin-bottom: 20px;      /* Spazio sotto il campo di ricerca */
+  }
+  
