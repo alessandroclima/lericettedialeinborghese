@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { RecipeService } from '../services/recipe.service';
 import { Subscription } from 'rxjs';
 import { GetRecipeResponse } from '../models/get-recipe-response.model';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-recipe-list',
@@ -9,6 +10,17 @@ import { GetRecipeResponse } from '../models/get-recipe-response.model';
   styleUrls: ['./recipe-list.component.css']
 })
 export class RecipeListComponent implements OnInit {
+
+  private getRecipeSubscription?: Subscription;
+  private deleteRecipeSubscription?: Subscription;
+  private detailsRecipeSubscription?: Subscription;
+  constructor(private recipeService: RecipeService, private route: ActivatedRoute) { }
+  availableRecipes: GetRecipeResponse[] = [];
+  errorMessage: string | null = null;
+  filteredRecipes: GetRecipeResponse[] = [];
+  searchQuery: string = '';
+
+
   detailsRecipe(arg0: string) {
     this.detailsRecipeSubscription = this.recipeService.getRecipeDetails(arg0).subscribe({
       next: (response) => {
@@ -38,15 +50,16 @@ export class RecipeListComponent implements OnInit {
     throw new Error('Method not implemented.');
   }
 
-  private getRecipeSubscription?: Subscription;
-  private deleteRecipeSubscription?: Subscription;
-  private detailsRecipeSubscription?: Subscription;
-  constructor(private recipeService: RecipeService) { }
-  availableRecipes: GetRecipeResponse[] = [];
-  errorMessage: string | null = null;
+
 
   ngOnInit(): void {
     this.loadRecipes();
+
+    // Recupera il valore della ricerca dall'URL
+    this.route.queryParams.subscribe(params => {
+      this.searchQuery = params['search'] || '';
+      this.filterRecipes();
+    });
 
   }
 
@@ -56,6 +69,7 @@ export class RecipeListComponent implements OnInit {
         console.log('Recipe loaded', response);
 
         this.availableRecipes = response;
+        this.filterRecipes();
       },
       error: (error) => {
         console.error('Error fetching recipes', error);
@@ -65,6 +79,12 @@ export class RecipeListComponent implements OnInit {
     }
     );
   }
+
+  filterRecipes() {
+    this.filteredRecipes = this.availableRecipes.filter(recipe =>
+      recipe.titolo.toLowerCase().includes(this.searchQuery.toLowerCase())
+    );
+  };
 
 
 }

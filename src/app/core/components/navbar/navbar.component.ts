@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -7,4 +8,14 @@ import { Component } from '@angular/core';
 })
 export class NavbarComponent {
 
+  searchText: string = ''; // Testo di ricerca
+
+  constructor(private router: Router) {}
+
+  searchRecipes() {
+    console.log('Cercando ricette con testo', this.searchText);
+    if (this.searchText.trim()) {
+      this.router.navigate(['admin/recipes'], { queryParams: { search: this.searchText } });
+    }
+  }
 }

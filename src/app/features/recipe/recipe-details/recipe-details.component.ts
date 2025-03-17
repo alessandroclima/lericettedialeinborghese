@@ -10,20 +10,11 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./recipe-details.component.css']
 })
 export class RecipeDetailsComponent {
-  recipe: GetRecipeResponse;
+  recipe: GetRecipeResponse | null = null;
   getDetailsSubscription?: Subscription;
   recipeId: string | null = null;
   constructor(private route: ActivatedRoute, private recipeService: RecipeService, private router: Router) {
-    this.recipe = {
-      id: '',
-      titolo: '',
-      descrizione: '',
-      tempocottura: 0,
-      porzioni: 0,
-      procedimento: '',
-      immagineurl: '',
-      ingredientiquantita: []
-    };
+   
 
   }
   ngOnInit(): void {
@@ -39,7 +30,10 @@ export class RecipeDetailsComponent {
       {
         next: (response) => {
           console.log('Recipe loaded');
+          console.log(response);
           this.recipe = response;
+          console.log(response.ingredientiQuantita);
+          console.log(this.recipe.ingredientiQuantita);
         },
         error: (error) => {
           console.error('Error loading recipe', error);

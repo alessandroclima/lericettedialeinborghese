@@ -1,0 +1,23 @@
+.custom-card {
+    width: 850px;
+    height: 636px;
+    margin: 0 auto; /* Centra la card orizzontalmente */
+  }
+  
+  .custom-title {
+    font-family: 'Arial', sans-serif; /* Cambia il font a tuo piacimento */
+    font-size: 2.5rem; /* Cambia la grandezza del font a tuo piacimento */
+    font-weight: bold;
+    color: #333; /* Cambia il colore a tuo piacimento */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* Aggiungi un'ombra al testo per renderlo più accattivante */
+  }
+
+  .custom-card-text {
+    background-color: white; /* Grigio chiaro */
+    padding: 10px;
+    border-radius: 5px;
+  }
+
+  .text-justify {
+    text-align: justify;
+  }

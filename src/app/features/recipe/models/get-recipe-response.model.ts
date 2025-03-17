@@ -8,5 +8,5 @@ export interface GetRecipeResponse {
     porzioni: number;
     procedimento: string;
     immagineurl: string;
-    ingredientiquantita: IngredientQuantity[];
+    ingredientiQuantita: IngredientQuantity[];
 }

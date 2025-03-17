@@ -1,1 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
+.home-background {
+    background-image: url('assets/static/files/Background.jpeg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh;
+    margin: 0;
+  }
