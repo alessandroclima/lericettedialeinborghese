@@ -24,8 +24,18 @@ export class UpdateRecipeComponent {
       }
     }
   }
-  onFileSelected($event: Event) {
-    throw new Error('Method not implemented.');
+  onFileSelected(event: any) {
+    const file = event.target.files[0];
+    console.log(file);
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.model.immagineurl = e.target.result.split(',')[1]; // Rimuove il prefisso "data:image/png;base64,"
+      };
+      reader.readAsDataURL(file);
+    } else {
+      this.model.immagineurl = '';
+    }
   }
   addIngredient() {
     console.log('Adding ingredient');

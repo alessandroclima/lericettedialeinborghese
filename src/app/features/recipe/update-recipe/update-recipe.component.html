@@ -103,9 +103,9 @@
             (change)="onFileSelected($event)"
             accept="image/*"
           />
-          <div *ngIf="imageUrl" class="mt-3">
+          <div *ngIf="model.immagineurl" class="mt-3">
             <img
-              [src]="imageUrl"
+              [src]="'data:image/jpeg;base64,' + model.immagineurl"
               alt="Immagine caricata"
               class="img-thumbnail"
               style="max-width: 200px"
