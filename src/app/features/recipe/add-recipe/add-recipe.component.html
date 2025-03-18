@@ -31,10 +31,12 @@
                     <button type="button" class="btn btn-outline-secondary" (click)="addIngredient()">+</button>
                 </div>
                 <ul class="list-group">
-                    <li *ngFor="let ingredient of model.ingredientiquantita" class="list-group-item">
-                        {{ ingredient.ingredienteNome }} - {{ ingredient.quantita }}
-                    </li>
-                </ul>
+                  <li *ngFor="let ingredient of model.ingredientiquantita" class="list-group-item d-flex justify-content-between align-items-center">
+                      {{ ingredient.ingredienteNome }} - {{ ingredient.quantita }}
+                      <button type="button" class="btn btn-danger btn-sm" (click)="removeIngredient(ingredient.ingredienteNome)"><i
+                        class="bi bi-trash"></i></button>
+                  </li>
+              </ul>
             </div>
             <div class="mb-3">
                 <label for="steps" class="form-label">Procedimento</label>

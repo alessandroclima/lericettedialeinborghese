@@ -4,6 +4,7 @@ import { RecipeListComponent } from './features/recipe/recipe-list/recipe-list.c
 import { AddRecipeComponent } from './features/recipe/add-recipe/add-recipe.component';
 import { IngredientListComponent } from './features/recipe/ingredient-list/ingredient-list.component';
 import { RecipeDetailsComponent } from './features/recipe/recipe-details/recipe-details.component';
+import { UpdateRecipeComponent } from './features/recipe/update-recipe/update-recipe.component';
 
 const routes: Routes = [{
   path: 'admin/recipes',
@@ -20,6 +21,10 @@ const routes: Routes = [{
 {
   path: 'admin/recipes/:id',
   component: RecipeDetailsComponent
+},
+{
+  path: 'admin/recipes/update/:id',
+  component: UpdateRecipeComponent
 }];
 
 @NgModule({

@@ -12,6 +12,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { IngredientListComponent } from './features/recipe/ingredient-list/ingredient-list.component';
 import { RecipeDetailsComponent } from './features/recipe/recipe-details/recipe-details.component';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { UpdateRecipeComponent } from './features/recipe/update-recipe/update-recipe.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
     RecipeListComponent,
     AddRecipeComponent,
     IngredientListComponent,
-    RecipeDetailsComponent
+    RecipeDetailsComponent,
+    UpdateRecipeComponent
   ],
   imports: [
     BrowserModule,

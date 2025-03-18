@@ -13,6 +13,7 @@ export class RecipeService {
   private apiUrlGet = 'http://localhost:14760/Recipes/GetRecipes';
   private apiUrlDelete = 'http://localhost:14760/Recipes/DeleteRecipe';
   private apiUrlGetDetails = 'http://localhost:14760/Recipes/GetRecipes';
+  private apiUrlUpdate = 'http://localhost:14760/Recipes/UpdateRecipe';
 
   constructor(private http: HttpClient) { }
 
@@ -45,5 +46,9 @@ export class RecipeService {
         return throwError(() => new Error('Errore durante l\'eliminazione della ricetta. Riprova più tardi.'));
       })
     );
+  }
+
+  updateRecipe(model: GetRecipeResponse): Observable<void> {
+    return this.http.put<void>(this.apiUrlUpdate, model);
   }
 }
