@@ -43,16 +43,18 @@ export class UpdateRecipeComponent {
       this.availableIngredients.find((x) => x.id == this.selectedIngredient)!
         .name
     );
-    if (this.selectedIngredient && this.ingredientQuantity) {
+    if (this.selectedIngredient) {
       this.model?.ingredientiQuantita.push({
         ingredienteId: this.selectedIngredient,
         quantita: this.ingredientQuantity,
         ingredienteNome: this.availableIngredients.find(
           (x) => x.id == this.selectedIngredient
         )!.name,
+        unitaMisura: this.ingredientMeasure
       });
-      this.selectedIngredient = 0;
-      this.ingredientQuantity = '';
+      this.selectedIngredient = undefined;
+      this.ingredientQuantity = null;
+      this.ingredientMeasure = '';
     }
   }
   onSubmit() {
@@ -90,8 +92,9 @@ export class UpdateRecipeComponent {
   }
 
   availableIngredients: GetIngredientResponse[] = [];
-  selectedIngredient: number = 0;
-  ingredientQuantity: string = '';
+  selectedIngredient: number | undefined = undefined;
+  ingredientQuantity: number | null = null;
+  ingredientMeasure: string = '';
   imageUrl: string | ArrayBuffer | null = null;
   model: GetRecipeResponse;
   getDetailsSubscription?: Subscription;

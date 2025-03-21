@@ -19,8 +19,9 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
 
   availableIngredients: GetIngredientResponse[] = [];
 
-  selectedIngredient: number = 0;
-  ingredientQuantity: string = '';
+  selectedIngredient: number | undefined = undefined;
+  ingredientQuantity: number | null = null;
+  ingredientMeasure: string = '';
   imageUrl: string | ArrayBuffer | null = null;
   constructor(
     private ingredientService: IngredientService,
@@ -30,8 +31,8 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
     this.model = {
       titolo: '',
       descrizione: '',
-      tempocottura: 0,
-      porzioni: 0,
+      tempocottura: null,
+      porzioni: 1,
       procedimento: '',
       immagineUrl: '',
       ingredientiquantita: [],
@@ -39,6 +40,7 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
   }
   ngOnInit(): void {
     this.loadAvailableIngredients();
+    console.log(this.selectedIngredient);
   }
 
   loadAvailableIngredients(): void {
@@ -55,16 +57,19 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
   }
 
   addIngredient(): void {
-    if (this.selectedIngredient && this.ingredientQuantity) {
+    if (this.selectedIngredient) {
       this.model.ingredientiquantita.push({
         ingredienteId: this.selectedIngredient,
         ingredienteNome: this.availableIngredients.find(
           (x) => x.id == this.selectedIngredient
         )!.name,
         quantita: this.ingredientQuantity,
+        unitaMisura: this.ingredientMeasure,
+
       });
-      this.selectedIngredient = 0;
-      this.ingredientQuantity = '';
+      this.selectedIngredient = undefined;
+      this.ingredientQuantity = null;
+      this.ingredientMeasure = '';
     }
   }
 

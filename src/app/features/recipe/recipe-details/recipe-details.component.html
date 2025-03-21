@@ -15,13 +15,14 @@
             <div class="card-body" style="background-color: dodgerblue;">
                 <ul class="list-group list-group-horizontal">
                     <li class="list-group-item custom-card-text flex-fill">
-                        <strong><i class="bi bi-people-fill"></i></strong> {{ recipe.porzioni }}
+                        <strong><i class="bi bi-people-fill"></i></strong> <input type="number" style="border-style: hidden;" [(ngModel)]="numero" (keydown.enter)="onEnterPressed()" placeholder="Inserisci un numero">
+
                     </li>
                     <li class="list-group-item custom-card-text flex-fill ms-2">
-                        <strong><i class="bi bi-fire"></i></strong> {{ recipe.tempocottura }}
+                        <strong><i class="bi bi-fire"></i></strong> {{ recipe.tempocottura }} Tempo di cottura
                     </li>
                     <li class="list-group-item custom-card-text flex-fill ms-2">
-                        <strong><i class="bi bi-alarm"></i></strong> {{ recipe.tempocottura }}
+                        <strong><i class="bi bi-alarm"></i></strong> {{ recipe.tempocottura }} Tempo di preparazione
                     </li>
                     <li class="list-group-item custom-card-text flex-fill ms-2">
                         <strong><i class="bi bi-filetype-pdf"></i></strong>
@@ -32,16 +33,29 @@
                 </ul>
             </div>
         </div>
-        <div class="mb-3 text-center">
-            <p class="text-justify">{{ recipe.descrizione }}</p>
+        <div class="card mt-4">
+            <div class="card-header text-center" style="background-color: dodgerblue;">
+                <strong style="color: white;">Descrizione</strong>
+            </div>
+            <div class="card-body">
+                <p class="card-text">{{ recipe.descrizione }}</p>
+            </div>
         </div>
         <div class="card mt-4">
             <div class="card-header text-center" style="background-color: dodgerblue;">
-               <strong style="color: white;">Ingredienti</strong> 
+                <strong style="color: white;">Ingredienti</strong>
             </div>
             <ul class="list-group list-group-flush">
-                <li class="list-group-item" *ngFor="let ingredient of recipe.ingredientiQuantita">
-                    {{ ingredient.ingredienteNome }} - {{ ingredient.quantita }}
+                <li class="list-group-item" *ngFor="let ingredient of ingredientiQuantita">
+                    <span *ngIf="(ingredient.quantita == null || ingredient.quantita == 0) && (ingredient.unitaMisura == null || ingredient.unitaMisura == '')">
+                        {{ ingredient.ingredienteNome }}
+                    </span>
+                    <span *ngIf="ingredient.quantita && ingredient.quantita !== 0">
+                        {{ ingredient.ingredienteNome }} - {{ ingredient.quantita }} {{ingredient.unitaMisura}}
+                    </span>
+                    <span *ngIf="(ingredient.unitaMisura && ingredient.unitaMisura !== '') && (ingredient.quantita == null || ingredient.quantita == 0)">
+                        {{ ingredient.ingredienteNome }} {{ingredient.unitaMisura}}
+                    </span>
                 </li>
             </ul>
         </div>
@@ -51,7 +65,7 @@
             </div>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item" *ngFor="let step of recipe.procedimento.split(';'); let i = index">
-                    {{ step.trim() }}
+                    <span class="badge text-bg-secondary me-3">{{i+1}}</span>{{ step.trim() }}
                 </li>
             </ul>
         </div>
