@@ -6,6 +6,7 @@ import { GetIngredientResponse } from '../models/get-ingredient-response.model';
 import { RecipeService } from '../services/recipe.service';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
+import { ButtonModule } from 'primeng/button'; // ✅ Importa il modulo di PrimeNG
 
 @Component({
   selector: 'app-add-recipe',

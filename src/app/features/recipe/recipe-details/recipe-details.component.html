@@ -15,7 +15,9 @@
             <div class="card-body" style="background-color: dodgerblue;">
                 <ul class="list-group list-group-horizontal">
                     <li class="list-group-item custom-card-text flex-fill">
-                        <strong><i class="bi bi-people-fill"></i></strong> <input type="number" style="border-style: hidden;" [(ngModel)]="numero" (keydown.enter)="onEnterPressed()" placeholder="Inserisci un numero">
+                        <strong><i class="bi bi-people-fill"></i></strong> <input type="number"
+                            style="border-style: hidden;" [(ngModel)]="numero" (keydown.enter)="onEnterPressed()"
+                            placeholder="Inserisci un numero">
 
                     </li>
                     <li class="list-group-item custom-card-text flex-fill ms-2">
@@ -41,19 +43,42 @@
                 <p class="card-text">{{ recipe.descrizione }}</p>
             </div>
         </div>
+        <p-steps [model]="items" [(activeIndex)]="activeIndex"></p-steps>
+
+        <div *ngIf="activeIndex === 0">
+            <h3>Step 1: Informazioni di Base</h3>
+            <p>Inserisci le informazioni di base della ricetta.</p>
+        </div>
+        <div *ngIf="activeIndex === 1">
+            <h3>Step 2: Ingredienti</h3>
+            <p>Aggiungi gli ingredienti alla ricetta.</p>
+        </div>
+        <div *ngIf="activeIndex === 2">
+            <h3>Step 3: Procedimento</h3>
+            <p>Descrivi il procedimento della ricetta.</p>
+        </div>
+
+        <!-- Pulsanti per navigare tra gli step -->
+        <button pButton label="Indietro" icon="pi pi-arrow-left" (click)="prev()"
+            [disabled]="activeIndex === 0"></button>
+        <button pButton label="Avanti" icon="pi pi-arrow-right" (click)="next()"
+            [disabled]="activeIndex === items.length - 1"></button>
+
         <div class="card mt-4">
             <div class="card-header text-center" style="background-color: dodgerblue;">
                 <strong style="color: white;">Ingredienti</strong>
             </div>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item" *ngFor="let ingredient of ingredientiQuantita">
-                    <span *ngIf="(ingredient.quantita == null || ingredient.quantita == 0) && (ingredient.unitaMisura == null || ingredient.unitaMisura == '')">
+                    <span
+                        *ngIf="(ingredient.quantita == null || ingredient.quantita == 0) && (ingredient.unitaMisura == null || ingredient.unitaMisura == '')">
                         {{ ingredient.ingredienteNome }}
                     </span>
                     <span *ngIf="ingredient.quantita && ingredient.quantita !== 0">
                         {{ ingredient.ingredienteNome }} - {{ ingredient.quantita }} {{ingredient.unitaMisura}}
                     </span>
-                    <span *ngIf="(ingredient.unitaMisura && ingredient.unitaMisura !== '') && (ingredient.quantita == null || ingredient.quantita == 0)">
+                    <span
+                        *ngIf="(ingredient.unitaMisura && ingredient.unitaMisura !== '') && (ingredient.quantita == null || ingredient.quantita == 0)">
                         {{ ingredient.ingredienteNome }} {{ingredient.unitaMisura}}
                     </span>
                 </li>

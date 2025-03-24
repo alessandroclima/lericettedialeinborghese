@@ -13,6 +13,8 @@ import { IngredientListComponent } from './features/recipe/ingredient-list/ingre
 import { RecipeDetailsComponent } from './features/recipe/recipe-details/recipe-details.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { UpdateRecipeComponent } from './features/recipe/update-recipe/update-recipe.component';
+import { ButtonModule } from 'primeng/button';
+import { StepsModule } from 'primeng/steps'; // Importa il modulo dello Stepper
 
 @NgModule({
   declarations: [
@@ -31,7 +33,9 @@ import { UpdateRecipeComponent } from './features/recipe/update-recipe/update-re
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    ButtonModule,
+    StepsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -26,6 +26,25 @@ export class RecipeDetailsComponent {
   getDetailsSubscription?: Subscription;
   recipeId: string | null = null;
   numero: number = 1;
+  activeIndex: number = 0; // Indice dello step attivo
+
+  items = [
+    { label: 'Informazioni', icon: 'pi pi-info-circle' },
+    { label: 'Ingredienti', icon: 'pi pi-list' },
+    { label: 'Procedimento', icon: 'pi pi-check' },
+  ];
+
+  next() {
+    if (this.activeIndex < this.items.length - 1) {
+      this.activeIndex++;
+    }
+  }
+
+  prev() {
+    if (this.activeIndex > 0) {
+      this.activeIndex--;
+    }
+  }
   constructor(private route: ActivatedRoute, private recipeService: RecipeService, private router: Router) {
 
 
