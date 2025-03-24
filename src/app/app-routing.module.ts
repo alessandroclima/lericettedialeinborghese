@@ -1,30 +1,30 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { RecipeListComponent } from './features/recipe/recipe-list/recipe-list.component';
-import { AddRecipeComponent } from './features/recipe/add-recipe/add-recipe.component';
-import { IngredientListComponent } from './features/recipe/ingredient-list/ingredient-list.component';
-import { RecipeDetailsComponent } from './features/recipe/recipe-details/recipe-details.component';
-import { UpdateRecipeComponent } from './features/recipe/update-recipe/update-recipe.component';
+
+
+
+
+
 
 const routes: Routes = [{
   path: 'admin/recipes',
-  component: RecipeListComponent
+  loadComponent: () => import('./features/recipe/recipe-list/recipe-list.component').then(m => m.RecipeListComponent)
 },
 {
   path: 'admin/recipes/add',
-  component: AddRecipeComponent
+  loadComponent: () => import('./features/recipe/add-recipe/add-recipe.component').then(m => m.AddRecipeComponent)
 },
 {
   path: 'admin/ingredients',
-  component: IngredientListComponent
+  loadComponent: () => import('./features/recipe/ingredient-list/ingredient-list.component').then(m => m.IngredientListComponent)
 },
 {
   path: 'admin/recipes/:id',
-  component: RecipeDetailsComponent
+  loadComponent: () => import('./features/recipe/recipe-details/recipe-details.component').then(m => m.RecipeDetailsComponent)
 },
 {
   path: 'admin/recipes/update/:id',
-  component: UpdateRecipeComponent
+  loadComponent: () => import('./features/recipe/update-recipe/update-recipe.component').then(m => m.UpdateRecipeComponent)
 }];
 
 @NgModule({
