@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { NavbarComponent } from './core/components/navbar/navbar.component';
 import { NgClass } from '@angular/common';
@@ -10,11 +10,16 @@ import { NgClass } from '@angular/common';
     imports: [NavbarComponent, NgClass, RouterOutlet]
 })
 export class AppComponent {
+  private router = inject(Router);
+
   title = 'tocookistolivefe';
 
   isHomePage: boolean = false;
 
-  constructor(private router: Router) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.isHomePage = event.url === '/' || event.url === '/home';

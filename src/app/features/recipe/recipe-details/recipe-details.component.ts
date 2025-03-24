@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { GetRecipeResponse } from '../models/get-recipe-response.model';
 import { RecipeService } from '../services/recipe.service';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
@@ -16,6 +16,10 @@ import { ButtonDirective } from 'primeng/button';
     imports: [RouterLink, FormsModule, Steps, ButtonDirective]
 })
 export class RecipeDetailsComponent {
+  private route = inject(ActivatedRoute);
+  private recipeService = inject(RecipeService);
+  private router = inject(Router);
+
 
   onEnterPressed() {
     if (this.recipe?.ingredientiQuantita) {
@@ -50,7 +54,10 @@ export class RecipeDetailsComponent {
       this.activeIndex--;
     }
   }
-  constructor(private route: ActivatedRoute, private recipeService: RecipeService, private router: Router) {
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+  constructor() {
 
 
   }

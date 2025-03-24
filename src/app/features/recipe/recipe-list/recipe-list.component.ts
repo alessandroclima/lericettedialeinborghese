@@ -1,4 +1,4 @@
-import { Component, OnInit, Renderer2 } from '@angular/core';
+import { Component, OnInit, Renderer2, inject } from '@angular/core';
 import { RecipeService } from '../services/recipe.service';
 import { Subscription } from 'rxjs';
 import { GetRecipeResponse } from '../models/get-recipe-response.model';
@@ -13,12 +13,19 @@ import { FormsModule } from '@angular/forms';
     imports: [FormsModule, RouterLink]
 })
 export class RecipeListComponent implements OnInit {
+  private recipeService = inject(RecipeService);
+  private route = inject(ActivatedRoute);
+  private renderer = inject(Renderer2);
+
 
 
   private getRecipeSubscription?: Subscription;
   private deleteRecipeSubscription?: Subscription;
   private detailsRecipeSubscription?: Subscription;
-  constructor(private recipeService: RecipeService, private route: ActivatedRoute, private renderer: Renderer2) { }
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+  constructor() { }
   availableRecipes: GetRecipeResponse[] = [];
   errorMessage: string | null = null;
   filteredRecipes: GetRecipeResponse[] = [];

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { GetIngredientResponse } from '../models/get-ingredient-response.model';
 import { IngredientService } from '../services/ingredient.service';
 import { FormsModule } from '@angular/forms';
@@ -12,13 +12,18 @@ import { NgxPaginationModule } from 'ngx-pagination';
     imports: [FormsModule, NgxPaginationModule]
 })
 export class IngredientListComponent {
+  private ingredientService = inject(IngredientService);
+
   ingredients: GetIngredientResponse[] = [];
 
   page: number = 1; // Pagina attuale
   pageSize: number = 10; // Numero di elementi per pagina
   filteredIngredients: GetIngredientResponse[] = []; // Lista filtrata per la tabella
-  searchText: string = ''; // Testo di ricerca
-  constructor(private ingredientService: IngredientService) { }
+  searchText: string = '';
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]); // Testo di ricerca
+  constructor() { }
 
   ngOnInit(): void {
     this.loadIngredients();

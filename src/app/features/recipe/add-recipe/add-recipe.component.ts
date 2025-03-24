@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { AddRecipeRequest } from '../models/add-recipe-request.model';
 import { IngredientQuantity } from '../models/ingredient-quantity.model';
 import { IngredientService } from '../services/ingredient.service';
@@ -17,6 +17,10 @@ import { FormsModule } from '@angular/forms';
     imports: [FormsModule, Button]
 })
 export class AddRecipeComponent implements OnInit, OnDestroy {
+  private ingredientService = inject(IngredientService);
+  private recipeService = inject(RecipeService);
+  private router = inject(Router);
+
   model: AddRecipeRequest;
 
   private addRecipeSubscription?: Subscription;
@@ -27,11 +31,10 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
   ingredientQuantity: number | null = null;
   ingredientMeasure: string = '';
   imageUrl: string | ArrayBuffer | null = null;
-  constructor(
-    private ingredientService: IngredientService,
-    private recipeService: RecipeService,
-    private router: Router
-  ) {
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+  constructor() {
     this.model = {
       titolo: '',
       descrizione: '',

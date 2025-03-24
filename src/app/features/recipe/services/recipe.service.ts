@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { AddRecipeRequest } from '../models/add-recipe-request.model';
 import { catchError, Observable, throwError } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
@@ -8,6 +8,8 @@ import { GetRecipeResponse } from '../models/get-recipe-response.model';
   providedIn: 'root'
 })
 export class RecipeService {
+  private http = inject(HttpClient);
+
 
   private apiUrlCreate = 'http://localhost:14760/Recipes/CreateRecipe';
   private apiUrlGet = 'http://localhost:14760/Recipes/GetRecipes';
@@ -15,7 +17,10 @@ export class RecipeService {
   private apiUrlGetDetails = 'http://localhost:14760/Recipes/GetRecipes';
   private apiUrlUpdate = 'http://localhost:14760/Recipes/UpdateRecipe';
 
-  constructor(private http: HttpClient) { }
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() { }
 
   addRecipe(model: AddRecipeRequest): Observable<void> {
     return this.http.post<void>(this.apiUrlCreate, model);

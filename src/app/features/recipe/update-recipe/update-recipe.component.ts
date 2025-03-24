@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { GetIngredientResponse } from '../models/get-ingredient-response.model';
 import { AddRecipeRequest } from '../models/add-recipe-request.model';
 import { IngredientService } from '../services/ingredient.service';
@@ -17,6 +17,11 @@ import { FormsModule } from '@angular/forms';
     imports: [FormsModule]
 })
 export class UpdateRecipeComponent {
+  private ingredientService = inject(IngredientService);
+  private recipeService = inject(RecipeService);
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+
   removeIngredient(ingredientNome: string) {
     if (ingredientNome) {
       const index = this.model.ingredientiQuantita.findIndex(
@@ -76,12 +81,10 @@ export class UpdateRecipeComponent {
     }
   }
 
-  constructor(
-    private ingredientService: IngredientService,
-    private recipeService: RecipeService,
-    private router: Router,
-    private route: ActivatedRoute
-  ) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
     this.model = {
       id: '',
       titolo: '',

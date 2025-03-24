@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 
@@ -9,10 +9,15 @@ import { FormsModule } from '@angular/forms';
     imports: [RouterLink, FormsModule]
 })
 export class NavbarComponent {
+  private router = inject(Router);
 
-  searchText: string = ''; // Testo di ricerca
 
-  constructor(private router: Router) {}
+  searchText: string = '';
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]); // Testo di ricerca
+
+  constructor() {}
 
   searchRecipes() {
     console.log('Cercando ricette con testo', this.searchText);
