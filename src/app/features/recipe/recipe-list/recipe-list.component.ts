@@ -5,9 +5,10 @@ import { GetRecipeResponse } from '../models/get-recipe-response.model';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-recipe-list',
-  templateUrl: './recipe-list.component.html',
-  styleUrls: ['./recipe-list.component.css']
+    selector: 'app-recipe-list',
+    templateUrl: './recipe-list.component.html',
+    styleUrls: ['./recipe-list.component.css'],
+    standalone: false
 })
 export class RecipeListComponent implements OnInit {
 

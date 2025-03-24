@@ -6,9 +6,10 @@ import { Subscription } from 'rxjs';
 import { IngredientQuantity } from '../models/ingredient-quantity.model';
 
 @Component({
-  selector: 'app-recipe-details',
-  templateUrl: './recipe-details.component.html',
-  styleUrls: ['./recipe-details.component.css']
+    selector: 'app-recipe-details',
+    templateUrl: './recipe-details.component.html',
+    styleUrls: ['./recipe-details.component.css'],
+    standalone: false
 })
 export class RecipeDetailsComponent {
 

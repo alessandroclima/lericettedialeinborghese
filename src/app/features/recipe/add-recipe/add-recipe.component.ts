@@ -9,9 +9,10 @@ import { Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button'; // ✅ Importa il modulo di PrimeNG
 
 @Component({
-  selector: 'app-add-recipe',
-  templateUrl: './add-recipe.component.html',
-  styleUrls: ['./add-recipe.component.css'],
+    selector: 'app-add-recipe',
+    templateUrl: './add-recipe.component.html',
+    styleUrls: ['./add-recipe.component.css'],
+    standalone: false
 })
 export class AddRecipeComponent implements OnInit, OnDestroy {
   model: AddRecipeRequest;

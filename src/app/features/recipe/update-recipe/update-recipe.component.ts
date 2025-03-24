@@ -9,9 +9,10 @@ import { Subscription } from 'rxjs';
 import { UpdateRecipeRequest } from '../models/update-recipe-request.model';
 
 @Component({
-  selector: 'app-update-recipe',
-  templateUrl: './update-recipe.component.html',
-  styleUrls: ['./update-recipe.component.css'],
+    selector: 'app-update-recipe',
+    templateUrl: './update-recipe.component.html',
+    styleUrls: ['./update-recipe.component.css'],
+    standalone: false
 })
 export class UpdateRecipeComponent {
   removeIngredient(ingredientNome: string) {
