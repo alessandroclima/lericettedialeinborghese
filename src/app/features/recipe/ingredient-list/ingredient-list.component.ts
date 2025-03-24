@@ -1,12 +1,15 @@
 import { Component } from '@angular/core';
 import { GetIngredientResponse } from '../models/get-ingredient-response.model';
 import { IngredientService } from '../services/ingredient.service';
+import { FormsModule } from '@angular/forms';
+import { NgFor } from '@angular/common';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @Component({
     selector: 'app-ingredient-list',
     templateUrl: './ingredient-list.component.html',
     styleUrls: ['./ingredient-list.component.css'],
-    standalone: false
+    imports: [FormsModule, NgFor, NgxPaginationModule]
 })
 export class IngredientListComponent {
   ingredients: GetIngredientResponse[] = [];

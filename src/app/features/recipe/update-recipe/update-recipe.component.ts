@@ -7,12 +7,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { GetRecipeResponse } from '../models/get-recipe-response.model';
 import { Subscription } from 'rxjs';
 import { UpdateRecipeRequest } from '../models/update-recipe-request.model';
+import { NgIf, NgFor } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
     selector: 'app-update-recipe',
     templateUrl: './update-recipe.component.html',
     styleUrls: ['./update-recipe.component.css'],
-    standalone: false
+    imports: [NgIf, FormsModule, NgFor]
 })
 export class UpdateRecipeComponent {
   removeIngredient(ingredientNome: string) {

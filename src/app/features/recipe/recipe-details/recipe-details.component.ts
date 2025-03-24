@@ -1,15 +1,19 @@
 import { Component } from '@angular/core';
 import { GetRecipeResponse } from '../models/get-recipe-response.model';
 import { RecipeService } from '../services/recipe.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { IngredientQuantity } from '../models/ingredient-quantity.model';
+import { NgIf, NgFor } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { Steps } from 'primeng/steps';
+import { ButtonDirective } from 'primeng/button';
 
 @Component({
     selector: 'app-recipe-details',
     templateUrl: './recipe-details.component.html',
     styleUrls: ['./recipe-details.component.css'],
-    standalone: false
+    imports: [NgIf, RouterLink, FormsModule, Steps, ButtonDirective, NgFor]
 })
 export class RecipeDetailsComponent {
 
