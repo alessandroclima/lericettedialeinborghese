@@ -3,14 +3,14 @@ import { RecipeService } from '../services/recipe.service';
 import { Subscription } from 'rxjs';
 import { GetRecipeResponse } from '../models/get-recipe-response.model';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { NgIf, NgFor } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 
 @Component({
     selector: 'app-recipe-list',
     templateUrl: './recipe-list.component.html',
     styleUrls: ['./recipe-list.component.css'],
-    imports: [NgIf, FormsModule, RouterLink, NgFor]
+    imports: [FormsModule, RouterLink]
 })
 export class RecipeListComponent implements OnInit {
 

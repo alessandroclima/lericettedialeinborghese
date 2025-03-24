@@ -8,13 +8,13 @@ import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { ButtonModule, Button } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
-import { NgFor, NgIf } from '@angular/common'; // ✅ Importa il modulo di PrimeNG
+ // ✅ Importa il modulo di PrimeNG
 
 @Component({
     selector: 'app-add-recipe',
     templateUrl: './add-recipe.component.html',
     styleUrls: ['./add-recipe.component.css'],
-    imports: [FormsModule, NgFor, NgIf, Button]
+    imports: [FormsModule, Button]
 })
 export class AddRecipeComponent implements OnInit, OnDestroy {
   model: AddRecipeRequest;

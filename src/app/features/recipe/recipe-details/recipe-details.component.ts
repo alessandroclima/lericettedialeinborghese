@@ -4,7 +4,7 @@ import { RecipeService } from '../services/recipe.service';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { IngredientQuantity } from '../models/ingredient-quantity.model';
-import { NgIf, NgFor } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import { Steps } from 'primeng/steps';
 import { ButtonDirective } from 'primeng/button';
@@ -13,7 +13,7 @@ import { ButtonDirective } from 'primeng/button';
     selector: 'app-recipe-details',
     templateUrl: './recipe-details.component.html',
     styleUrls: ['./recipe-details.component.css'],
-    imports: [NgIf, RouterLink, FormsModule, Steps, ButtonDirective, NgFor]
+    imports: [RouterLink, FormsModule, Steps, ButtonDirective]
 })
 export class RecipeDetailsComponent {
 
