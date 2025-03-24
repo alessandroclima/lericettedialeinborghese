@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject, Signal, signal } from '@angular/core';
 import { GetRecipeResponse } from '../models/get-recipe-response.model';
 import { RecipeService } from '../services/recipe.service';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
@@ -22,19 +22,26 @@ export class RecipeDetailsComponent {
 
 
   onEnterPressed() {
-    if (this.recipe?.ingredientiQuantita) {
-      this.ingredientiQuantita = this.ingredientiQuantita = this.recipe.ingredientiQuantita.map(ing => ({ ...ing }));
-      this.ingredientiQuantita.forEach((element) => {
+    if (this.recipe()?.ingredientiQuantita) {
+      // this.recipe().ingredientiQuantita.map(ing => ({ ...ing }));
+      this.ingredientiQuantita().forEach((element) => {
         element.quantita != null && element.quantita > 0,
-        element.quantita = (element.quantita! / this.recipe?.porzioni!) * this.numero;
+        element.quantita = (element.quantita! / this.recipe()?.porzioni!) * this.numero();
       })
     }
   }
-  recipe: GetRecipeResponse | null = null;
-  ingredientiQuantita: IngredientQuantity[] = [];
+  //recipe: GetRecipeResponse | null = null;
+  recipe  = signal<GetRecipeResponse|null>(null);
+  ingredientiQuantita = computed(()=>{
+          // this.ingredientiQuantita = this.recipe.ingredientiQuantita.map(ing => ({ ...ing }));
+          // this.numero = this.recipe.porzioni;
+          return this.recipe()?.ingredientiQuantita.map(ing =>({...ing})) ?? [];
+  });
   getDetailsSubscription?: Subscription;
   recipeId: string | null = null;
-  numero: number = 1;
+  numero = computed(()=>{
+    return this.recipe()?.porzioni ?? 1;
+  });
   activeIndex: number = 0; // Indice dello step attivo
 
   items = [
@@ -74,9 +81,9 @@ export class RecipeDetailsComponent {
     this.getDetailsSubscription = this.recipeService.getRecipeDetails(id).subscribe(
       {
         next: (response) => {
-          this.recipe = response;
-          this.ingredientiQuantita = this.recipe.ingredientiQuantita.map(ing => ({ ...ing }));
-          this.numero = this.recipe.porzioni;
+          this.recipe.set(response); //= response;
+          // this.ingredientiQuantita = this.recipe.ingredientiQuantita.map(ing => ({ ...ing }));
+          // this.numero = this.recipe.porzioni;
           console.log(this.ingredientiQuantita);
         },
         error: (error) => {
