@@ -1,66 +1,68 @@
-import { Component, computed, inject, Signal, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, Signal, signal } from '@angular/core';
 import { GetRecipeResponse } from '../models/get-recipe-response.model';
 import { RecipeService } from '../services/recipe.service';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { IngredientQuantity } from '../models/ingredient-quantity.model';
-
+import { StepperModule } from 'primeng/stepper';
 import { FormsModule } from '@angular/forms';
-import { Steps } from 'primeng/steps';
-import { ButtonDirective } from 'primeng/button';
-
+import { ButtonModule } from 'primeng/button';
+import { AccordionModule } from 'primeng/accordion';
 @Component({
     selector: 'app-recipe-details',
     templateUrl: './recipe-details.component.html',
     styleUrls: ['./recipe-details.component.css'],
-    imports: [RouterLink, FormsModule, Steps, ButtonDirective]
+    imports: [RouterLink, FormsModule, StepperModule, ButtonModule, AccordionModule]
 })
-export class RecipeDetailsComponent {
+export class RecipeDetailsComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private recipeService = inject(RecipeService);
   private router = inject(Router);
 
 
-  onEnterPressed() {
+  onEnterPressed(): void {
     if (this.recipe()?.ingredientiQuantita) {
-      // this.recipe().ingredientiQuantita.map(ing => ({ ...ing }));
-      this.ingredientiQuantita().forEach((element) => {
-        element.quantita != null && element.quantita > 0,
-        element.quantita = (element.quantita! / this.recipe()?.porzioni!) * this.numero();
-      })
+      // Aggiorna solo gli ingredienti modificabili
+      const nuoviIngredienti = this.ingredientiQuantita().map((element) => {
+        if (element.quantita != null && element.quantita > 0) {
+          return {
+            ...element,
+            quantita: (element.quantita / this.recipe()?.porzioni!) * this.numero
+          };
+        }
+        return element;
+      });
+
+      // Aggiorna il Signal degli ingredienti modificabili
+      this.ingredientiModificati.set(nuoviIngredienti);
     }
   }
-  //recipe: GetRecipeResponse | null = null;
-  recipe  = signal<GetRecipeResponse|null>(null);
-  ingredientiQuantita = computed(()=>{
-          // this.ingredientiQuantita = this.recipe.ingredientiQuantita.map(ing => ({ ...ing }));
-          // this.numero = this.recipe.porzioni;
-          return this.recipe()?.ingredientiQuantita.map(ing =>({...ing})) ?? [];
+   // Inizializza il Signal con un oggetto vuoto di tipo GetRecipeResponse
+   recipe = signal<GetRecipeResponse>({
+    id: '', // Valori predefiniti
+    titolo: '',
+    descrizione: '',
+    porzioni: 1,
+    tempocottura: 1,
+    ingredientiQuantita: [],
+    procedimento: '',
+    immagineurl: ''
   });
+
+   // Variabile per gli ingredienti modificabili
+   ingredientiModificati = signal<IngredientQuantity[]>([]);
+
+  // Computed per gli ingredienti originali
+  ingredientiQuantita = computed(() => {
+    return this.recipe()?.ingredientiQuantita.map(ing => ({ ...ing })) ?? [];
+  });
+
+  // Computed per il numero di porzioni
+  numero: number = 0;
+
   getDetailsSubscription?: Subscription;
   recipeId: string | null = null;
-  numero = computed(()=>{
-    return this.recipe()?.porzioni ?? 1;
-  });
-  activeIndex: number = 0; // Indice dello step attivo
 
-  items = [
-    { label: 'Informazioni', icon: 'pi pi-info-circle' },
-    { label: 'Ingredienti', icon: 'pi pi-list' },
-    { label: 'Procedimento', icon: 'pi pi-check' },
-  ];
-
-  next() {
-    if (this.activeIndex < this.items.length - 1) {
-      this.activeIndex++;
-    }
-  }
-
-  prev() {
-    if (this.activeIndex > 0) {
-      this.activeIndex--;
-    }
-  }
 
   /** Inserted by Angular inject() migration for backwards compatibility */
   constructor(...args: unknown[]);
@@ -74,17 +76,20 @@ export class RecipeDetailsComponent {
       this.loadRecipe(this.recipeId);
       
     }
-
+    
   }
 
   loadRecipe(id: string): void {
     this.getDetailsSubscription = this.recipeService.getRecipeDetails(id).subscribe(
       {
         next: (response) => {
-          this.recipe.set(response); //= response;
-          // this.ingredientiQuantita = this.recipe.ingredientiQuantita.map(ing => ({ ...ing }));
-          // this.numero = this.recipe.porzioni;
-          console.log(this.ingredientiQuantita);
+          //setta il signal recipe tramite il metodo set
+          this.recipe.set(response); 
+          //inserisco console log nel next perchè è qui che l'oggetto viene valorizzato
+          console.log(this.recipe());
+          this.numero = response.porzioni;
+          
+
         },
         error: (error) => {
           console.error('Error loading recipe', error);

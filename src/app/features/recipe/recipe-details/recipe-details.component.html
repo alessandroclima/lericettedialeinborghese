@@ -1,118 +1,84 @@
 <div class="container">
   @if (recipe()) {
     <div>
-      <h1 class="mt-3 text-center custom-title">{{recipe()?.titolo}}</h1>
+      <h1 class="mt-3 text-center custom-title">{{ recipe().titolo }}</h1>
       <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
         <ol class="breadcrumb justify-content-center">
           <li class="breadcrumb-item"><a href="#">Home</a></li>
           <li class="breadcrumb-item"><a [routerLink]="['/admin/recipes']">Ricette</a></li>
-          <li class="breadcrumb-item active" aria-current="page">{{recipe()?.titolo}}</li>
+          <li class="breadcrumb-item active" aria-current="page">{{ recipe().titolo }}</li>
         </ol>
       </nav>
       <div class="card mb-3 custom-card">
-        @if (recipe()?.immagineurl) {
-          <img [src]="'data:image/jpeg;base64,' + recipe()?.immagineurl" width="850"
-            height="636" class="card-img-top" alt="Immagine Ricetta">
+        @if (recipe().immagineurl) {
+          <img [src]="'data:image/jpeg;base64,' + recipe().immagineurl" width="850" height="636" class="card-img-top"
+            alt="Immagine Ricetta">
         }
         <div class="card-body" style="background-color: dodgerblue;">
           <ul class="list-group list-group-horizontal">
             <li class="list-group-item custom-card-text flex-fill">
-              <strong><i class="bi bi-people-fill"></i></strong> <input type="number"
-              style="border-style: hidden;" [(ngModel)]="numero" (keydown.enter)="onEnterPressed()"
-              placeholder="Inserisci un numero">
+              <strong><i class="bi bi-people-fill"></i></strong>
+              <input type="number" style="border-style: hidden;" [(ngModel)]="numero" (keydown.enter)="onEnterPressed()" placeholder="Inserisci un numero">
             </li>
             <li class="list-group-item custom-card-text flex-fill ms-2">
-              <strong><i class="bi bi-fire"></i></strong> {{ recipe()?.tempocottura }} Tempo di cottura
+              <strong><i class="bi bi-fire"></i></strong> {{ recipe().tempocottura }} Tempo di cottura
             </li>
             <li class="list-group-item custom-card-text flex-fill ms-2">
-              <strong><i class="bi bi-alarm"></i></strong> {{ recipe()?.tempocottura }} Tempo di preparazione
-            </li>
-            <li class="list-group-item custom-card-text flex-fill ms-2">
-              <strong><i class="bi bi-filetype-pdf"></i></strong>
-            </li>
-            <li class="list-group-item custom-card-text flex-fill ms-2">
-              <strong><i class="bi bi-whatsapp"></i></strong>
+              <strong><i class="bi bi-alarm"></i></strong> {{ recipe().tempocottura }} Tempo di preparazione
             </li>
           </ul>
         </div>
       </div>
-      <div class="card mt-4">
-        <div class="card-header text-center" style="background-color: dodgerblue;">
-          <strong style="color: white;">Descrizione</strong>
-        </div>
-        <div class="card-body">
-          <p class="card-text">{{ recipe()?.descrizione }}</p>
-        </div>
-      </div>
-      <p-steps [model]="items" [(activeIndex)]="activeIndex"></p-steps>
-      @if (activeIndex === 0) {
-        <div>
-          <h3>Step 1: Informazioni di Base</h3>
-          <p>Inserisci le informazioni di base della ricetta.</p>
-        </div>
-      }
-      @if (activeIndex === 1) {
-        <div>
-          <h3>Step 2: Ingredienti</h3>
-          <p>Aggiungi gli ingredienti alla ricetta.</p>
-        </div>
-      }
-      @if (activeIndex === 2) {
-        <div>
-          <h3>Step 3: Procedimento</h3>
-          <p>Descrivi il procedimento della ricetta.</p>
-        </div>
-      }
-      <!-- Pulsanti per navigare tra gli step -->
-      <button pButton label="Indietro" icon="pi pi-arrow-left" (click)="prev()"
-      [disabled]="activeIndex === 0"></button>
-      <button pButton label="Avanti" icon="pi pi-arrow-right" (click)="next()"
-      [disabled]="activeIndex === items.length - 1"></button>
-      <div class="card mt-4">
-        <div class="card-header text-center" style="background-color: dodgerblue;">
-          <strong style="color: white;">Ingredienti</strong>
-        </div>
-        <ul class="list-group list-group-flush">
-          @for (ingredient of ingredientiQuantita(); track ingredient) {
-            <li class="list-group-item">
-              @if ((ingredient.quantita == null || ingredient.quantita == 0) && (ingredient.unitaMisura == null || ingredient.unitaMisura == '')) {
-                <span
-                  >
-                  {{ ingredient.ingredienteNome }}
-                </span>
+      <p-accordion [value]="['0']" [multiple]="true">
+        <p-accordion-panel value="0">
+          <p-accordion-header>Descrizione</p-accordion-header>
+          <p-accordion-content>
+            <p class="m-0">{{ recipe().descrizione }}</p>
+          </p-accordion-content>
+        </p-accordion-panel>
+        <p-accordion-panel value="1">
+          <p-accordion-header>Ingredienti</p-accordion-header>
+          <p-accordion-content>
+            <ul class="list-group list-group-flush">
+              @if (recipe().ingredientiQuantita?.length > 0) {
+                @for (let ingredient of recipe().ingredientiQuantita) {
+                  <li class="list-group-item">
+                    @if ((ingredient.quantita == null || ingredient.quantita == 0) && (!ingredient.unitaMisura || ingredient.unitaMisura === '')) {
+                      <span>{{ ingredient.ingredienteNome }}</span>
+                    }
+                    @if (ingredient.quantita && ingredient.quantita !== 0) {
+                      <span>{{ ingredient.ingredienteNome }} - {{ ingredient.quantita }} {{ ingredient.unitaMisura }}</span>
+                    }
+                    @if (ingredient.unitaMisura && ingredient.unitaMisura !== '' && (!ingredient.quantita || ingredient.quantita === 0)) {
+                      <span>{{ ingredient.ingredienteNome }} {{ ingredient.unitaMisura }}</span>
+                    }
+                  </li>
+                }
+              } @else {
+                <li class="list-group-item">Nessun ingrediente disponibile</li>
               }
-              @if (ingredient.quantita && ingredient.quantita !== 0) {
-                <span>
-                  {{ ingredient.ingredienteNome }} - {{ ingredient.quantita }} {{ingredient.unitaMisura}}
-                </span>
+            </ul>
+          </p-accordion-content>
+        </p-accordion-panel>
+        <p-accordion-panel value="2">
+          <p-accordion-header>Procedimento</p-accordion-header>
+          <p-accordion-content>
+            <p-stepper [value]="1">
+              @if (recipe().procedimento) {
+                @for (let step of recipe().procedimento.split(';'); let i = index) {
+                  <p-step-item [value]="i + 1">
+                    <p-step>{{ step.trim() }}</p-step>
+                  </p-step-item>
+                }
+              } @else {
+                <p>Nessun procedimento disponibile</p>
               }
-              @if ((ingredient.unitaMisura && ingredient.unitaMisura !== '') && (ingredient.quantita == null || ingredient.quantita == 0)) {
-                <span
-                  >
-                  {{ ingredient.ingredienteNome }} {{ingredient.unitaMisura}}
-                </span>
-              }
-            </li>
-          }
-        </ul>
-      </div>
-      <div class="card mt-4 mb-4">
-        <div class="card-header text-center" style="background-color: dodgerblue;">
-          <strong style="color: white;">Procedimento</strong>
-        </div>
-        <ul class="list-group list-group-flush">
-          @for (step of recipe()!.procedimento.split(';'); track step; let i = $index) {
-            <li class="list-group-item">
-              <span class="badge text-bg-secondary me-3">{{i+1}}</span>{{ step.trim() }}
-            </li>
-          }
-        </ul>
-      </div>
+            </p-stepper>
+          </p-accordion-content>
+        </p-accordion-panel>
+      </p-accordion>
     </div>
-  }
-  @if (!recipe) {
-    <div>
-      <p>Loading...</p>
-    </div>
+  } @else {
+    <p>Loading...</p>
   }
 </div>
