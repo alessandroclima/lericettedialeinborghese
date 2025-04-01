@@ -38,16 +38,7 @@ export class RecipeDetailsComponent implements OnInit {
     }
   }
    // Inizializza il Signal con un oggetto vuoto di tipo GetRecipeResponse
-   recipe = signal<GetRecipeResponse>({
-    id: '', // Valori predefiniti
-    titolo: '',
-    descrizione: '',
-    porzioni: 1,
-    tempocottura: 1,
-    ingredientiQuantita: [],
-    procedimento: '',
-    immagineurl: ''
-  });
+   recipe = signal<GetRecipeResponse|undefined>(undefined);
 
    // Variabile per gli ingredienti modificabili
    ingredientiModificati = signal<IngredientQuantity[]>([]);
