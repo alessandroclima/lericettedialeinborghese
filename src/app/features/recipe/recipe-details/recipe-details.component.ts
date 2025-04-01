@@ -79,8 +79,8 @@ export class RecipeDetailsComponent implements OnInit {
           //inserisco console log nel next perchè è qui che l'oggetto viene valorizzato
           console.log(this.recipe());
           this.numero = response.porzioni;
-          
-
+          this.ingredientiModificati.set(response.ingredientiQuantita)
+          console.log(this.ingredientiModificati())
         },
         error: (error) => {
           console.error('Error loading recipe', error);

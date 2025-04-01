@@ -41,10 +41,10 @@
         <p-accordion-header>Ingredienti</p-accordion-header>
         <p-accordion-content>
           <ul class="list-group list-group-flush">
-            @if(ingredientiQuantita()){
+            @if(ingredientiModificati()){
 
 
-            @for (ingredient of recipe()!.ingredientiQuantita; track ingredient) {
+            @for (ingredient of ingredientiModificati(); track ingredient) {
             <li class="list-group-item">
               @if ((ingredient.quantita == null || ingredient.quantita == 0) && (!ingredient.unitaMisura ||
               ingredient.unitaMisura === '')) {
@@ -66,16 +66,24 @@
       <p-accordion-panel value="2">
         <p-accordion-header>Procedimento</p-accordion-header>
         <p-accordion-content>
-          <p-stepper [value]="0">
-            @if(recipe()!.procedimento){
-             @for (step of recipe()!.procedimento.split(';'); track step; let i = $index) {
-             <p-step-item [value]="i + 1">
-              
-               <p-step>{{ step.trim() }}</p-step>
-              
-             </p-step-item>
-             <p-step-panel [value]="i+1"></p-step-panel>
-             }
+          <p-stepper [value]="1">
+            @for(step of recipe()!.procedimento.split(';'); track $index){
+            <p-step-item [value]="$index + 1">
+              <p-step>
+                {{step}}
+              </p-step>
+              <p-step-panel>
+                <ng-template #content let-activateCallback="activateCallback">
+                  <div class="flex flex-col h-48">
+                    <div
+                      class="border-2 border-dashed border-surface-200 dark:border-surface-700 rounded bg-surface-50 dark:bg-surface-950 flex-auto flex justify-center items-center font-medium">
+
+                    </div>
+                  </div>
+
+                </ng-template>
+              </p-step-panel>
+            </p-step-item>
             }
           </p-stepper>
         </p-accordion-content>
