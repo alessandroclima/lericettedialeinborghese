@@ -9,6 +9,8 @@ import { LoginRequest } from '../models/login-request.model';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
+import { User } from '../models/user.model';
 
 @Component({
   selector: 'app-login',
@@ -20,6 +22,7 @@ export class LoginComponent {
  
   private authService= inject(AuthService);
   private router = inject(Router)
+  private cookieService = inject(CookieService)
 
   onSubmit() {
     console.log(this.model);
@@ -27,6 +30,12 @@ export class LoginComponent {
       .subscribe({
         next: (response) => {
           console.log(response);
+          this.cookieService.set('Authorization', `Bearer ${response.token}`, undefined, '/', undefined, true, 'Strict');
+          const user: User = {
+            email: response.email,
+            roles: response.roles
+          };
+          this.authService.setUser(user);
           this.router.navigate(['/admin/recipes']);
         },
         error: (error) => {
@@ -39,6 +48,8 @@ export class LoginComponent {
     email: '',
     password:''
   });
+
+ 
 
   private loginSubscription?: Subscription;
 
