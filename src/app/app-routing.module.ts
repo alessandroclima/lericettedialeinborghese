@@ -25,6 +25,10 @@ const routes: Routes = [{
 {
   path: 'admin/recipes/update/:id',
   loadComponent: () => import('./features/recipe/update-recipe/update-recipe.component').then(m => m.UpdateRecipeComponent)
+},
+{
+  path: 'login',
+  loadComponent: () => import('./features/auth/login/login.component').then(m => m.LoginComponent)
 }];
 
 @NgModule({
