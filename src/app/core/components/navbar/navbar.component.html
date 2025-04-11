@@ -11,15 +11,18 @@
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="#"><i class="bi bi-house"></i></a>
         </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Esplora
-          </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" [routerLink]="['admin/recipes']">Ricette</a></li>
-            <li><a class="dropdown-item" [routerLink]="['admin/ingredients']">Ingredienti</a></li>
-          </ul>
-        </li>
+        @if(user !== undefined && user?.roles?.includes('reader')){
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Esplora
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" [routerLink]="['admin/recipes']">Ricette</a></li>
+              <li><a class="dropdown-item" [routerLink]="['admin/ingredients']">Ingredienti</a></li>
+            </ul>
+          </li>
+        }
+     
         <li class="nav-item">
           <div class="input-group">
             <div class="form-outline" data-mdb-input-init>
@@ -32,7 +35,12 @@
         </li>
       </ul>
       <div class="d-flex">
-        <a [routerLink]="['login']" class="btn btn-primary">Login</a>
+        @if(user===undefined){
+          <a [routerLink]="['login']" class="btn btn-primary">Login</a>
+        }
+        @else {
+          <button class="btn btn-primary" (click)="onLogout()">Logout</button>
+        }
       </div>
     </div>
   </div>

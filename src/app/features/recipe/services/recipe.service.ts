@@ -1,21 +1,23 @@
 import { Injectable, inject } from '@angular/core';
 import { AddRecipeRequest } from '../models/add-recipe-request.model';
 import { catchError, Observable, throwError } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { GetRecipeResponse } from '../models/get-recipe-response.model';
+import { CookieService } from 'ngx-cookie-service';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RecipeService {
   private http = inject(HttpClient);
+  private cookieService = inject(CookieService)
 
-
-  private apiUrlCreate = 'http://localhost:14760/Recipes/CreateRecipe';
-  private apiUrlGet = 'http://localhost:14760/Recipes/GetRecipes';
-  private apiUrlDelete = 'http://localhost:14760/Recipes/DeleteRecipe';
-  private apiUrlGetDetails = 'http://localhost:14760/Recipes/GetRecipes';
-  private apiUrlUpdate = 'http://localhost:14760/Recipes/UpdateRecipe';
+  private apiUrlCreate = `${environment.apiBaseUrl}/Recipes/CreateRecipe`;
+  private apiUrlGet = `${environment.apiBaseUrl}/Recipes/GetRecipes`;
+  private apiUrlDelete = `${environment.apiBaseUrl}/Recipes/DeleteRecipe`;
+  private apiUrlGetDetails = `${environment.apiBaseUrl}/Recipes/GetRecipes`;
+  private apiUrlUpdate = `${environment.apiBaseUrl}/Recipes/UpdateRecipe`;
 
   /** Inserted by Angular inject() migration for backwards compatibility */
   constructor(...args: unknown[]);

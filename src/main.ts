@@ -1,7 +1,7 @@
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
 
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptors, withInterceptorsFromDi } from '@angular/common/http';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { providePrimeNG } from 'primeng/config';
 import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
@@ -13,12 +13,13 @@ import { StepsModule } from 'primeng/steps';
 import { AppComponent } from './app/app.component';
 import { importProvidersFrom } from '@angular/core';
 import Aura from '@primeng/themes/aura';
+import { authInterceptor } from './app/core/interceptor/auth.interceptor';
 
 
 bootstrapApplication(AppComponent, {
     providers: [
         importProvidersFrom(BrowserModule, AppRoutingModule, FormsModule, ReactiveFormsModule, NgxPaginationModule, ButtonModule, StepsModule),
-        provideHttpClient(withInterceptorsFromDi()), provideAnimationsAsync(),
+        provideHttpClient(withInterceptors([authInterceptor])), provideAnimationsAsync(),
         providePrimeNG({
             theme: {
                 preset: Aura
@@ -26,4 +27,4 @@ bootstrapApplication(AppComponent, {
         })
     ]
 })
-  .catch(err => console.error(err));
+    .catch(err => console.error(err));

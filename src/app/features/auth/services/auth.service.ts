@@ -4,6 +4,8 @@ import { LoginRequest } from '../models/login-request.model';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { LoginResponse } from '../models/login-response.model';
 import { User } from '../models/user.model';
+import { CookieService } from 'ngx-cookie-service';
+import { environment } from 'src/environments/environment';
 
 
 @Injectable({
@@ -12,10 +14,11 @@ import { User } from '../models/user.model';
 export class AuthService {
 
   private http = inject(HttpClient);
+  private cookieService = inject(CookieService)
 
   $user = new BehaviorSubject<User | undefined>(undefined);
 
-  private registerUserUrl = 'http://localhost:14760/api/Auth/Login';
+  private registerUserUrl = `${environment.apiBaseUrl}/api/Auth/Login`;
 
   /** Inserted by Angular inject() migration for backwards compatibility */
   constructor(...args: unknown[]);
@@ -34,5 +37,24 @@ export class AuthService {
 
   user(): Observable<User | undefined> {
     return this.$user.asObservable();
+  }
+
+  logout(): void {
+    localStorage.clear();
+    this.cookieService.delete('Authorization', '/');
+    this.$user.next(undefined);
+  }
+
+  getUser(): User | undefined {
+    const email = localStorage.getItem('user-email');
+    const roles = localStorage.getItem('user-roles');
+    if (email && roles) {
+      const user: User = {
+        email: email,
+        roles: roles.split(',')
+      }
+      return user;
+    }
+    return undefined;
   }
 }
