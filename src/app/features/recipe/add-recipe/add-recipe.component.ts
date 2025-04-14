@@ -52,6 +52,7 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
   }
   ngOnInit(): void {
     this.loadAvailableIngredients();
+    this.loadAvailableCategories();
     console.log(this.selectedIngredient);
   }
 

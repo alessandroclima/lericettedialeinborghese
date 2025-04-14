@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, Inject, inject } from '@angular/core';
 import { GetIngredientResponse } from '../models/get-ingredient-response.model';
 import { AddRecipeRequest } from '../models/add-recipe-request.model';
 import { IngredientService } from '../services/ingredient.service';
@@ -7,8 +7,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { GetRecipeResponse } from '../models/get-recipe-response.model';
 import { Subscription } from 'rxjs';
 import { UpdateRecipeRequest } from '../models/update-recipe-request.model';
-
+import { CategoryService } from '../services/category.service';
 import { FormsModule } from '@angular/forms';
+import { GetCategoryResponse } from '../models/get-category-response.model';
 
 @Component({
     selector: 'app-update-recipe',
@@ -21,6 +22,7 @@ export class UpdateRecipeComponent {
   private recipeService = inject(RecipeService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
+  private categoryService= inject(CategoryService);
 
   removeIngredient(ingredientNome: string) {
     if (ingredientNome) {
@@ -99,6 +101,7 @@ export class UpdateRecipeComponent {
   }
 
   availableIngredients: GetIngredientResponse[] = [];
+  availableCategories: GetCategoryResponse[] = []; // Assuming you have a similar model for categories
   selectedIngredient: number | undefined = undefined;
   ingredientQuantity: number | null = null;
   ingredientMeasure: string = '';
@@ -114,6 +117,7 @@ export class UpdateRecipeComponent {
     if (this.recipeId) {
       this.loadRecipe(this.recipeId);
       this.loadIngredients();
+      this.loadAvailableCategories();
     }
   }
 
@@ -145,5 +149,18 @@ export class UpdateRecipeComponent {
           console.error('Error loading ingredients', error);
         },
       });
+  }
+
+  loadAvailableCategories(): void {
+    this.categoryService.getCategories().subscribe(
+      (data) => {
+        this.availableCategories = data.sort((a, b) =>
+          a.name.localeCompare(b.name)
+        );
+      },
+      (error) => {
+        console.error('Error fetching categories', error);
+      }
+    );
   }
 }

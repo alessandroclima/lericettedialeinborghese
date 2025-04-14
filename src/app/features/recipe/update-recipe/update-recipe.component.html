@@ -25,6 +25,16 @@
                     placeholder="Inserisci il numero di porzioni" />
                   </div>
                   <div class="mb-3">
+                    <select class="form-select" [(ngModel)]="model.categoriaid" name="categoriaid">
+                      <option [ngValue]="undefined" disabled>Seleziona una categoria</option>
+                      @for (category of availableCategories; track category) {
+                        <option [value]="category.id">
+                          {{ category.name }}
+                        </option>
+                      }
+                    </select>
+                  </div>
+                  <div class="mb-3">
                     <label for="ingredients" class="form-label">Ingredienti</label>
                     <div class="input-group mb-3">
                       <select class="form-select" [(ngModel)]="selectedIngredient" name="selectedIngredient">

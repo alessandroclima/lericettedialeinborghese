@@ -12,7 +12,7 @@ export class CategoryService {
   private http = inject(HttpClient);
 
 
-  private apiUrl = `${environment.apiBaseUrl}/Ingredients/GetCategories`;
+  private apiUrl = `${environment.apiBaseUrl}/Categories/GetCategories`;
   constructor() { }
 
   getCategories(): Observable<GetCategoryResponse[]> {

@@ -65,7 +65,6 @@ export class RecipeDetailsComponent implements OnInit {
     this.recipeId = this.route.snapshot.paramMap.get('id');
     if (this.recipeId) {
       this.loadRecipe(this.recipeId);
-      
     }
     
   }

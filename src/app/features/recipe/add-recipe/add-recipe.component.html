@@ -23,11 +23,11 @@
           placeholder="Inserisci il numero di porzioni">
       </div>
       <div class="mb-3">
-        <select class="form-select" [(ngModel)]="selectedIngredient" name="selectedIngredient">
+        <select class="form-select" [(ngModel)]="model.categoriaid" name="categoriaid">
           <option [ngValue]="undefined" disabled>Seleziona una categoria</option>
-          @for (ingredient of availableIngredients; track ingredient) {
-            <option [value]="ingredient.id">{{
-            ingredient.name }}</option>
+          @for (category of availableCategories; track category) {
+            <option [value]="category.id">{{
+            category.name }}</option>
           }
         </select>
       </div>
@@ -87,9 +87,7 @@
         </div>
         }
       </div>
-      <p-button label="Submit" />
-
-      <button type="submit" class="btn btn-primary mb-3">Crea</button>
+      <p-button type="submit" label="Submit" />
     </form>
   </div>
 </div>
