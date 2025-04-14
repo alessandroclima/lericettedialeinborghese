@@ -8,6 +8,8 @@ import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { ButtonModule, Button } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
+import { GetCategoryResponse } from '../models/get-category-response.model';
+import { CategoryService } from '../services/category.service';
  // ✅ Importa il modulo di PrimeNG
 
 @Component({
@@ -18,6 +20,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class AddRecipeComponent implements OnInit, OnDestroy {
   private ingredientService = inject(IngredientService);
+  private categoryService = inject(CategoryService);
   private recipeService = inject(RecipeService);
   private router = inject(Router);
 
@@ -26,6 +29,7 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
   private addRecipeSubscription?: Subscription;
 
   availableIngredients: GetIngredientResponse[] = [];
+  availableCategories: GetCategoryResponse[] = [];
 
   selectedIngredient: number | undefined = undefined;
   ingredientQuantity: number | null = null;
@@ -42,6 +46,7 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
       porzioni: 1,
       procedimento: '',
       immagineUrl: '',
+      categoriaid: 0,
       ingredientiquantita: [],
     };
   }
@@ -59,6 +64,19 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
       },
       (error) => {
         console.error('Error fetching ingredients', error);
+      }
+    );
+  }
+
+  loadAvailableCategories(): void {
+    this.categoryService.getCategories().subscribe(
+      (data) => {
+        this.availableCategories = data.sort((a, b) =>
+          a.name.localeCompare(b.name)
+        );
+      },
+      (error) => {
+        console.error('Error fetching categories', error);
       }
     );
   }

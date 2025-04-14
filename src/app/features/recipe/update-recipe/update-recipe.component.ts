@@ -93,6 +93,7 @@ export class UpdateRecipeComponent {
       porzioni: 0,
       procedimento: '',
       immagineurl: '',
+      categoriaid: 0,
       ingredientiQuantita: [],
     };
   }

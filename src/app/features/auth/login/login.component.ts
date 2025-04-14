@@ -19,10 +19,14 @@ import { User } from '../models/user.model';
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
- 
-  private authService= inject(AuthService);
+  OnRegister() {
+    this.router.navigate(['/register']);
+  }
+
+  private authService = inject(AuthService);
   private router = inject(Router)
   private cookieService = inject(CookieService)
+
 
   onSubmit() {
     console.log(this.model);
@@ -46,10 +50,10 @@ export class LoginComponent {
 
   model = signal<LoginRequest>({
     email: '',
-    password:''
+    password: ''
   });
 
- 
+
 
   private loginSubscription?: Subscription;
 

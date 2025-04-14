@@ -1,0 +1,60 @@
+<div class="register-container">
+    <p-card class="register-card">
+        <div class="register-content">
+            <div class="register-form">
+                <h2>Sign Up</h2>
+                <form (ngSubmit)="onSubmit()">
+                    <div class="p-field mt-3">
+                        <label for="email">Email</label>
+                        <input pInputText 
+                               type="email" 
+                               id="email" 
+                               [(ngModel)]="model().email" 
+                               name="email" 
+                               required 
+                               class="wide-input" />
+                    </div>
+                    
+                    <div class="p-field mt-3">
+                        <label for="password">Password</label>
+                        <input pInputText 
+                               type="password" 
+                               id="password" 
+                               [(ngModel)]="model().password" 
+                               name="password" 
+                               required 
+                               class="wide-input" />
+                    </div>
+
+                    <div class="p-field mt-3">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <input pInputText 
+                               type="password" 
+                               id="confirmPassword" 
+                               [(ngModel)]="model().confirmPassword" 
+                               name="confirmPassword" 
+                               required 
+                               class="wide-input" />
+                    </div>
+                    
+                    <p-button type="submit" 
+                             icon="pi pi-user-plus" 
+                             label="Register" 
+                             styleClass="p-button-dark mt-3">
+                    </p-button>
+                </form>
+            </div>
+            
+            <div class="divider"></div>
+            
+            <div class="extra-content">
+                <p>Already have an account? Login!</p>
+                <p-button icon="pi pi-sign-in" 
+                         type="button" 
+                         label="Login" 
+                         (onClick)="navigateToLogin()">
+                </p-button>
+            </div>
+        </div>
+    </p-card>
+</div>
