@@ -12,7 +12,8 @@ const routes: Routes = [{
 },
 {
   path: 'admin/recipes/add',
-  loadComponent: () => import('./features/recipe/add-recipe/add-recipe.component').then(m => m.AddRecipeComponent)
+  loadComponent: () => import('./features/recipe/add-recipe/add-recipe.component').then(m => m.AddRecipeComponent),
+  canActivate: [() => import('./features/auth/guards/auth.guard').then(m => m.authGuard)]
 },
 {
   path: 'admin/ingredients',
