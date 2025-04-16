@@ -11,11 +11,13 @@ interface JwtPayload {
 }
 
 export const authGuard: CanActivateFn = (route, state) => {
+  console.log('🔐 AuthGuard triggered for route:', state.url); // 👈
   const cookieService = inject(CookieService);
   const router = inject(Router);
   const authService = inject(AuthService);
-
+  
   const tokenWithBearer = cookieService.get('Authorization');
+  console.log(tokenWithBearer);
   if (!tokenWithBearer?.startsWith('Bearer ')) {
     authService.logout();
     return router.createUrlTree(['/login'], { queryParams: { returnUrl: state.url } });

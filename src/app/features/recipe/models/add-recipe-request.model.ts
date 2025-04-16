@@ -8,5 +8,6 @@ export interface AddRecipeRequest {
     procedimento: string;
     immagineUrl: string;
     categoriaid: number;
+    alimentazioneid: number;
     ingredientiquantita: IngredientQuantity[];
 }

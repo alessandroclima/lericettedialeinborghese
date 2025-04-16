@@ -10,6 +10,8 @@ import { ButtonModule, Button } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
 import { GetCategoryResponse } from '../models/get-category-response.model';
 import { CategoryService } from '../services/category.service';
+import { GetDietResponse } from '../models/get-diet-response.model';
+import { DietService } from '../services/diet.service';
  // ✅ Importa il modulo di PrimeNG
 
 @Component({
@@ -21,6 +23,7 @@ import { CategoryService } from '../services/category.service';
 export class AddRecipeComponent implements OnInit, OnDestroy {
   private ingredientService = inject(IngredientService);
   private categoryService = inject(CategoryService);
+  private dietService = inject(DietService);
   private recipeService = inject(RecipeService);
   private router = inject(Router);
 
@@ -30,6 +33,7 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
 
   availableIngredients: GetIngredientResponse[] = [];
   availableCategories: GetCategoryResponse[] = [];
+  availableDiets: GetDietResponse[] = [];
 
   selectedIngredient: number | undefined = undefined;
   ingredientQuantity: number | null = null;
@@ -47,13 +51,15 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
       procedimento: '',
       immagineUrl: '',
       categoriaid: 0,
+      alimentazioneid: 0,
       ingredientiquantita: [],
     };
   }
   ngOnInit(): void {
     this.loadAvailableIngredients();
     this.loadAvailableCategories();
-    console.log(this.selectedIngredient);
+    this.loadAvailableDiets();
+    console.log(this.availableCategories);
   }
 
   loadAvailableIngredients(): void {
@@ -62,6 +68,7 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
         this.availableIngredients = data.sort((a, b) =>
           a.name.localeCompare(b.name)
         );
+        console.log(this.availableIngredients);
       },
       (error) => {
         console.error('Error fetching ingredients', error);
@@ -73,6 +80,19 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
     this.categoryService.getCategories().subscribe(
       (data) => {
         this.availableCategories = data.sort((a, b) =>
+          a.name.localeCompare(b.name)
+        );
+      },
+      (error) => {
+        console.error('Error fetching categories', error);
+      }
+    );
+  }
+
+  loadAvailableDiets(): void {
+    this.dietService.getDiets().subscribe(
+      (data) => {
+        this.availableDiets = data.sort((a, b) =>
           a.name.localeCompare(b.name)
         );
       },

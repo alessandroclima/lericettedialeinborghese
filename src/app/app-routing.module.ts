@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { authGuard } from './features/auth/guards/auth.guard';
 
 
 
@@ -13,7 +14,7 @@ const routes: Routes = [{
 {
   path: 'admin/recipes/add',
   loadComponent: () => import('./features/recipe/add-recipe/add-recipe.component').then(m => m.AddRecipeComponent),
-  canActivate: [() => import('./features/auth/guards/auth.guard').then(m => m.authGuard)]
+  canActivate: [authGuard]
 },
 {
   path: 'admin/ingredients',
