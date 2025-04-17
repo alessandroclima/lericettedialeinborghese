@@ -12,7 +12,7 @@ import { AccordionModule } from 'primeng/accordion';
     selector: 'app-recipe-details',
     templateUrl: './recipe-details.component.html',
     styleUrls: ['./recipe-details.component.css'],
-    imports: [RouterLink, FormsModule, StepperModule, ButtonModule, AccordionModule]
+    imports: [FormsModule, StepperModule, ButtonModule, AccordionModule]
 })
 export class RecipeDetailsComponent implements OnInit {
   private route = inject(ActivatedRoute);

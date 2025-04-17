@@ -3,6 +3,8 @@ import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from 'src/app/features/auth/services/auth.service';
 import { User } from 'src/app/features/auth/models/user.model';
+import { CategoryService } from 'src/app/features/recipe/services/category.service';
+import { GetCategoryResponse } from 'src/app/features/recipe/models/get-category-response.model';
 
 @Component({
   selector: 'app-navbar',
@@ -14,9 +16,11 @@ export class NavbarComponent implements OnInit {
 
   private router = inject(Router);
   private authService = inject(AuthService)
+  private categoryService = inject(CategoryService)
 
   searchText: string = '';
   user?: User;
+  availablableCategories: GetCategoryResponse[] = [];
 
   ngOnInit(): void {
 
@@ -25,16 +29,36 @@ export class NavbarComponent implements OnInit {
     });
 
     this.user = this.authService.getUser();
+    this.loadCategories();
   }
 
   constructor() { }
 
-  searchRecipes() {
-    console.log('Cercando ricette con testo', this.searchText);
-    if (this.searchText.trim()) {
-      this.router.navigate(['admin/recipes'], { queryParams: { search: this.searchText } });
-    }
+  loadCategories() {
+    this.categoryService.getCategories().subscribe({
+      next: (response) => {
+        this.availablableCategories = response;
+        console.log('Categorie disponibili', this.availablableCategories);
+      },
+      error: (error) => {
+        console.error('Error loading categories', error);
+      }
+    });
   }
+
+  searchRecipesByCategory(searchCategory: string) {
+    console.log('Cercando ricette con categoria', searchCategory);
+
+      this.router.navigate(['admin/recipes'], { queryParams: { category: searchCategory } });
+
+  }
+
+  // searchRecipes() {
+  //   console.log('Cercando ricette con testo', this.searchText);
+  //   if (this.searchText.trim()) {
+  //     this.router.navigate(['admin/recipes'], { queryParams: { search: this.searchText } });
+  //   }
+  // }
 
 
   onLogout() {

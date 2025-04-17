@@ -1,7 +1,10 @@
-.global-background {
-    min-height: 100vh;
-    background-image: url('/assets/static/files/Background.jpeg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-  }
+.app-background {
+  background-image: url('/assets/static/files/Background.jpeg');
+  background-size: cover; /* o "contain" o "100% 100%" a seconda del risultato desiderato */
+  background-repeat: no-repeat;
+  background-position: center;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+

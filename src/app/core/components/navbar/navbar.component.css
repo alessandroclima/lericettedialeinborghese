@@ -1,0 +1,33 @@
+.custom-navbar {
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(6px); 
+    color: #fff;
+  
+    .nav-link {
+      color: #fff !important;
+      position: relative;
+      transition: color 0.3s ease;
+  
+      &::after {
+        content: "";
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 0%;
+        height: 2px;
+        background-color: #ffc107;
+        transition: width 0.3s;
+      }
+  
+      &:hover::after {
+        width: 100%;
+      }
+    }
+  
+    .logo-img {
+      height: 48px;
+      object-fit: contain;
+      filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.3));
+    }
+  }
+  

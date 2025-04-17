@@ -30,6 +30,7 @@ export class RecipeListComponent implements OnInit {
   errorMessage: string | null = null;
   filteredRecipes: GetRecipeResponse[] = [];
   searchQuery: string = '';
+  categoryQuery: string = '';
   recipeIdToDelete: string | null = null;
 
 
@@ -101,11 +102,12 @@ export class RecipeListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    
     this.loadRecipes();
-
     // Recupera il valore della ricerca dall'URL
     this.route.queryParams.subscribe(params => {
-      this.searchQuery = params['search'] || '';
+      // this.searchQuery = params['search'] || '';
+      this.categoryQuery = params['category'] || '';
       this.filterRecipes();
     });
 
@@ -117,7 +119,7 @@ export class RecipeListComponent implements OnInit {
         console.log('Recipe loaded', response);
 
         this.availableRecipes = response;
-        this.filterRecipes();
+        // this.filterRecipes();
       },
       error: (error) => {
         console.error('Error fetching recipes', error);
@@ -129,9 +131,23 @@ export class RecipeListComponent implements OnInit {
   }
 
   filterRecipes() {
-    this.filteredRecipes = this.availableRecipes.filter(recipe =>
-      recipe.titolo.toLowerCase().includes(this.searchQuery.toLowerCase())
-    );
+    console.log('Filtering recipes with category:', this.categoryQuery);
+    // if(this.searchQuery){
+    //   this.filteredRecipes = this.availableRecipes.filter(recipe =>
+    //     recipe.titolo.toLowerCase().includes(this.searchQuery.toLowerCase())
+    //   );
+    // }
+    if(this.categoryQuery){
+      console.log(this.availableRecipes)
+      this.filteredRecipes = this.availableRecipes.filter(recipe =>
+        recipe.categorianome.includes(this.categoryQuery)
+      );
+    }
+    else {
+      this.filteredRecipes = this.availableRecipes;
+    }
+
+  
   };
 
 

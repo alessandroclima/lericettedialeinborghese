@@ -8,6 +8,10 @@ import { authGuard } from './features/auth/guards/auth.guard';
 
 
 const routes: Routes = [{
+  path: 'home',
+  loadComponent: () => import('./welcome-page/welcome-page.component').then(m => m.WelcomePageComponent)
+},
+{
   path: 'admin/recipes',
   loadComponent: () => import('./features/recipe/recipe-list/recipe-list.component').then(m => m.RecipeListComponent)
 },
