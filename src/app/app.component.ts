@@ -7,7 +7,7 @@ import { NgClass } from '@angular/common';
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.css'],
-    imports: [NavbarComponent, NgClass, RouterOutlet]
+    imports: [NavbarComponent, RouterOutlet]
 })
 export class AppComponent {
   private router = inject(Router);

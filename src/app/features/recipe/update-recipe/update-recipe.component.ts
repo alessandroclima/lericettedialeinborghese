@@ -10,6 +10,8 @@ import { UpdateRecipeRequest } from '../models/update-recipe-request.model';
 import { CategoryService } from '../services/category.service';
 import { FormsModule } from '@angular/forms';
 import { GetCategoryResponse } from '../models/get-category-response.model';
+import { DietService } from '../services/diet.service';
+import { GetDietResponse } from '../models/get-diet-response.model';
 
 @Component({
     selector: 'app-update-recipe',
@@ -23,14 +25,15 @@ export class UpdateRecipeComponent {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private categoryService= inject(CategoryService);
+  private dietService = inject(DietService);
 
   removeIngredient(ingredientNome: string) {
     if (ingredientNome) {
-      const index = this.model.ingredientiQuantita.findIndex(
+      const index = this.model.ingredientiquantita.findIndex(
         (ingredient) => ingredient.ingredienteNome === ingredientNome
       );
       if (index !== -1) {
-        this.model?.ingredientiQuantita.splice(index, 1);
+        this.model?.ingredientiquantita.splice(index, 1);
       }
     }
   }
@@ -40,11 +43,11 @@ export class UpdateRecipeComponent {
     if (file) {
       const reader = new FileReader();
       reader.onload = (e: any) => {
-        this.model.immagineurl = e.target.result.split(',')[1]; // Rimuove il prefisso "data:image/png;base64,"
+        this.model.immagineUrl = e.target.result.split(',')[1]; // Rimuove il prefisso "data:image/png;base64,"
       };
       reader.readAsDataURL(file);
     } else {
-      this.model.immagineurl = '';
+      this.model.immagineUrl = '';
     }
   }
   addIngredient() {
@@ -54,7 +57,7 @@ export class UpdateRecipeComponent {
         .name
     );
     if (this.selectedIngredient) {
-      this.model?.ingredientiQuantita.push({
+      this.model?.ingredientiquantita.push({
         ingredienteId: this.selectedIngredient,
         quantita: this.ingredientQuantity,
         ingredienteNome: this.availableIngredients.find(
@@ -94,19 +97,22 @@ export class UpdateRecipeComponent {
       tempocottura: 0,
       porzioni: 0,
       procedimento: '',
-      immagineurl: '',
+      immagineUrl: '',
       categoriaid: 0,
-      ingredientiQuantita: [],
+      alimentazioneid: 0,
+      ingredientiquantita: [],
     };
   }
 
   availableIngredients: GetIngredientResponse[] = [];
   availableCategories: GetCategoryResponse[] = []; // Assuming you have a similar model for categories
+  availableDiets: GetDietResponse[] = []; // Assuming you have a similar model for diets
   selectedIngredient: number | undefined = undefined;
   ingredientQuantity: number | null = null;
   ingredientMeasure: string = '';
   imageUrl: string | ArrayBuffer | null = null;
-  model: GetRecipeResponse;
+  model: UpdateRecipeRequest; // Assuming you have a similar model for recipes
+  getRecipeModel: GetRecipeResponse | undefined = undefined;
   getDetailsSubscription?: Subscription;
   getIngredientsSubscription?: Subscription;
   updateRecipeSubscription?: Subscription;
@@ -115,9 +121,10 @@ export class UpdateRecipeComponent {
   ngOnInit(): void {
     this.recipeId = this.route.snapshot.paramMap.get('id');
     if (this.recipeId) {
-      this.loadRecipe(this.recipeId);
       this.loadIngredients();
       this.loadAvailableCategories();
+      this.loadAvailableDiets();
+      this.loadRecipe(this.recipeId);
     }
   }
 
@@ -128,7 +135,28 @@ export class UpdateRecipeComponent {
         next: (response) => {
           console.log('Recipe loaded');
           console.log(response);
-          this.model = response;
+          this.getRecipeModel = response;
+          this.model.id = this.getRecipeModel.id;
+          this.model.titolo = this.getRecipeModel.titolo;
+          this.model.descrizione = this.getRecipeModel.descrizione;
+          this.model.tempocottura = this.getRecipeModel.tempocottura;
+          this.model.porzioni = this.getRecipeModel.porzioni;
+          this.model.procedimento = this.getRecipeModel.procedimento;
+          this.model.immagineUrl = this.getRecipeModel.immagineurl;
+          this.model.categoriaid = this.availableCategories.find(
+            (x) => x.name == this.getRecipeModel?.categorianome)!.id;
+          this.model.alimentazioneid = this.availableDiets.find(
+            (x) => x.name == this.getRecipeModel?.alimentazionenome)!.id;
+          this.model.ingredientiquantita = this.getRecipeModel?.ingredientiQuantita.map(
+            (ingredient) => {
+              return {
+                ingredienteId: ingredient.ingredienteId,
+                quantita: ingredient.quantita,
+                ingredienteNome: ingredient.ingredienteNome,
+                unitaMisura: ingredient.unitaMisura,
+              };
+            }
+          )!;
         },
         error: (error) => {
           console.error('Error loading recipe', error);
@@ -155,6 +183,18 @@ export class UpdateRecipeComponent {
     this.categoryService.getCategories().subscribe(
       (data) => {
         this.availableCategories = data.sort((a, b) =>
+          a.name.localeCompare(b.name)
+        );
+      },
+      (error) => {
+        console.error('Error fetching categories', error);
+      }
+    );
+  }
+  loadAvailableDiets(): void {
+    this.dietService.getDiets().subscribe(
+      (data) => {
+        this.availableDiets = data.sort((a, b) =>
           a.name.localeCompare(b.name)
         );
       },

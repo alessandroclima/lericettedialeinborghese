@@ -102,6 +102,8 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
     );
   }
 
+  
+
   addIngredient(): void {
     if (this.selectedIngredient) {
       this.model.ingredientiquantita.push({

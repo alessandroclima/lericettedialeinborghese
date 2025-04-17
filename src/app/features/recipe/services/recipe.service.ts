@@ -5,6 +5,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { GetRecipeResponse } from '../models/get-recipe-response.model';
 import { CookieService } from 'ngx-cookie-service';
 import { environment } from 'src/environments/environment';
+import { UpdateRecipeRequest } from '../models/update-recipe-request.model';
 
 @Injectable({
   providedIn: 'root'
@@ -55,7 +56,7 @@ export class RecipeService {
     );
   }
 
-  updateRecipe(model: GetRecipeResponse): Observable<void> {
+  updateRecipe(model: UpdateRecipeRequest): Observable<void> {
     return this.http.put<void>(this.apiUrlUpdate, model);
   }
 }
