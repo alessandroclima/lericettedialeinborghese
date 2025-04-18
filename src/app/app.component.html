@@ -1,4 +1,7 @@
 <div [ngClass]="{'app-background': isHomePage}">
   <app-navbar></app-navbar>
+  @if(isWelcomePage){
+    <app-welcome-page></app-welcome-page>
+  }
   <router-outlet></router-outlet>
 </div>

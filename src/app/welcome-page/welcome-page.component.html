@@ -1,6 +1,27 @@
-<div class="welcome-container">
-  <h1>Benvenuto nel nostro sito di ricette!</h1>
-  <p>Scopri le migliori ricette per ogni occasione. Cucina con amore e divertiti!</p>
-  <img src="assets/images/welcome-image.jpg" alt="Benvenuto in cucina" class="welcome-image" />
-  <button (click)="onExploreRecipes()">Esplora le ricette</button>
+<div class="carousel-container position-relative w-100 overflow-hidden py-4">
+  <!-- Freccia sinistra -->
+  <button class="carousel-arrow start-0" (click)="prevSlide()">‹</button>
+
+  <!-- Contenitore delle slide -->
+  <div class="carousel-wrapper">
+    <div class="carousel-track" [ngStyle]="{'transform': 'translateX(-' + currentTranslate + 'px)'}">
+
+      <div class="carousel-group" *ngFor="let group of groupedSlides">
+        <div class="d-flex group-content">
+          <!-- Immagine grande a sinistra -->
+          <div class="w-50 pe-2">
+            <img *ngIf="group[0]" [src]="'data:image/jpeg;base64,'+ group[0].imageUrl" class="img-big ms-2" />
+          </div>
+          <!-- Due immagini piccole a destra -->
+          <div class="w-50 ps-2 d-flex flex-column justify-content-between">
+            <img *ngIf="group[1]" [src]="'data:image/jpeg;base64,' + group[1].imageUrl" class="img-small mb-2" />
+            <img *ngIf="group[2]" [src]="'data:image/jpeg;base64,' + group[2].imageUrl" class="img-small mt-0" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Freccia destra -->
+  <button class="carousel-arrow end-0" (click)="nextSlide()">›</button>
 </div>

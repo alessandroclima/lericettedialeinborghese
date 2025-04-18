@@ -1,3 +1,4 @@
+import { Timestamp } from "rxjs";
 import { IngredientQuantity } from "./ingredient-quantity.model";
 
 export interface GetRecipeResponse {
@@ -10,5 +11,6 @@ export interface GetRecipeResponse {
     immagineurl: string;
     categorianome: string;
     alimentazionenome: string;
+    datacreazione: Date;
     ingredientiQuantita: IngredientQuantity[];
 }

@@ -7,10 +7,10 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 
 @Component({
-    selector: 'app-recipe-list',
-    templateUrl: './recipe-list.component.html',
-    styleUrls: ['./recipe-list.component.css'],
-    imports: [FormsModule, RouterLink]
+  selector: 'app-recipe-list',
+  templateUrl: './recipe-list.component.html',
+  styleUrls: ['./recipe-list.component.css'],
+  imports: [FormsModule, RouterLink]
 })
 export class RecipeListComponent implements OnInit {
   private recipeService = inject(RecipeService);
@@ -102,13 +102,13 @@ export class RecipeListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    
-    this.loadRecipes();
+
+
     // Recupera il valore della ricerca dall'URL
     this.route.queryParams.subscribe(params => {
       // this.searchQuery = params['search'] || '';
       this.categoryQuery = params['category'] || '';
-      this.filterRecipes();
+      this.loadRecipes();
     });
 
   }
@@ -119,7 +119,7 @@ export class RecipeListComponent implements OnInit {
         console.log('Recipe loaded', response);
 
         this.availableRecipes = response;
-        // this.filterRecipes();
+        this.filterRecipes();
       },
       error: (error) => {
         console.error('Error fetching recipes', error);
@@ -137,17 +137,18 @@ export class RecipeListComponent implements OnInit {
     //     recipe.titolo.toLowerCase().includes(this.searchQuery.toLowerCase())
     //   );
     // }
-    if(this.categoryQuery){
+    if (this.categoryQuery) {
       console.log(this.availableRecipes)
       this.filteredRecipes = this.availableRecipes.filter(recipe =>
         recipe.categorianome.includes(this.categoryQuery)
       );
     }
     else {
+      console.log(this.availableRecipes)
       this.filteredRecipes = this.availableRecipes;
     }
 
-  
+
   };
 
 
