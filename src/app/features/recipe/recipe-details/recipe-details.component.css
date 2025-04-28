@@ -1,9 +1,4 @@
-.custom-card {
-    width: 850px;
-    height: 636px;
-    margin: 0 auto; /* Centra la card orizzontalmente */
-  }
-  
+
   .custom-title {
     font-family: 'Arial', sans-serif; /* Cambia il font a tuo piacimento */
     font-size: 2.5rem; /* Cambia la grandezza del font a tuo piacimento */
@@ -12,12 +7,45 @@
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* Aggiungi un'ombra al testo per renderlo più accattivante */
   }
 
-  .custom-card-text {
-    background-color: white; /* Grigio chiaro */
-    padding: 10px;
-    border-radius: 5px;
+
+  .responsive-card {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .image-wrapper {
+    width: 100%;
+    height: 400px; /* puoi regolare */
+    object-fit: cover;
+    overflow: hidden;
   }
 
-  .text-justify {
-    text-align: justify;
+  .image-wrapper-carousel {
+    width: 100%;
+    height: 200px; /* puoi regolare */
+    object-fit: cover;
+    overflow: hidden;
+  }
+  
+
+  .responsive-img-main {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;     /* ritaglia per riempire lo spazio */
+    object-position: center; /* centra verticalmente e orizzontalmente */
+    display: block;
+  }
+  
+  .recipe-img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+  }
+  .background-color-carousel {
+    background-color: rgba(0, 0, 0, 0.3);
+    color: white;
+    padding: 10px;
+    text-align: center;
   }

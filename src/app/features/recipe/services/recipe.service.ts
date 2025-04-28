@@ -19,6 +19,7 @@ export class RecipeService {
   private apiUrlDelete = `${environment.apiBaseUrl}/Recipes/DeleteRecipe`;
   private apiUrlGetDetails = `${environment.apiBaseUrl}/Recipes/GetRecipes`;
   private apiUrlUpdate = `${environment.apiBaseUrl}/Recipes/UpdateRecipe`;
+  private apiUrlRelated = `${environment.apiBaseUrl}/Recipes/GetRelatedRecipes`;
 
   /** Inserted by Angular inject() migration for backwards compatibility */
   constructor(...args: unknown[]);
@@ -31,6 +32,15 @@ export class RecipeService {
 
   getRecipes(): Observable<GetRecipeResponse[]> {
     return this.http.get<GetRecipeResponse[]>(this.apiUrlGet).pipe(
+      catchError(error => {
+        console.error('Errore durante la richiesta:', error);
+        return throwError(() => new Error('Errore nel caricamento delle ricette. Riprova più tardi.'));
+      })
+    );
+  }
+
+  getRelatedRecipes(categoriaNome: string): Observable<GetRecipeResponse[]> {
+    return this.http.get<GetRecipeResponse[]>(`${this.apiUrlRelated}/${categoriaNome}`).pipe(
       catchError(error => {
         console.error('Errore durante la richiesta:', error);
         return throwError(() => new Error('Errore nel caricamento delle ricette. Riprova più tardi.'));

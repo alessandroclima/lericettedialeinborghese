@@ -8,11 +8,14 @@ import { StepperModule } from 'primeng/stepper';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { AccordionModule } from 'primeng/accordion';
+import { Carousel, CarouselModule } from 'primeng/carousel';
+import { DividerModule } from 'primeng/divider';
+import { CardModule } from 'primeng/card';
 @Component({
-    selector: 'app-recipe-details',
-    templateUrl: './recipe-details.component.html',
-    styleUrls: ['./recipe-details.component.css'],
-    imports: [FormsModule, StepperModule, ButtonModule, AccordionModule]
+  selector: 'app-recipe-details',
+  templateUrl: './recipe-details.component.html',
+  styleUrls: ['./recipe-details.component.css'],
+  imports: [FormsModule, StepperModule, ButtonModule, AccordionModule, CarouselModule, DividerModule, CardModule]
 })
 export class RecipeDetailsComponent implements OnInit {
   private route = inject(ActivatedRoute);
@@ -37,11 +40,11 @@ export class RecipeDetailsComponent implements OnInit {
       this.ingredientiModificati.set(nuoviIngredienti);
     }
   }
-   // Inizializza il Signal con un oggetto vuoto di tipo GetRecipeResponse
-   recipe = signal<GetRecipeResponse|undefined>(undefined);
+  // Inizializza il Signal con un oggetto vuoto di tipo GetRecipeResponse
+  recipe = signal<GetRecipeResponse | undefined>(undefined);
 
-   // Variabile per gli ingredienti modificabili
-   ingredientiModificati = signal<IngredientQuantity[]>([]);
+  // Variabile per gli ingredienti modificabili
+  ingredientiModificati = signal<IngredientQuantity[]>([]);
 
   // Computed per gli ingredienti originali
   ingredientiQuantita = computed(() => {
@@ -53,6 +56,8 @@ export class RecipeDetailsComponent implements OnInit {
 
   getDetailsSubscription?: Subscription;
   recipeId: string | null = null;
+  relatedRecipes: GetRecipeResponse[] = [];
+  responsiveOptions: any[] | undefined;
 
 
   /** Inserted by Angular inject() migration for backwards compatibility */
@@ -65,8 +70,30 @@ export class RecipeDetailsComponent implements OnInit {
     this.recipeId = this.route.snapshot.paramMap.get('id');
     if (this.recipeId) {
       this.loadRecipe(this.recipeId);
+     
     }
-    
+    this.responsiveOptions = [
+      {
+        breakpoint: '1400px',
+        numVisible: 2,
+        numScroll: 1
+      },
+      {
+        breakpoint: '1199px',
+        numVisible: 3,
+        numScroll: 1
+      },
+      {
+        breakpoint: '767px',
+        numVisible: 2,
+        numScroll: 1
+      },
+      {
+        breakpoint: '575px',
+        numVisible: 1,
+        numScroll: 1
+      }
+    ]
   }
 
   loadRecipe(id: string): void {
@@ -74,9 +101,10 @@ export class RecipeDetailsComponent implements OnInit {
       {
         next: (response) => {
           //setta il signal recipe tramite il metodo set
-          this.recipe.set(response); 
+          this.recipe.set(response);
           //inserisco console log nel next perchè è qui che l'oggetto viene valorizzato
           console.log(this.recipe());
+          this.loadRelatedRecipes(this.recipe()!.categorianome);
           this.numero = response.porzioni;
           this.ingredientiModificati.set(response.ingredientiQuantita)
           console.log(this.ingredientiModificati())
@@ -87,4 +115,19 @@ export class RecipeDetailsComponent implements OnInit {
       }
     );
   }
+
+  loadRelatedRecipes(categorianome: string): void {
+    this.recipeService.getRelatedRecipes(categorianome).subscribe(
+      {
+        next: (response) => {
+          this.relatedRecipes = response;
+          console.log('Ricette correlate', this.relatedRecipes);
+        },
+        error: (error) => {
+          console.error('Error loading related recipes', error);
+        }
+      }
+    );
+  }
+
 }

@@ -5,12 +5,13 @@ import { AuthService } from 'src/app/features/auth/services/auth.service';
 import { User } from 'src/app/features/auth/models/user.model';
 import { CategoryService } from 'src/app/features/recipe/services/category.service';
 import { GetCategoryResponse } from 'src/app/features/recipe/models/get-category-response.model';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css'],
-  imports: [RouterLink, FormsModule]
+  imports: [RouterLink, FormsModule, ButtonModule],
 })
 export class NavbarComponent implements OnInit {
 

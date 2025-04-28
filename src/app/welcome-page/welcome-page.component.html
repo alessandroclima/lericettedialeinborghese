@@ -1,27 +1,50 @@
-<div class="carousel-container position-relative w-100 overflow-hidden py-4">
-  <!-- Freccia sinistra -->
-  <button class="carousel-arrow start-0" (click)="prevSlide()">‹</button>
+<!-- <div class="carousel-container position-relative w-100 overflow-hidden py-4"> -->
+<!-- Freccia sinistra -->
+<!-- <button class="carousel-arrow start-0" (click)="prevSlide()">‹</button> -->
 
-  <!-- Contenitore delle slide -->
-  <div class="carousel-wrapper">
-    <div class="carousel-track" [ngStyle]="{'transform': 'translateX(-' + currentTranslate + 'px)'}">
+<!-- Contenitore delle slide -->
+<!-- <div class="carousel-wrapper">
+    <div #carouselTrack class="carousel-track" [ngStyle]="{'transform': 'translateX(-' + currentTranslate + 'px)'}"> -->
 
-      <div class="carousel-group" *ngFor="let group of groupedSlides">
-        <div class="d-flex group-content">
-          <!-- Immagine grande a sinistra -->
-          <div class="w-50 pe-2">
+<!-- <div class="carousel-group" *ngFor="let group of groupedSlides">
+        <div class="d-flex group-content"> -->
+<!-- Immagine grande a sinistra -->
+<!-- <div class="w-50 pe-2">
             <img *ngIf="group[0]" [src]="'data:image/jpeg;base64,'+ group[0].imageUrl" class="img-big ms-2" />
-          </div>
-          <!-- Due immagini piccole a destra -->
-          <div class="w-50 ps-2 d-flex flex-column justify-content-between">
+          </div> -->
+<!-- Due immagini piccole a destra -->
+<!-- <div class="w-50 ps-2 d-flex flex-column justify-content-between">
             <img *ngIf="group[1]" [src]="'data:image/jpeg;base64,' + group[1].imageUrl" class="img-small mb-2" />
             <img *ngIf="group[2]" [src]="'data:image/jpeg;base64,' + group[2].imageUrl" class="img-small mt-0" />
           </div>
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 
-  <!-- Freccia destra -->
-  <button class="carousel-arrow end-0" (click)="nextSlide()">›</button>
+<!-- Freccia destra -->
+<!-- <button class="carousel-arrow end-0" (click)="nextSlide()">›</button>
+</div> -->
+
+<div class="card">
+  <p-carousel [value]="availableRecipes" [numVisible]="3" [numScroll]="1" [circular]="true"
+    [responsiveOptions]="responsiveOptions"   class="background-color-carousel">
+    <ng-template let-recipe #item>
+      <div class="border border-surface-200 dark:border-surface-700 rounded m-2 p-4" style="background-color: aliceblue;">
+        <div class="mb-4">
+          <div class="image-wrapper">
+            <img [src]="'data:image/jpeg;base64,' + recipe.immagineurl" [alt]="recipe.titolo" class="recipe-img" />
+          </div>
+        </div>
+        <div class="mb-4" style="font-weight: bold; font-size: 1.25rem; color: black;">{{ recipe.titolo }}</div>
+        <div class="flex justify-between items-center">
+          <p-button icon="fa solid fa-heart" severity="info" styleClass="me-2" />
+          <p-button icon="fa-solid fa-star-half-stroke" severity="info" styleClass="me-2" />
+          @if(recipe.alimentazionenome === 'Vegetariana'){
+            <p-button icon="fa-solid fa-carrot" severity="info" styleClass="ml-2" />
+          }
+        </div>
+      </div>
+    </ng-template>
+  </p-carousel>
 </div>
