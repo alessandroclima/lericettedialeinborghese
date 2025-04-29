@@ -11,16 +11,57 @@ import { AccordionModule } from 'primeng/accordion';
 import { Carousel, CarouselModule } from 'primeng/carousel';
 import { DividerModule } from 'primeng/divider';
 import { CardModule } from 'primeng/card';
+import { register } from 'swiper/element/bundle';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { GetRecipeDetailResponse } from '../models/get-recipe-detail-response.model';
+import { User } from '../../auth/models/user.model';
+import { AuthService } from '../../auth/services/auth.service';
+import { RecipeUser } from '../models/recipe-user.model';
+import { RatingModule } from 'ngx-bootstrap/rating';
+
+register();
 @Component({
   selector: 'app-recipe-details',
   templateUrl: './recipe-details.component.html',
   styleUrls: ['./recipe-details.component.css'],
-  imports: [FormsModule, StepperModule, ButtonModule, AccordionModule, CarouselModule, DividerModule, CardModule]
+  imports: [FormsModule, StepperModule, ButtonModule, AccordionModule, CarouselModule, DividerModule, CardModule, CommonModule, RatingModule],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class RecipeDetailsComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private recipeService = inject(RecipeService);
   private router = inject(Router);
+  private authService = inject(AuthService);
+
+  showInput = false;
+  commented = false;
+  commentText = '';
+  valutazioneMedia = 0.5;
+
+  submitComment(newComment: string, newValutation: number): void {
+    console.log('Commento inviato:', this.commentText);
+    this.recipeService.voteRecipe({
+      recipeid: this.recipeId!,
+      email: this.user?.email!,
+      valutazione: newValutation,
+      commento: newComment
+    }).subscribe({
+      next: (response) => {
+        console.log('Commento inviato con successo', response);
+        this.commented = true;
+        this.showInput = false;
+        this.loadRecipe(this.recipeId!);
+      },
+      error: (error) => {
+        console.error('Errore durante l\'invio del commento', error);
+      }
+    });
+  }
+
+  comeback(){
+    this.showInput = false;
+  }
 
 
   onEnterPressed(): void {
@@ -41,10 +82,13 @@ export class RecipeDetailsComponent implements OnInit {
     }
   }
   // Inizializza il Signal con un oggetto vuoto di tipo GetRecipeResponse
-  recipe = signal<GetRecipeResponse | undefined>(undefined);
+  recipe = signal<GetRecipeDetailResponse | undefined>(undefined);
 
   // Variabile per gli ingredienti modificabili
   ingredientiModificati = signal<IngredientQuantity[]>([]);
+
+  // Variabile per i commenti
+  recipeUser = signal<RecipeUser[]>([]);
 
   // Computed per gli ingredienti originali
   ingredientiQuantita = computed(() => {
@@ -58,6 +102,7 @@ export class RecipeDetailsComponent implements OnInit {
   recipeId: string | null = null;
   relatedRecipes: GetRecipeResponse[] = [];
   responsiveOptions: any[] | undefined;
+  user?: User;
 
 
   /** Inserted by Angular inject() migration for backwards compatibility */
@@ -70,51 +115,36 @@ export class RecipeDetailsComponent implements OnInit {
     this.recipeId = this.route.snapshot.paramMap.get('id');
     if (this.recipeId) {
       this.loadRecipe(this.recipeId);
-     
     }
-    this.responsiveOptions = [
-      {
-        breakpoint: '1400px',
-        numVisible: 2,
-        numScroll: 1
-      },
-      {
-        breakpoint: '1199px',
-        numVisible: 3,
-        numScroll: 1
-      },
-      {
-        breakpoint: '767px',
-        numVisible: 2,
-        numScroll: 1
-      },
-      {
-        breakpoint: '575px',
-        numVisible: 1,
-        numScroll: 1
-      }
-    ]
+  }
+
+  calcolaMedia(){
+    const media = this.recipeUser().reduce((acc, curr) => acc + curr.valutazione, 0) / this.recipeUser().length;
+    this.valutazioneMedia = Math.ceil(media);
   }
 
   loadRecipe(id: string): void {
-    this.getDetailsSubscription = this.recipeService.getRecipeDetails(id).subscribe(
-      {
-        next: (response) => {
-          //setta il signal recipe tramite il metodo set
-          this.recipe.set(response);
-          //inserisco console log nel next perchè è qui che l'oggetto viene valorizzato
-          console.log(this.recipe());
-          this.loadRelatedRecipes(this.recipe()!.categorianome);
-          this.numero = response.porzioni;
-          this.ingredientiModificati.set(response.ingredientiQuantita)
-          console.log(this.ingredientiModificati())
-        },
-        error: (error) => {
-          console.error('Error loading recipe', error);
+    this.getDetailsSubscription = this.recipeService.getRecipeDetails(id).subscribe({
+      next: (response) => {
+        // setta il signal recipe tramite il metodo set
+        this.recipe.set(response);
+        this.loadRelatedRecipes(this.recipe()!.categorianome);
+        this.numero = response.porzioni;
+        this.ingredientiModificati.set(response.ingredientiQuantita);
+        this.recipeUser.set(response.recipeUser);
+        this.calcolaMedia();
+        this.user = this.authService.getUser();
+        if (this.user && this.recipeUser().find(x => x.email == this.user!.email)) {
+          this.commented = true;
+          console.log(this.commented);
         }
+      },
+      error: (error) => {
+        console.error('Error loading recipe', error);
       }
-    );
+    });
   }
+  
 
   loadRelatedRecipes(categorianome: string): void {
     this.recipeService.getRelatedRecipes(categorianome).subscribe(

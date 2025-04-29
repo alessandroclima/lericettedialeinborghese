@@ -49,3 +49,9 @@
     padding: 10px;
     text-align: center;
   }
+
+  .carousel-img {
+    max-height: 200px; /* o 150px, a seconda delle dimensioni desiderate */
+    width: auto;
+    object-fit: cover;
+  }

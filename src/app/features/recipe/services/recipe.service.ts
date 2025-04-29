@@ -6,6 +6,8 @@ import { GetRecipeResponse } from '../models/get-recipe-response.model';
 import { CookieService } from 'ngx-cookie-service';
 import { environment } from 'src/environments/environment';
 import { UpdateRecipeRequest } from '../models/update-recipe-request.model';
+import { VoteRecipeRequest } from '../models/vote-recipe-request.model';
+import { GetRecipeDetailResponse } from '../models/get-recipe-detail-response.model';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +22,7 @@ export class RecipeService {
   private apiUrlGetDetails = `${environment.apiBaseUrl}/Recipes/GetRecipes`;
   private apiUrlUpdate = `${environment.apiBaseUrl}/Recipes/UpdateRecipe`;
   private apiUrlRelated = `${environment.apiBaseUrl}/Recipes/GetRelatedRecipes`;
+  private apiUrlVote = `${environment.apiBaseUrl}/Recipes/VoteRecipe`;
 
   /** Inserted by Angular inject() migration for backwards compatibility */
   constructor(...args: unknown[]);
@@ -28,6 +31,10 @@ export class RecipeService {
 
   addRecipe(model: AddRecipeRequest): Observable<void> {
     return this.http.post<void>(this.apiUrlCreate, model);
+  }
+
+  voteRecipe(model: VoteRecipeRequest): Observable<void> {
+    return this.http.post<void>(this.apiUrlVote, model);
   }
 
   getRecipes(): Observable<GetRecipeResponse[]> {
@@ -48,8 +55,8 @@ export class RecipeService {
     );
   }
 
-  getRecipeDetails(id:string): Observable<GetRecipeResponse> {
-    return this.http.get<GetRecipeResponse>(`${this.apiUrlGetDetails}/${id}`).pipe(
+  getRecipeDetails(id:string): Observable<GetRecipeDetailResponse> {
+    return this.http.get<GetRecipeDetailResponse>(`${this.apiUrlGetDetails}/${id}`).pipe(
       catchError(error => {
         console.error('Errore durante la richiesta:', error);
         return throwError(() => new Error('Errore nel caricamento delle ricette. Riprova più tardi.'));
