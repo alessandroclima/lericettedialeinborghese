@@ -5,6 +5,7 @@ import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
 import { RegisterRequest } from '../models/register-request.model';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -15,6 +16,7 @@ import { RegisterRequest } from '../models/register-request.model';
 })
 export class RegisterComponent {
   private router = inject(Router);
+  private authService = inject(AuthService);
 
   model = signal<RegisterRequest>({
     email: '',
@@ -23,8 +25,15 @@ export class RegisterComponent {
   });
 
   onSubmit(): void {
-    // Implement your registration logic here
-    console.log('Form submitted', this.model());
+    this.authService.registerUser(this.model()).subscribe({
+      next: () => {
+        console.log('User registered successfully');
+        this.router.navigate(['/login']);
+      },
+      error: (error) => {
+        console.error('Error registering user', error);
+      }
+    });
   }
 
   navigateToLogin(): void {

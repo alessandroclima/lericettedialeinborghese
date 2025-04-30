@@ -6,6 +6,7 @@ import { LoginResponse } from '../models/login-response.model';
 import { User } from '../models/user.model';
 import { CookieService } from 'ngx-cookie-service';
 import { environment } from 'src/environments/environment';
+import { RegisterRequest } from '../models/register-request.model';
 
 
 
@@ -19,15 +20,20 @@ export class AuthService {
 
   $user = new BehaviorSubject<User | undefined>(undefined);
 
-  private registerUserUrl = `${environment.apiBaseUrl}/api/Auth/Login`;
+  private loginUserUrl = `${environment.apiBaseUrl}/api/Auth/Login`;
+  private registerUserUrl = `${environment.apiBaseUrl}/api/Auth/Register`;
 
   /** Inserted by Angular inject() migration for backwards compatibility */
   constructor(...args: unknown[]);
 
   constructor() { }
 
-  registerUser(model: LoginRequest): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(this.registerUserUrl, model);
+  loginUser(model: LoginRequest): Observable<LoginResponse> {
+    return this.http.post<LoginResponse>(this.loginUserUrl, model);
+  }
+
+  registerUser(model: RegisterRequest): Observable<void> {
+    return this.http.post<void>(this.registerUserUrl, model);
   }
 
   setUser(user: User): void {

@@ -1,6 +1,5 @@
 <div class="container">
   @if (recipe()) {
-  <div>
     <div class="card mt-3">
       <p-card class="responsive-card" [style]="{ overflow: 'hidden' }">
         <ng-template #header>
@@ -75,43 +74,44 @@
     </div>
 
     <div class="card mt-3">
-      <div class="card-header">
-        Commenti
+      <div class="card-header" style="background-color: coral; ">
+        <strong>Commenti - Media voti: {{valutazioneMedia}} <i class="fa-solid fa-star" style="color: gold;"></i>
+        </strong>
       </div>
-      <div class="card-body">
+      <div class="card-body" style="background-color:cadetblue">
         @if(recipeUser()){
         @if(user){
         @for(commento of recipeUser(); track commento) {
         <div class="card mb-3">
           <div class="card-body">
             <h5 class="card-title">{{ commento.email.split('@')[0] }}</h5>
-            @if(commented && showInput){
+
+            @if(user.email == commento.email && showInput){
             <textarea class="form-control mb-2" rows="3" placeholder="Scrivi il tuo commento..."
               [(ngModel)]="commento.commento">
             </textarea>
             <div class="mb-3">
               <label class="form-label">Valutazione:</label>
-              <rating 
-                [(ngModel)]="commento.valutazione" 
-                [max]="5" 
-                [readonly]="false" 
-                [titles]="['1', '2', '3', '4', '5']" >
+              <rating [(ngModel)]="commento.valutazione" [max]="5" [readonly]="false"
+                [titles]="['1', '2', '3', '4', '5']">
               </rating>
             </div>
-            
-            <button class="btn btn-success" (click)="submitComment(commento.commento, commento.valutazione)">Invia</button>
+
+            <button class="btn btn-success"
+              (click)="submitComment(commento.commento, commento.valutazione)">Invia</button>
             <button class="btn btn-danger ms-2" (click)="comeback()">Annulla</button>
             }
             @else{
             <p class="card-text">{{ commento.commento }}</p>
+
             }
-            @if(commented && !showInput){
+            @if(user.email == commento.email && !showInput){
             <button class="btn btn-primary" (click)="showInput = !showInput">
               Modifica commento
             </button>
             <div class="btn-group">
-              <button class="btn btn-warning active ms-2">{{valutazioneMedia}}</button>
-              <button class="btn btn-warning active"><i class="fa-solid fa-star ms-2"></i></button>
+              <button class="btn btn-warning active ms-2">{{commento.valutazione}}<i
+                  class="fa-solid fa-star ms-2"></i></button>
               <button class="btn btn-warning" aria-current="page" (click)="showInput = !showInput">Vota</button>
             </div>
             }
@@ -134,28 +134,29 @@
         }
         }
         @else {
-          <div class="card mb-3">
-            <div class="card-body">
-              <h5 class="card-title">Effettua il login per vedere i commenti!</h5>
-            </div>
+        <div class="card mb-3">
+          <div class="card-body">
+            <h5 class="card-title">Effettua il login per vedere i commenti!</h5>
           </div>
+        </div>
         }
         }
-
-
-
-
-
-
       </div>
     </div>
+    <!-- Per fare stella con dentro il voto dell'utente
+    <div class="star-wrapper">
+      <i class="bi bi-star-fill"></i>
+      <span class="number">{{commento.valutazione}}</span>
+    </div> -->
 
     @if(relatedRecipes){
     <div class="card mt-3 mb-3">
-      <div class="card-header">
-        Ricette correlate
+      <div class="card-header" style="background-color: coral;">
+        <strong>
+          Ricette correlate
+        </strong>
       </div>
-      <div id="carouselExampleCaptions" class="carousel slide">
+      <div id="carouselExampleCaptions" class="carousel slide" style="background-color: cadetblue;">
         <div class="carousel-indicators">
           <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"
             aria-current="true" aria-label="Slide 1"></button>
@@ -189,8 +190,6 @@
       </div>
     </div>
     }
-
-  </div>
 
   } @else {
   <p>Loading...</p>

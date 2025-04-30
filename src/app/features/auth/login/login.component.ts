@@ -30,7 +30,7 @@ export class LoginComponent {
 
   onSubmit() {
     console.log(this.model);
-    this.loginSubscription = this.authService.registerUser(this.model())
+    this.loginSubscription = this.authService.loginUser(this.model())
       .subscribe({
         next: (response) => {
           console.log(response);

@@ -55,3 +55,21 @@
     width: auto;
     object-fit: cover;
   }
+
+  .star-wrapper {
+    position: relative;
+    display: inline-block;
+    font-size: 30px;
+    color: gold;
+  }
+
+  .star-wrapper .number {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: black;
+    font-size: 18px;
+    font-weight: bold;
+    pointer-events: none;
+  }
