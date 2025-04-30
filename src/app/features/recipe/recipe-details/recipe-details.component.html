@@ -1,195 +1,216 @@
 <div class="container">
   @if (recipe()) {
-    <div class="card mt-3">
-      <p-card class="responsive-card" [style]="{ overflow: 'hidden' }">
-        <ng-template #header>
-          <div class="image-wrapper">
-            <img alt="Card" class="responsive-img-main" [src]="'data:image/jpeg;base64,' + recipe()?.immagineurl" />
-          </div>
-        </ng-template>
-
-        <ng-template #title>
-          <div class="text-center font-bold text-xl">{{ recipe()?.titolo }}</div>
-        </ng-template>
-
-        <ng-template #subtitle>
-          <div class="text-center text-gray-500">{{ recipe()?.descrizione }}</div>
-        </ng-template>
-
-        <ng-template #footer>
-          <div class="flex flex-col gap-4 mt-2">
-            <p-accordion [value]="['0', '1']" [multiple]="true">
-              <p-accordion-panel value="0">
-                <p-accordion-header>Ingredienti</p-accordion-header>
-                <p-accordion-content>
-                  <ul class="list-group list-group-flush">
-                    @if (ingredientiModificati()) {
-                    @for (ingredient of ingredientiModificati(); track ingredient) {
-                    <li class="list-group-item">
-                      @if ((ingredient.quantita == null || ingredient.quantita == 0) &&
-                      (!ingredient.unitaMisura || ingredient.unitaMisura === '')) {
-                      <span>{{ ingredient.ingredienteNome }}</span>
-                      }
-                      @if (ingredient.quantita && ingredient.quantita !== 0) {
-                      <span>{{ ingredient.ingredienteNome }} - {{ ingredient.quantita }} {{ ingredient.unitaMisura
-                        }}</span>
-                      }
-                      @if (ingredient.unitaMisura && ingredient.unitaMisura !== '' &&
-                      (!ingredient.quantita || ingredient.quantita === 0)) {
-                      <span>{{ ingredient.ingredienteNome }} {{ ingredient.unitaMisura }}</span>
-                      }
-                    </li>
-                    }
-                    }
-                  </ul>
-                </p-accordion-content>
-              </p-accordion-panel>
-
-              <p-accordion-panel value="1">
-                <p-accordion-header>Procedimento</p-accordion-header>
-                <p-accordion-content>
-                  <p-stepper [value]="1">
-                    @for (step of recipe()!.procedimento.split(';'); track $index) {
-                    <p-step-item [value]="$index + 1">
-                      <p-step>{{ step }}</p-step>
-                      <p-step-panel>
-                        <ng-template #content let-activateCallback="activateCallback">
-                          <div class="flex flex-col h-48">
-                            <div
-                              class="border-2 border-dashed border-surface-200 dark:border-surface-700 rounded bg-surface-50 dark:bg-surface-950 flex-auto flex justify-center items-center font-medium">
-                              <!-- eventuale contenuto -->
-                            </div>
-                          </div>
-                        </ng-template>
-                      </p-step-panel>
-                    </p-step-item>
-                    }
-                  </p-stepper>
-                </p-accordion-content>
-              </p-accordion-panel>
-            </p-accordion>
-          </div>
-        </ng-template>
-      </p-card>
+  <div class="card mt-3">
+    <div class="card-header" style="background-color: coral; ">
+      <strong>{{recipe()!.titolo}}
+      </strong>
     </div>
-
-    <div class="card mt-3">
-      <div class="card-header" style="background-color: coral; ">
-        <strong>Commenti - Media voti: {{valutazioneMedia}} <i class="fa-solid fa-star" style="color: gold;"></i>
-        </strong>
+    <div class="row g-0">
+      <div class="col-12 col-md-8">
+        <img [src]="'data:image/jpeg;base64,' + recipe()!.immagineurl" class="img-fluid d-block w-100" style="width: 100%;"
+          alt="...">
       </div>
-      <div class="card-body" style="background-color:cadetblue">
-        @if(recipeUser()){
-        @if(user){
-        @for(commento of recipeUser(); track commento) {
-        <div class="card mb-3">
-          <div class="card-body">
-            <h5 class="card-title">{{ commento.email.split('@')[0] }}</h5>
-
-            @if(user.email == commento.email && showInput){
-            <textarea class="form-control mb-2" rows="3" placeholder="Scrivi il tuo commento..."
-              [(ngModel)]="commento.commento">
-            </textarea>
-            <div class="mb-3">
-              <label class="form-label">Valutazione:</label>
-              <rating [(ngModel)]="commento.valutazione" [max]="5" [readonly]="false"
-                [titles]="['1', '2', '3', '4', '5']">
-              </rating>
-            </div>
-
-            <button class="btn btn-success"
-              (click)="submitComment(commento.commento, commento.valutazione)">Invia</button>
-            <button class="btn btn-danger ms-2" (click)="comeback()">Annulla</button>
-            }
-            @else{
-            <p class="card-text">{{ commento.commento }}</p>
-
-            }
-            @if(user.email == commento.email && !showInput){
-            <button class="btn btn-primary" (click)="showInput = !showInput">
-              Modifica commento
+      <div class="col-12 col-md-4">
+        <div class="p-2">
+          <p><i class="bi bi-clock-fill me-2"></i><strong>Tempo di cottura: </strong>{{recipe()!.tempocottura}}</p>
+          <p><i class="fa-solid fa-people-group me-2"></i><strong>Porzioni: </strong>{{recipe()!.porzioni}}</p>
+          <p><i class="fa-solid fa-bowl-rice me-2"></i><strong>Categoria: </strong>{{recipe()!.categorianome}}</p>
+          <p><i class="fa-solid fa-carrot me-2"></i><strong>Tipo di alimentazione:
+            </strong>{{recipe()!.alimentazionenome}}</p>
+          <p><i class="fa-solid fa-user me-2"></i><strong>Autore: </strong>Alessandro Clima</p>
+          <p><i class="bi bi-calendar-date me-2"></i><strong>Data di creazione: </strong>21-01-94</p>
+          <p><i class="fa-solid fa-star me-2" style="color: gold;"></i><strong>Media voti: </strong>{{valutazioneMedia}}
+          </p>
+          <p><i class="fa-solid fa-heart me-2"></i><button class="btn btn-primary btn-sm" style="width: 200px;">Aggiungi ai
+              preferiti</button>
+          </p>
+          <p><i class="bi bi-whatsapp me-2"></i><button class="btn btn-primary btn-sm"style="width: 200px;">Invia ad un amico</button></p>
+          <p><i class="fa-solid fa-print me-2"></i><button class="btn btn-primary btn-sm"style="width: 200px;">Stampa</button></p>
+        </div>
+      </div>
+    </div>
+    <div class="card-body" style="background-color: cadetblue;">
+      <div class="accordion" id="accordionExample">
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+              aria-expanded="true" aria-controls="collapseOne">
+              <strong>Descrizione</strong>
             </button>
-            <div class="btn-group">
-              <button class="btn btn-warning active ms-2">{{commento.valutazione}}<i
-                  class="fa-solid fa-star ms-2"></i></button>
-              <button class="btn btn-warning" aria-current="page" (click)="showInput = !showInput">Vota</button>
+          </h2>
+          <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+              <p class="mb-0">{{recipe()!.descrizione}}</p>
             </div>
-            }
           </div>
         </div>
-        }
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+              data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+              <strong>Ingredienti</strong>
+            </button>
+          </h2>
+          <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+              <ul class="list-group list-group-flush">
+                @for(ingredient of ingredientiModificati(); track ingredient) {
 
-        @if(!commented){
-        <button class="btn btn-primary" (click)="showInput = !showInput">
-          Commenta
-        </button>
-        @if(showInput){
-        <div class="mt-3">
-          <textarea class="form-control mb-2" rows="3" placeholder="Scrivi il tuo commento..."
-            [(ngModel)]="commentText"></textarea>
-          <button class="btn btn-success" (click)="submitComment(commentText, 5)">Invia</button>
-          <button class="btn btn-danger ms-2" (click)="comeback()">Annulla</button>
-        </div>
-        }
-        }
-        }
-        @else {
-        <div class="card mb-3">
-          <div class="card-body">
-            <h5 class="card-title">Effettua il login per vedere i commenti!</h5>
+                <li class="list-group-item">{{ingredient.ingredienteNome}} {{ingredient.quantita}}
+                  {{ingredient.unitaMisura}}</li>
+                }
+              </ul>
+            </div>
           </div>
         </div>
-        }
-        }
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+              data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+              <strong>Procedimento</strong>
+            </button>
+          </h2>
+          <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+              <ol class="list-group list-group-numbered">
+                @for (step of recipe()!.procedimento.split(';'); track $index) {
+                <li class="list-group-item">{{step}}</li>
+                }
+              </ol>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-    <!-- Per fare stella con dentro il voto dell'utente
+  </div>
+
+  <div class="card mt-3">
+    <div class="card-header" style="background-color: coral; ">
+      <strong>Commenti
+      </strong>
+    </div>
+    <div class="card-body" style="background-color:cadetblue">
+      @if(recipeUser()){
+      @if(user){
+      @for(commento of recipeUser(); track commento) {
+      <div class="card mb-3">
+        <div class="card-body">
+          <h5 class="card-title">{{ commento.email.split('@')[0] }}</h5>
+
+          @if(user.email == commento.email && showInput){
+          <textarea class="form-control mb-2" rows="3" placeholder="Scrivi il tuo commento..."
+            [(ngModel)]="commento.commento">
+            </textarea>
+          <div class="mb-3">
+            <label class="form-label">Valutazione:</label>
+            <rating [(ngModel)]="commento.valutazione" [max]="5" [readonly]="false"
+              [titles]="['1', '2', '3', '4', '5']">
+            </rating>
+          </div>
+
+          <button class="btn btn-success btn-sm"
+            (click)="submitComment(commento.commento, commento.valutazione)">Invia</button>
+          <button class="btn btn-danger btn-sm ms-2" (click)="comeback()">Annulla</button>
+          }
+          @else{
+          <p class="card-text">{{ commento.commento }}</p>
+
+          }
+          @if(user.email == commento.email && !showInput){
+          <button class="btn btn-primary btn-sm" (click)="showInput = !showInput">
+            Modifica commento
+          </button>
+          <div class="btn-group">
+            <button class="btn btn-warning active btn-sm ms-2">{{commento.valutazione}}<i
+                class="fa-solid fa-star ms-2"></i></button>
+            <button class="btn btn-warning btn-sm" aria-current="page" (click)="showInput = !showInput">Vota</button>
+          </div>
+          }
+        </div>
+      </div>
+      }
+
+      @if(!commented && !showInput){
+      <button class="btn btn-primary btn-sm" (click)="showInput = !showInput">
+        Commenta
+      </button>
+      <div class="btn-group">
+        <button class="btn btn-warning active btn-sm ms-2"><i class="fa-solid fa-star ms-2"></i></button>
+        <button class="btn btn-warning btn-sm" aria-current="page" (click)="showInput = !showInput">Vota</button>
+      </div>}
+      @if(!commented && showInput){
+      <div class="mt-3">
+        <textarea class="form-control mb-2" rows="3" placeholder="Scrivi il tuo commento..."
+          [(ngModel)]="commentText"></textarea>
+          <div class="mb-3">
+            <label class="form-label">Valutazione:</label>
+            <rating [(ngModel)]="valutationNumber" [max]="5" [readonly]="false"
+              [titles]="['1', '2', '3', '4', '5']">
+            </rating>
+          </div>
+        <button class="btn btn-success btn-sm" (click)="submitComment(commentText, valutationNumber)">Invia</button>
+        <button class="btn btn-danger btn-sm ms-2" (click)="comeback()">Annulla</button>
+      </div>
+      }
+      
+      }
+      @else {
+      <div class="card mb-3">
+        <div class="card-body">
+          <h5 class="card-title">Effettua il login per vedere i commenti!</h5>
+        </div>
+      </div>
+      }
+      }
+    </div>
+  </div>
+  <!-- Per fare stella con dentro il voto dell'utente
     <div class="star-wrapper">
       <i class="bi bi-star-fill"></i>
       <span class="number">{{commento.valutazione}}</span>
     </div> -->
 
-    @if(relatedRecipes){
-    <div class="card mt-3 mb-3">
-      <div class="card-header" style="background-color: coral;">
-        <strong>
-          Ricette correlate
-        </strong>
+  @if(relatedRecipes){
+  <div class="card mt-3 mb-3">
+    <div class="card-header" style="background-color: coral;">
+      <strong>
+        Ricette correlate
+      </strong>
+    </div>
+    <div id="carouselExampleCaptions" class="carousel slide" style="background-color: cadetblue;">
+      <div class="carousel-indicators">
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"
+          aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
+          aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
+          aria-label="Slide 3"></button>
       </div>
-      <div id="carouselExampleCaptions" class="carousel slide" style="background-color: cadetblue;">
-        <div class="carousel-indicators">
-          <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"
-            aria-current="true" aria-label="Slide 1"></button>
-          <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
-            aria-label="Slide 2"></button>
-          <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
-            aria-label="Slide 3"></button>
-        </div>
-        <div class="carousel-inner">
-          @for(recipe of relatedRecipes; track recipe) {
-          <div class="carousel-item" [class.active]="recipe === relatedRecipes[0]">
-            <img [src]="'data:image/jpeg;base64,'+ recipe.immagineurl" class="d-block mx-auto img-fluid carousel-img"
-              alt="...">
-            <div class="carousel-caption d-none d-md-block">
-              <h5>{{ recipe.titolo }}</h5>
-            </div>
+      <div class="carousel-inner">
+        @for(recipe of relatedRecipes; track recipe) {
+        <div class="carousel-item" [class.active]="recipe === relatedRecipes[0]">
+          <img [src]="'data:image/jpeg;base64,'+ recipe.immagineurl" class="d-block mx-auto img-fluid carousel-img"
+            alt="...">
+          <div class="carousel-caption d-none d-md-block">
+            <h5>{{ recipe.titolo }}</h5>
           </div>
-          }
-
-          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
-            data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-          </button>
-          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
-            data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-          </button>
         </div>
+        }
+
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
+          data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
+          data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
       </div>
     </div>
-    }
+  </div>
+  }
 
   } @else {
   <p>Loading...</p>

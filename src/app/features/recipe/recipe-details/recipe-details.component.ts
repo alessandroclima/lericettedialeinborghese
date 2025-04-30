@@ -6,11 +6,6 @@ import { Subscription } from 'rxjs';
 import { IngredientQuantity } from '../models/ingredient-quantity.model';
 import { StepperModule } from 'primeng/stepper';
 import { FormsModule } from '@angular/forms';
-import { ButtonModule } from 'primeng/button';
-import { AccordionModule } from 'primeng/accordion';
-import { Carousel, CarouselModule } from 'primeng/carousel';
-import { DividerModule } from 'primeng/divider';
-import { CardModule } from 'primeng/card';
 import { register } from 'swiper/element/bundle';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -25,7 +20,7 @@ register();
   selector: 'app-recipe-details',
   templateUrl: './recipe-details.component.html',
   styleUrls: ['./recipe-details.component.css'],
-  imports: [FormsModule, StepperModule, ButtonModule, AccordionModule, CarouselModule, DividerModule, CardModule, CommonModule, RatingModule],
+  imports: [FormsModule, StepperModule, CommonModule, RatingModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class RecipeDetailsComponent implements OnInit {
@@ -37,6 +32,7 @@ export class RecipeDetailsComponent implements OnInit {
   showInput = false;
   commented = false;
   commentText = '';
+  valutationNumber = 0.5;
   valutazioneMedia = 0.5;
 
   submitComment(newComment: string, newValutation: number): void {
@@ -120,7 +116,7 @@ export class RecipeDetailsComponent implements OnInit {
 
   calcolaMedia(){
     const media = this.recipeUser().reduce((acc, curr) => acc + curr.valutazione, 0) / this.recipeUser().length;
-    this.valutazioneMedia = Math.ceil(media);
+    this.valutazioneMedia = Math.ceil(media*100)/100;
   }
 
   loadRecipe(id: string): void {

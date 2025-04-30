@@ -1,50 +1,95 @@
-<!-- <div class="carousel-container position-relative w-100 overflow-hidden py-4"> -->
-<!-- Freccia sinistra -->
-<!-- <button class="carousel-arrow start-0" (click)="prevSlide()">‹</button> -->
 
-<!-- Contenitore delle slide -->
-<!-- <div class="carousel-wrapper">
-    <div #carouselTrack class="carousel-track" [ngStyle]="{'transform': 'translateX(-' + currentTranslate + 'px)'}"> -->
+<!-- Carosello versione desktop -->
 
-<!-- <div class="carousel-group" *ngFor="let group of groupedSlides">
-        <div class="d-flex group-content"> -->
-<!-- Immagine grande a sinistra -->
-<!-- <div class="w-50 pe-2">
-            <img *ngIf="group[0]" [src]="'data:image/jpeg;base64,'+ group[0].imageUrl" class="img-big ms-2" />
-          </div> -->
-<!-- Due immagini piccole a destra -->
-<!-- <div class="w-50 ps-2 d-flex flex-column justify-content-between">
-            <img *ngIf="group[1]" [src]="'data:image/jpeg;base64,' + group[1].imageUrl" class="img-small mb-2" />
-            <img *ngIf="group[2]" [src]="'data:image/jpeg;base64,' + group[2].imageUrl" class="img-small mt-0" />
-          </div>
-        </div>
-      </div>
-    </div>
-  </div> -->
+<div id="carouselDesktop" class="carousel slide d-none d-md-block">
+  <div class="carousel-indicators">
+    @for (group of groupedSlides; track group; let idx = $index) {
+      <button
+        type="button"
+        data-bs-target="#carouselDesktop"
+        [attr.data-bs-slide-to]="idx"
+        [class.active]="idx === 0"
+        [attr.aria-current]="idx === 0 ? 'true' : null"
+        [attr.aria-label]="'Slide ' + (idx + 1)">
+      </button>
+    }
+  </div>
 
-<!-- Freccia destra -->
-<!-- <button class="carousel-arrow end-0" (click)="nextSlide()">›</button>
-</div> -->
-
-<div class="card">
-  <p-carousel [value]="availableRecipes" [numVisible]="3" [numScroll]="1" [circular]="true"
-    [responsiveOptions]="responsiveOptions"   class="background-color-carousel">
-    <ng-template let-recipe #item>
-      <div class="border border-surface-200 dark:border-surface-700 rounded m-2 p-4" style="background-color: aliceblue;">
-        <div class="mb-4">
-          <div class="image-wrapper">
-            <img [src]="'data:image/jpeg;base64,' + recipe.immagineurl" [alt]="recipe.titolo" class="recipe-img" />
-          </div>
-        </div>
-        <div class="mb-4" style="font-weight: bold; font-size: 1.25rem; color: black;">{{ recipe.titolo }}</div>
-        <div class="flex justify-between items-center">
-          <p-button icon="fa solid fa-heart" severity="info" styleClass="me-2" />
-          <p-button icon="fa-solid fa-star-half-stroke" severity="info" styleClass="me-2" />
-          @if(recipe.alimentazionenome === 'Vegetariana'){
-            <p-button icon="fa-solid fa-carrot" severity="info" styleClass="ml-2" />
+  <div class="carousel-inner mt-3">
+    @for (group of groupedSlides; track group; let idx = $index) {
+      <div class="carousel-item" [class.active]="idx === 0">
+        <div class="row justify-content-center text-center">
+          @for (recipe of group; track recipe.id) {
+            
+            <div class="card col-md-3 mb-4 mx-5 p-0" style="background-color: cadetblue;">
+              <a [routerLink]="['/admin/recipes', recipe.id]" class="text-decoration-none">
+              <div class="card-header" style="background-color: coral;">
+                <strong style="color: black;">{{ recipe.titolo }}</strong>
+              </div>
+            
+              <img
+                [src]="'data:image/jpeg;base64,' + recipe.immagineurl"
+                class="d-block mx-auto img-fluid carousel-img"
+                alt="...">
+              </a>
+            </div>
+          
           }
         </div>
       </div>
-    </ng-template>
-  </p-carousel>
+    }
+  </div>
+
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselDesktop" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselDesktop" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+
+<!-- Carosello versione mobile -->
+
+<div id="carouselMobile" class="carousel slide d-block d-md-none">
+  <div class="carousel-indicators">
+    @for (recipe of availableRecipes; track recipe.id; let idx = $index) {
+      <button
+        type="button"
+        data-bs-target="#carouselMobile"
+        [attr.data-bs-slide-to]="idx"
+        [class.active]="idx === 0"
+        [attr.aria-current]="idx === 0 ? 'true' : null"
+        [attr.aria-label]="'Slide ' + (idx + 1)">
+      </button>
+    }
+  </div>
+
+  <div class="carousel-inner mt-3">
+    @for (recipe of availableRecipes; track recipe.id; let idx = $index) {
+      <div class="carousel-item" [class.active]="idx === 0">
+        <div class="card mb-4 p-0 text-center">
+          <a [routerLink]="['/admin/recipes', recipe.id]" class="text-decoration-none">
+          <div class="card-header" style="background-color: coral;">
+            <strong style="color: black;">{{ recipe.titolo }}</strong>
+          </div>
+          <img
+            [src]="'data:image/jpeg;base64,' + recipe.immagineurl"
+            class="d-block mx-auto img-fluid carousel-img"
+            alt="...">
+          </a>
+        </div>
+      </div>
+    }
+  </div>
+
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselMobile" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselMobile" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
 </div>

@@ -1,18 +1,21 @@
-.image-wrapper {
-  width: 100%;
-  height: 350px;
-  overflow: hidden;
-  border-radius: 8px;
+.carousel-img {
+  height: 300px;             /* o qualsiasi altezza tu voglia */
+  width: 100%;               /* si adatta alla larghezza della colonna/card */
+  object-fit: cover;         /* taglia e adatta senza distorcere */
+  border-radius: 0 0 4px 4px; /* facoltativo: bordi più morbidi sotto */
 }
-.recipe-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  background-color: rgba(0, 0, 0, 0.5);  /* sfondo semi-trasparente nero */
+  background-size: 100% 100%;
+  border-radius: 100%;                   /* freccia circolare */
+  width: 2rem;
+  height: 2rem;
 }
-.background-color-carousel {
-  background-color: rgba(0, 0, 0, 0.3);
-  color: white;
-  padding: 10px;
-  text-align: center;
+
+.carousel-control-prev-icon::after,
+.carousel-control-next-icon::after {
+  content: "";
 }
+
