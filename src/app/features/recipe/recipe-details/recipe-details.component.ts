@@ -29,6 +29,9 @@ export class RecipeDetailsComponent implements OnInit {
   private router = inject(Router);
   private authService = inject(AuthService);
 
+  isCollapseOpenOne = false;
+  isCollapseOpenTwo = false;
+  isCollapseOpenThree = false;
   showInput = false;
   commented = false;
   commentText = '';
