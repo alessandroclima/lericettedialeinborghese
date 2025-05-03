@@ -5,6 +5,7 @@ import { GetRecipeResponse } from '../models/get-recipe-response.model';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 
 import { FormsModule } from '@angular/forms';
+import { GetRecipeDetailResponse } from '../models/get-recipe-detail-response.model';
 
 @Component({
   selector: 'app-recipe-list',
@@ -26,9 +27,9 @@ export class RecipeListComponent implements OnInit {
   /** Inserted by Angular inject() migration for backwards compatibility */
   constructor(...args: unknown[]);
   constructor() { }
-  availableRecipes: GetRecipeResponse[] = [];
+  availableRecipes: GetRecipeDetailResponse[] = [];
   errorMessage: string | null = null;
-  filteredRecipes: GetRecipeResponse[] = [];
+  filteredRecipes: GetRecipeDetailResponse[] = [];
   searchQuery: string = '';
   categoryQuery: string = '';
   recipeIdToDelete: string | null = null;
@@ -113,6 +114,8 @@ export class RecipeListComponent implements OnInit {
 
   }
 
+ 
+
   loadRecipes(): void {
     this.getRecipeSubscription = this.recipeService.getRecipes().subscribe({
       next: (response) => {
@@ -139,9 +142,11 @@ export class RecipeListComponent implements OnInit {
     // }
     if (this.categoryQuery) {
       console.log(this.availableRecipes)
+    
       this.filteredRecipes = this.availableRecipes.filter(recipe =>
         recipe.categorianome.includes(this.categoryQuery)
       );
+      console.log(this.filteredRecipes)
     }
     else {
       console.log(this.availableRecipes)

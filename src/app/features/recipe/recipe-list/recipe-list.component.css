@@ -1,0 +1,3 @@
+.btn-transparent.dropdown-toggle::after {
+    display: none; /* nasconde la freccia */
+  }

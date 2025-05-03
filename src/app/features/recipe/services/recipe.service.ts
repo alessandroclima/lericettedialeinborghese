@@ -37,8 +37,8 @@ export class RecipeService {
     return this.http.post<void>(this.apiUrlVote, model);
   }
 
-  getRecipes(): Observable<GetRecipeResponse[]> {
-    return this.http.get<GetRecipeResponse[]>(this.apiUrlGet).pipe(
+  getRecipes(): Observable<GetRecipeDetailResponse[]> {
+    return this.http.get<GetRecipeDetailResponse[]>(this.apiUrlGet).pipe(
       catchError(error => {
         console.error('Errore durante la richiesta:', error);
         return throwError(() => new Error('Errore nel caricamento delle ricette. Riprova più tardi.'));
