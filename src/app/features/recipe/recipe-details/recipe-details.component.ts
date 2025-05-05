@@ -14,7 +14,10 @@ import { User } from '../../auth/models/user.model';
 import { AuthService } from '../../auth/services/auth.service';
 import { RecipeUser } from '../models/recipe-user.model';
 import { RatingModule } from 'ngx-bootstrap/rating';
-
+import { LOCALE_ID } from '@angular/core';
+import { registerLocaleData } from '@angular/common';
+import localeIt from '@angular/common/locales/it';
+registerLocaleData(localeIt);
 register();
 @Component({
   selector: 'app-recipe-details',
@@ -22,6 +25,7 @@ register();
   styleUrls: ['./recipe-details.component.css'],
   imports: [FormsModule, StepperModule, CommonModule, RatingModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  providers: [{ provide: LOCALE_ID, useValue: 'it' }]
 })
 export class RecipeDetailsComponent implements OnInit {
   private route = inject(ActivatedRoute);

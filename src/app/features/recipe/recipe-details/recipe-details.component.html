@@ -7,40 +7,46 @@
     </div>
     <div class="row g-0">
       <div class="col-12 col-md-8">
-        <img [src]="'data:image/jpeg;base64,' + recipe()!.immagineurl" class="img-fluid d-block w-100" style="width: 100%;"
-          alt="...">
+        <img [src]="'data:image/jpeg;base64,' + recipe()!.immagineurl" class="img-fluid d-block w-100"
+          style="width: 100%;" alt="...">
       </div>
       <div class="col-12 col-md-4" style="background-color: rgba(247, 246, 248, 1);">
         <div class="p-2">
-          <p><i class="bi bi-clock-fill me-2"></i><strong style="color: #e84919">Tempo di cottura: </strong>{{recipe()!.tempocottura}}</p>
-          <p><i class="fa-solid fa-people-group me-2"></i><strong style="color: #e84919">Porzioni: </strong>{{recipe()!.porzioni}}</p>
-          <p><i class="fa-solid fa-bowl-rice me-2"></i><strong style="color: #e84919">Categoria: </strong>{{recipe()!.categorianome}}</p>
+          <p><i class="bi bi-clock-fill me-2"></i><strong style="color: #e84919">Tempo di cottura:
+            </strong>{{recipe()!.tempocottura}}</p>
+          <p><i class="fa-solid fa-people-group me-2"></i><strong style="color: #e84919">Porzioni:
+            </strong>{{recipe()!.porzioni}}</p>
+          <p><i class="fa-solid fa-bowl-rice me-2"></i><strong style="color: #e84919">Categoria:
+            </strong>{{recipe()!.categorianome}}</p>
           <p><i class="fa-solid fa-carrot me-2"></i><strong style="color: #e84919">Tipo di alimentazione:
             </strong>{{recipe()!.alimentazionenome}}</p>
           <p><i class="fa-solid fa-user me-2"></i><strong style="color: #e84919">Autore: </strong>Alessandro Clima</p>
-          <p><i class="bi bi-calendar-date me-2"></i><strong style="color: #e84919">Data di creazione: </strong>21-01-94</p>
-          <p><i class="fa-solid fa-star me-2" style="color: gold;"></i><strong style="color: #e84919">Media voti: </strong>{{valutazioneMedia}}
+          <p><i class="bi bi-calendar-date me-2"></i><strong style="color: #e84919">Data di creazione: </strong>21-01-94
           </p>
-          <p><i class="fa-solid fa-heart me-2"></i><button class="btn btn-light btn-sm" style="width: 100px; border-color: #3A3A3A;">Salva
-              </button>
+          <p><i class="fa-solid fa-star me-2" style="color: gold;"></i><strong style="color: #e84919">Media voti:
+            </strong>{{valutazioneMedia}}
           </p>
-          <p><i class="bi bi-whatsapp me-2"></i><button class="btn btn-light btn-sm"style="width: 100px; border-color: #3A3A3A;">Condividi</button></p>
-          <p><i class="fa-solid fa-print me-2"></i><button class="btn btn-light btn-sm"style="width: 100px; border-color: #3A3A3A;">Stampa</button></p>
+          <p><i class="fa-solid fa-heart me-2"></i><button class="btn btn-light btn-sm"
+              style="width: 100px; border-color: #3A3A3A;">Salva
+            </button>
+          </p>
+          <p><i class="bi bi-whatsapp me-2"></i><button class="btn btn-light btn-sm"
+              style="width: 100px; border-color: #3A3A3A;">Condividi</button></p>
+          <p><i class="fa-solid fa-print me-2"></i><button class="btn btn-light btn-sm"
+              style="width: 100px; border-color: #3A3A3A;">Stampa</button></p>
         </div>
       </div>
     </div>
     <div class="card-body" style="background-color: rgba(247, 246, 248, 1);">
-      <div class="accordion" id="accordionExample">
+      <div class="accordion" id="accordionPanelsStayOpenExample">
         <div class="accordion-item">
           <h2 class="accordion-header">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
-              aria-expanded="false" aria-controls="collapseOne" (click)="isCollapseOpenOne = !isCollapseOpenOne"
-              [style.background-color]="isCollapseOpenOne ? '#F7F6F8' : ''"
-              style="box-shadow: none;">
-              <strong  style="color: #e84919">Descrizione</strong>
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="false" aria-controls="panelsStayOpen-collapseOne"
+            (click)="isCollapseOpenOne = !isCollapseOpenOne" [style.background-color]="isCollapseOpenOne ? '#e1b18e91' : ''" style="box-shadow: none;">
+              <strong style="color: #e84919">Descrizione</strong>
             </button>
           </h2>
-          <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+          <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse">
             <div class="accordion-body">
               <p class="mb-0">{{recipe()!.descrizione}}</p>
             </div>
@@ -49,18 +55,18 @@
         <div class="accordion-item">
           <h2 class="accordion-header">
             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-              data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" (click)="isCollapseOpenTwo = !isCollapseOpenTwo"
-              [style.background-color]="isCollapseOpenTwo ? '#F7F6F8' : ''"
-              style="box-shadow: none;">
-              <strong  style="color: #e84919">Ingredienti</strong>
+              data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false"
+              aria-controls="panelsStayOpen-collapseTwo"
+              (click)="isCollapseOpenTwo = !isCollapseOpenTwo" [style.background-color]="isCollapseOpenTwo ? '#e1b18e91' : ''" style="box-shadow: none;">
+              <strong style="color: #e84919">Ingredienti</strong>
             </button>
           </h2>
-          <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+          <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse">
             <div class="accordion-body">
               <ul class="list-group list-group-flush">
                 @for(ingredient of ingredientiModificati(); track ingredient) {
 
-                <li class="list-group-item">{{ingredient.ingredienteNome}} {{ingredient.quantita}}
+                <li class="list-group-item"><strong><u>{{ingredient.ingredienteNome}}</u></strong> {{ingredient.quantita}}
                   {{ingredient.unitaMisura}}</li>
                 }
               </ul>
@@ -70,13 +76,13 @@
         <div class="accordion-item">
           <h2 class="accordion-header">
             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-              data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree" (click)="isCollapseOpenThree = !isCollapseOpenThree"
-              [style.background-color]="isCollapseOpenThree ? '#F7F6F8' : ''"
-              style="box-shadow: none;">
-              <strong  style="color: #e84919">Procedimento</strong>
+              data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false"
+              aria-controls="panelsStayOpen-collapseThree"
+              (click)="isCollapseOpenThree = !isCollapseOpenThree" [style.background-color]="isCollapseOpenThree ? '#e1b18e91' : ''" style="box-shadow: none;">
+              <strong style="color: #e84919">Procedimento</strong>
             </button>
           </h2>
-          <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+          <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse">
             <div class="accordion-body">
               <ol class="list-group list-group-numbered">
                 @for (step of recipe()!.procedimento.split(';'); track $index) {
@@ -96,12 +102,16 @@
       </strong>
     </div>
     <div class="card-body" style="background-color:rgba(247, 246, 248, 1);">
+      <!-- se ci sono commenti -->
       @if(recipeUser()){
+      <!-- se l'utente è loggato -->
       @if(user){
       @for(commento of recipeUser(); track commento) {
       <div class="card mb-3">
         <div class="card-body">
-          <h5 class="card-title">{{ commento.email.split('@')[0] }}</h5>
+          <!-- lo username è da definire; la data è localizzata in italiano nel ts -->
+          <h6 class="card-title">{{ commento.email.split('@')[0] }} - {{commento.datainserimento| date:'d MMMM yyyy,
+            HH:mm' }}</h6>
 
           @if(user.email == commento.email && showInput){
           <textarea class="form-control mb-2" rows="3" placeholder="Scrivi il tuo commento..."
@@ -148,18 +158,18 @@
       <div class="mt-3">
         <textarea class="form-control mb-2" rows="3" placeholder="Scrivi il tuo commento..."
           [(ngModel)]="commentText"></textarea>
-          <div class="mb-3">
-            <label class="form-label">Valutazione:</label>
-            <rating [(ngModel)]="valutationNumber" [max]="5" [readonly]="false"
-              [titles]="['1', '2', '3', '4', '5']">
-            </rating>
-          </div>
+        <div class="mb-3">
+          <label class="form-label">Valutazione:</label>
+          <rating [(ngModel)]="valutationNumber" [max]="5" [readonly]="false" [titles]="['1', '2', '3', '4', '5']">
+          </rating>
+        </div>
         <button class="btn btn-success btn-sm" (click)="submitComment(commentText, valutationNumber)">Invia</button>
         <button class="btn btn-danger btn-sm ms-2" (click)="comeback()">Annulla</button>
       </div>
       }
-      
+
       }
+      <!-- se l'utente non è loggato -->
       @else {
       <div class="card mb-3">
         <div class="card-body">
@@ -176,6 +186,7 @@
       <span class="number">{{commento.valutazione}}</span>
     </div> -->
 
+  <!-- Ricette correlate -->
   @if(relatedRecipes){
   <div class="card mt-3 mb-3">
     <div class="card-header" style="background-color: rgba(247, 246, 248, 1);">
