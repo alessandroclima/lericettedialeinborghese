@@ -6,3 +6,15 @@ html, body {
   padding: 0;
   overflow-x: hidden;
 }
+
+.text-orange {
+  color: #e84919;
+}
+
+.text-bold {
+  font-weight: bold;
+}
+
+.border-orange {
+  border-color: #e84919;
+}

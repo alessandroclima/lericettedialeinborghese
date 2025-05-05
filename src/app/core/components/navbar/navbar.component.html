@@ -31,8 +31,8 @@
       </ul>
 
        <!-- Search Bar -->
-       <form class="d-flex flex-grow-1 mx-3">
-        <input class="form-control me-2" type="search" placeholder="Cerca una ricetta" aria-label="Search">
+       <form class="d-flex flex-grow-1 mx-3" (ngSubmit)="onSearchRecipes()">
+        <input class="form-control me-2" type="search" placeholder="Cerca una ricetta" aria-label="Search" name="searchText" [(ngModel)]="searchText">
         <button type="submit" class="btn btn-light"><i class="fa-solid fa-magnifying-glass" style="color: #e84919;"></i></button>
         <div class="d-flex ms-2">
           @if(user===undefined){

@@ -107,7 +107,7 @@ export class RecipeListComponent implements OnInit {
 
     // Recupera il valore della ricerca dall'URL
     this.route.queryParams.subscribe(params => {
-      // this.searchQuery = params['search'] || '';
+      this.searchQuery = params['search'] || '';
       this.categoryQuery = params['category'] || '';
       this.loadRecipes();
     });
@@ -135,12 +135,12 @@ export class RecipeListComponent implements OnInit {
 
   filterRecipes() {
     console.log('Filtering recipes with category:', this.categoryQuery);
-    // if(this.searchQuery){
-    //   this.filteredRecipes = this.availableRecipes.filter(recipe =>
-    //     recipe.titolo.toLowerCase().includes(this.searchQuery.toLowerCase())
-    //   );
-    // }
-    if (this.categoryQuery) {
+    if(this.searchQuery){
+      this.filteredRecipes = this.availableRecipes.filter(recipe =>
+        recipe.titolo.toLowerCase().includes(this.searchQuery.toLowerCase())
+      );
+    }
+    else if (this.categoryQuery) {
       console.log(this.availableRecipes)
     
       this.filteredRecipes = this.availableRecipes.filter(recipe =>

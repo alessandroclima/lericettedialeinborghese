@@ -1,30 +1,31 @@
 <div class="container">
   @if (model) {
     <div>
-      <h1 class="mt-3">Aggiorna ricetta esistente</h1>
+      <h1 class="mt-3 text-center text-orange">Aggiorna ricetta esistente</h1>
       <div class="mt-3">
         <form #form="ngForm" (ngSubmit)="onSubmit()">
           <div class="mb-3">
-            <label for="title" class="form-label">Titolo</label>
+            <label for="title" class="form-label text-bold text-orange">Titolo</label>
             <input type="text" class="form-control" id="recipeTitle" name="recipeTitle" [(ngModel)]="model.titolo"
               placeholder="Inserisci il titolo" />
             </div>
             <div class="mb-3">
-              <label for="description" class="form-label">Descrizione</label>
+              <label for="description" class="form-label text-bold text-orange">Descrizione</label>
               <input type="text" class="form-control" id="description" name="description" [(ngModel)]="model.descrizione"
                 placeholder="Inserisci la descrizione" />
               </div>
               <div class="mb-3">
-                <label for="cookTime" class="form-label">Tempo di cottura</label>
+                <label for="cookTime" class="form-label text-bold text-orange">Tempo di cottura</label>
                 <input type="text" class="form-control" id="cookTime" name="cookTime" [(ngModel)]="model.tempocottura"
                   placeholder="Inserisci il tempo di cottura" />
                 </div>
                 <div class="mb-3">
-                  <label for="servings" class="form-label">Porzioni</label>
+                  <label for="servings" class="form-label text-bold text-orange">Porzioni</label>
                   <input type="number" class="form-control" id="servings" name="servings" [(ngModel)]="model.porzioni"
                     placeholder="Inserisci il numero di porzioni" />
                   </div>
                   <div class="mb-3">
+                    <label for="categories" class="form-label text-bold text-orange">Categoria</label>
                     <select class="form-select" [(ngModel)]="model.categoriaid" name="categoriaid">
                       <option [ngValue]="undefined" disabled>Seleziona una categoria</option>
                       @for (category of availableCategories; track category) {
@@ -35,6 +36,7 @@
                     </select>
                   </div>
                   <div class="mb-3">
+                    <label for="diet" class="form-label text-bold text-orange">Tipo di alimentazione</label>
                     <select class="form-select" [(ngModel)]="model.alimentazioneid" name="alimentazioneid">
                       <option [ngValue]="undefined" disabled>Seleziona una alimentazione</option>
                       @for (diet of availableDiets; track diet) {
@@ -45,7 +47,7 @@
                     </select>
                   </div>
                   <div class="mb-3">
-                    <label for="ingredients" class="form-label">Ingredienti</label>
+                    <label for="ingredients" class="form-label text-bold text-orange">Ingredienti</label>
                     <div class="input-group mb-3">
                       <select class="form-select" [(ngModel)]="selectedIngredient" name="selectedIngredient">
                         <option [ngValue]="undefined" disabled>Seleziona un ingrediente</option>
@@ -82,19 +84,19 @@
                                   {{ ingredient.ingredienteNome }} {{ingredient.unitaMisura}}
                                 </span>
                               }
-                              <button type="button" class="btn btn-danger btn-sm"
+                              <button type="button" class="btn btn-light btn-sm"
                                 (click)="removeIngredient(ingredient.ingredienteNome)"><i class="bi bi-trash"></i></button>
                               </li>
                             }
                           </ul>
                         </div>
                         <div class="mb-3">
-                          <label for="steps" class="form-label">Procedimento</label>
+                          <label for="steps" class="form-label text-bold text-orange">Procedimento</label>
                           <textarea class="form-control" id="steps" name="steps" [(ngModel)]="model.procedimento"
-                          placeholder="Descrivi i passaggi"></textarea>
+                          placeholder="Descrivi i vari step separandoli da un punto e virgola"></textarea>
                         </div>
                         <div class="mb-3">
-                          <label>Carica un'immagine:</label>
+                          <label class="form-label text-bold text-orange">Carica un'immagine:</label>
                           <input type="file" class="form-control" (change)="onFileSelected($event)" accept="image/*" />
                           @if (model.immagineUrl) {
                             <div class="mt-3">
@@ -103,7 +105,8 @@
                               </div>
                             }
                           </div>
-                          <button type="submit" class="btn btn-primary mb-3">Aggiorna</button>
+                          <button type="submit" class="btn btn-light border-orange mb-3"><i
+                            class="bi bi-pencil me-2"></i>Aggiorna</button>
                         </form>
                       </div>
                     </div>

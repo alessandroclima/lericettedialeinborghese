@@ -6,19 +6,17 @@ import { GetIngredientResponse } from '../models/get-ingredient-response.model';
 import { RecipeService } from '../services/recipe.service';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
-import { ButtonModule, Button } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
 import { GetCategoryResponse } from '../models/get-category-response.model';
 import { CategoryService } from '../services/category.service';
 import { GetDietResponse } from '../models/get-diet-response.model';
 import { DietService } from '../services/diet.service';
- // ✅ Importa il modulo di PrimeNG
 
 @Component({
     selector: 'app-add-recipe',
     templateUrl: './add-recipe.component.html',
     styleUrls: ['./add-recipe.component.css'],
-    imports: [FormsModule, Button]
+    imports: [FormsModule]
 })
 export class AddRecipeComponent implements OnInit, OnDestroy {
   private ingredientService = inject(IngredientService);

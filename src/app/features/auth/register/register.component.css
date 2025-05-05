@@ -1,47 +1,5 @@
-.register-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-}
-
-.register-card {
-    width: 100%;
-    max-width: 400px;
-}
-
-.register-content {
-    padding: 20px;
-}
-
-.register-form {
-    margin-bottom: 20px;
-}
-
-.wide-input {
-    width: 100%;
-}
-
-.divider {
-    border-top: 1px solid #dee2e6;
-    margin: 20px 0;
-}
-
-.extra-content {
-    text-align: center;
-}
-
-:host ::ng-deep .p-button.p-button-dark {
-    background-color: #000000;
-    border-color: #000000;
-}
-
-:host ::ng-deep .p-button.p-button-dark:hover {
-    background-color: #333333;
-    border-color: #333333;
-}
-
-h2 {
-    text-align: center;
-    margin-bottom: 20px;
-}
+.form-control:focus {
+    border-color: #e84919;
+    box-shadow: 0 0 0 0.2rem rgba(232, 73, 25, 0.25);
+  }
+  

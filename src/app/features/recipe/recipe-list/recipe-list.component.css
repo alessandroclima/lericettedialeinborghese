@@ -1,3 +1,9 @@
 .btn-transparent.dropdown-toggle::after {
     display: none; /* nasconde la freccia */
   }
+
+  .form-control:focus {
+    border-color: #e84919;
+    box-shadow: 0 0 0 0.2rem rgba(232, 73, 25, 0.25);
+  }
+  

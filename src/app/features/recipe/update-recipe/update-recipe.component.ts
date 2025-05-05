@@ -171,7 +171,9 @@ export class UpdateRecipeComponent {
         next: (response) => {
           console.log('Ingredients loaded');
           console.log(response);
-          this.availableIngredients = response;
+          this.availableIngredients = response.sort((a, b) =>
+            a.name.localeCompare(b.name)
+          );;
         },
         error: (error) => {
           console.error('Error loading ingredients', error);
