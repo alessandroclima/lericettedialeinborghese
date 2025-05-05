@@ -22,20 +22,30 @@ export class WelcomePageComponent implements OnInit {
   private getRecipeSubscription?: Subscription;
 
   //creo variabile per le ricette disponibili sia in versione desktop che mobile
-  groupedSlides: GetRecipeResponse[][] = [];
+  groupedSlidesDataOrder: GetRecipeResponse[][] = [];
+  groupedSlidesForValutation: GetRecipeResponse[][] = [];
   availableRecipes: GetRecipeResponse[] = [];
+
+  //id dei caroselli
+  carouselIdDataOrder: string = 'carouselDataOrder'; // ID del carosello per l'ordinamento per data
+  carouselIdValutation: string = 'carouselValutation'; // ID del carosello per l'ordinamento per valutazione
+  carouselIdDataOrderMobile: string = 'carouselDataOrderMobile'; // ID del carosello per l'ordinamento per data
+  carouselIdValutationMobile: string = 'carouselValutationMobile'; // ID del carosello per l'ordinamento per valutazione
 
   ngOnInit(): void {
     this.getRecipeSubscription = this.recipeService.getRecipes().subscribe({
       next: (response) => {
-        console.log('Ricette disponibili', response);
         //ordino le ricette in base alla data di creazione in modo decrescente
-        response.sort((a, b) => new Date(b.datacreazione).getTime() - new Date(a.datacreazione).getTime());
-        this.availableRecipes = response.slice(-9); // Prendo le ultime 9 ricette
+        const dataorder = response.sort((a, b) => new Date(b.datacreazione).getTime() - new Date(a.datacreazione).getTime());
 
-        this.groupIntoChunks(this.availableRecipes, 3);;
-        
-        console.log('gruppi disponibili', this.groupedSlides);
+        // Ordino le ricette in base alla votazione in modo decrescente
+        const mostvoted = response.sort((a, b) => b.tempocottura - a.tempocottura); 
+
+        this.availableRecipes = dataorder.slice(-9); // Prendo le ultime 9 ricette
+        this.groupIntoChunksForDataOrder(this.availableRecipes, 3);;
+
+        this.availableRecipes = mostvoted.slice(-9); // Prendo le ultime 9 ricette
+        this.groupIntoChunksForValutation(this.availableRecipes, 3);
 
       },
       error: (error) => {
@@ -45,11 +55,19 @@ export class WelcomePageComponent implements OnInit {
    
   }
 
-  private groupIntoChunks(arr: GetRecipeResponse[], size: number): void {
+  //funzione che cicla l'array a gruppi di size e lo push in un array di array
+  private groupIntoChunksForDataOrder(arr: GetRecipeResponse[], size: number): void {
     for (let i = 0; i < arr.length; i += size) {
-      this.groupedSlides.push(arr.slice(i, i + size));
+      this.groupedSlidesDataOrder.push(arr.slice(i, i + size));
     }
   }
+
+    //funzione che cicla l'array a gruppi di size e lo push in un array di array
+    private groupIntoChunksForValutation(arr: GetRecipeResponse[], size: number): void {
+      for (let i = 0; i < arr.length; i += size) {
+        this.groupedSlidesForValutation.push(arr.slice(i, i + size));
+      }
+    }
 
 
 

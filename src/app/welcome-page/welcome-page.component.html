@@ -1,6 +1,10 @@
-
-<!-- Carosello versione desktop -->
-<app-carousel [groupedSlides]="groupedSlides"></app-carousel>
-
+ <h3 class="text-center"><strong style="color: #e84919;">Le ultime ricette inserite</strong></h3>
+ <!-- Carosello versione desktop -->
+<app-carousel [carouselId]="carouselIdDataOrder" [groupedSlides]="groupedSlidesDataOrder"></app-carousel>
 <!-- Carosello versione mobile -->
-<app-carousel-mobile [availableRecipes]="availableRecipes"></app-carousel-mobile>
+<app-carousel-mobile [carouselId]="carouselIdDataOrderMobile" [availableRecipes]="availableRecipes"></app-carousel-mobile>
+<h3 class="text-center"><strong style="color: #e84919;">Le ricette più votate</strong></h3>
+<!-- Carosello versione desktop -->
+<app-carousel [carouselId]="carouselIdValutation" [groupedSlides]="groupedSlidesForValutation"></app-carousel>
+<!-- Carosello versione mobile -->
+<app-carousel-mobile [carouselId]="carouselIdValutationMobile" [availableRecipes]="availableRecipes"></app-carousel-mobile>

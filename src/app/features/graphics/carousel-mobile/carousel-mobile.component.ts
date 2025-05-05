@@ -11,4 +11,5 @@ import { RouterLink } from '@angular/router';
 export class CarouselMobileComponent {
 
   @Input() availableRecipes: GetRecipeResponse[] = [];
+  @Input() carouselId: string = 'carousel'; // Default ID if not provided
 }
