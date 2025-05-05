@@ -7,7 +7,7 @@
       <div class="col-12 col-md-5 mb-2 mb-md-0">
         <div class="input-group">
           <input type="text" [(ngModel)]="searchQuery" (input)="filterRecipes()" placeholder="Cerca ricetta..." class="form-control">
-          <button type="button" class="btn btn-light">
+          <button type="button" class="btn btn-light" style="border-color: #e84919;">
             <i class="fa-solid fa-magnifying-glass" style="color: #e84919;"></i>
           </button>
         </div>
@@ -15,8 +15,8 @@
     
       <!-- Bottone "Crea nuova ricetta" -->
       <div class="col-12 col-md-3 text-md-end">
-        <a [routerLink]="['/admin/recipes/add']" class="btn btn-success w-100 w-md-auto">
-          <i class="bi bi-plus"></i> Crea Nuova Ricetta
+        <a [routerLink]="['/admin/recipes/add']" class="btn btn-light w-100 w-md-auto" style="border-color: #e84919;">
+          <i class="fa-solid fa-plus"></i> Crea Nuova Ricetta
         </a>
       </div>
     </div>
@@ -81,11 +81,11 @@
                   }
                 </span>
                 <span>
-                  <button class="btn btn-secondary btn-sm me-2" [routerLink]="['/admin/recipes/update', recipe.id]"><i
+                  <button class="btn btn-light btn-sm me-2" [routerLink]="['/admin/recipes/update', recipe.id]"><i
                       class="bi bi-pencil"></i></button>
-                  <button class="btn btn-danger btn-sm me-2" (click)="openDeleteModal(recipe.id)"><i
+                  <button class="btn btn-light btn-sm me-2" (click)="openDeleteModal(recipe.id)"><i
                       class="bi bi-trash"></i></button>
-                  <button class="btn btn-warning btn-sm text-white" [routerLink]="['/admin/recipes', recipe.id]"><i
+                  <button class="btn btn-light btn-sm" [routerLink]="['/admin/recipes', recipe.id]"><i
                       class="bi bi-book">
                     </i></button>
                 </span>

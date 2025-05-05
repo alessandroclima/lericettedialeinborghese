@@ -1,5 +1,5 @@
 .carousel-img {
-    height: 300px;             /* o qualsiasi altezza tu voglia */
+    height: 100%;             /* o qualsiasi altezza tu voglia */
     width: 100%;               /* si adatta alla larghezza della colonna/card */
     object-fit: cover;         /* taglia e adatta senza distorcere */
     border-radius: 0 0 4px 4px; /* facoltativo: bordi più morbidi sotto */
@@ -17,4 +17,9 @@
   .carousel-control-prev-icon::after,
   .carousel-control-next-icon::after {
     content: "";
+  }
+
+  :host {
+    display: block;
+    height: 100%; /* prende l'altezza da .card-body */
   }

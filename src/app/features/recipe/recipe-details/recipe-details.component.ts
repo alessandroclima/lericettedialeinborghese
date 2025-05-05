@@ -17,13 +17,15 @@ import { RatingModule } from 'ngx-bootstrap/rating';
 import { LOCALE_ID } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
 import localeIt from '@angular/common/locales/it';
+import { CarouselComponent } from "../../graphics/carousel/carousel.component";
+import { CarouselMobileComponent } from "../../graphics/carousel-mobile/carousel-mobile.component";
 registerLocaleData(localeIt);
 register();
 @Component({
   selector: 'app-recipe-details',
   templateUrl: './recipe-details.component.html',
   styleUrls: ['./recipe-details.component.css'],
-  imports: [FormsModule, StepperModule, CommonModule, RatingModule],
+  imports: [FormsModule, StepperModule, CommonModule, RatingModule, CarouselComponent, CarouselMobileComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [{ provide: LOCALE_ID, useValue: 'it' }]
 })
@@ -41,6 +43,8 @@ export class RecipeDetailsComponent implements OnInit {
   commentText = '';
   valutationNumber = 0.5;
   valutazioneMedia = 0.5;
+  carouselId = 'carouselRelatedRecipes'; // ID del carousel
+  carouselIdMobile = 'carouselRelatedRecipesMobile'; // ID del carousel
 
   submitComment(newComment: string, newValutation: number): void {
     console.log('Commento inviato:', this.commentText);
@@ -104,6 +108,7 @@ export class RecipeDetailsComponent implements OnInit {
   getDetailsSubscription?: Subscription;
   recipeId: string | null = null;
   relatedRecipes: GetRecipeResponse[] = [];
+  groupedRelatedRecipes: GetRecipeResponse[][] = [];
   responsiveOptions: any[] | undefined;
   user?: User;
 
@@ -115,10 +120,19 @@ export class RecipeDetailsComponent implements OnInit {
 
   }
   ngOnInit(): void {
-    this.recipeId = this.route.snapshot.paramMap.get('id');
-    if (this.recipeId) {
-      this.loadRecipe(this.recipeId);
-    }
+    //versione corretta per il routerlink
+    this.route.paramMap.subscribe(params => {
+      const id = params.get('id');
+      if (id) {
+        this.loadRecipe(id);
+      }
+    });
+
+    //versione sbagliata
+    //const id = this.route.snapshot.paramMap.get('id');
+    //this.loadRecipe(id);
+    //perche? Angular, per ottimizzazione, non distrugge e ricrea il componente se il percorso rimane lo stesso (ricetta/:id) e cambia solo il parametro.
+    //Quindi ngOnInit() non viene chiamato di nuovo a meno che tu non ti sottoscriva esplicitamente ai cambiamenti dei parametri
   }
 
   calcolaMedia(){
@@ -155,12 +169,20 @@ export class RecipeDetailsComponent implements OnInit {
         next: (response) => {
           this.relatedRecipes = response;
           console.log('Ricette correlate', this.relatedRecipes);
+          this.groupIntoChunksForDataOrder(this.relatedRecipes, 3);
         },
         error: (error) => {
           console.error('Error loading related recipes', error);
         }
       }
     );
+  }
+
+   //funzione che cicla l'array a gruppi di size e lo push in un array di array
+   private groupIntoChunksForDataOrder(arr: GetRecipeResponse[], size: number): void {
+    for (let i = 0; i < arr.length; i += size) {
+      this.groupedRelatedRecipes.push(arr.slice(i, i + size));
+    }
   }
 
 }

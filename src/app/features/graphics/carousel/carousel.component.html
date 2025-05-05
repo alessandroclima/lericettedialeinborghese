@@ -1,6 +1,7 @@
 <!-- Carosello versione desktop -->
 
-<div id={{carouselId}} class="carousel slide d-none d-md-block">
+<div id={{carouselId}} class="carousel slide d-none d-md-block"  data-bs-touch="false"
+data-bs-interval="false">
     <div class="carousel-indicators">
       @for (group of groupedSlides; track group; let idx = $index) {
         <button
