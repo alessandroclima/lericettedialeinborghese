@@ -24,7 +24,11 @@ export class RegisterComponent {
     confirmPassword: '',
   });
 
-  onSubmit(): void {
+  onSubmit(form: any): void {
+    if(form.invalid) {
+      console.error('Form is invalid', form.errors);
+      return;
+    }
     this.authService.registerUser(this.model()).subscribe({
       next: () => {
         console.log('User registered successfully');

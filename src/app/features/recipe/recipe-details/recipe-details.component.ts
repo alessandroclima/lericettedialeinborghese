@@ -145,6 +145,7 @@ export class RecipeDetailsComponent implements OnInit {
       next: (response) => {
         // setta il signal recipe tramite il metodo set
         this.recipe.set(response);
+        console.log(this.recipe());
         this.loadRelatedRecipes(this.recipe()!.categorianome);
         this.numero = response.porzioni;
         this.ingredientiModificati.set(response.ingredientiQuantita);

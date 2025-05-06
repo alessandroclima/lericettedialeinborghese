@@ -28,9 +28,9 @@ export class LoginComponent {
   private cookieService = inject(CookieService)
 
 
-  onSubmit() {
-    console.log(this.model);
-    this.loginSubscription = this.authService.loginUser(this.model())
+  onSubmit(form: any) {
+    if(form.valid){
+      this.loginSubscription = this.authService.loginUser(this.model())
       .subscribe({
         next: (response) => {
           console.log(response);
@@ -46,6 +46,11 @@ export class LoginComponent {
           console.error('Error logging user', error);
         },
       });
+    }
+    else{
+      console.error('Form is invalid', form.errors);
+    }
+
   }
 
   model = signal<LoginRequest>({

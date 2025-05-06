@@ -1,70 +1,67 @@
 <div class="container mt-5 mb-4">
     <div class="row justify-content-center">
-      <div class="col-md-8">
-        <div class="card shadow-sm">
-          <div class="card-body d-flex flex-column flex-md-row align-items-center p-4 bg-light">
-  
-            <!-- Sign Up Form -->
-            <div class="flex-fill pe-md-4 mb-4 mb-md-0 w-100">
-              <h2 class="mb-4 text-center" style="color: #e84919;">Registrati</h2>
-              <form (ngSubmit)="onSubmit()">
-                <div class="mb-3">
-                  <label for="email" class="form-label">Email</label>
-                  <input
-                    type="email"
-                    id="email"
-                    class="form-control"
-                    [(ngModel)]="model().email"
-                    name="email"
-                    required
-                  >
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-body d-flex flex-column flex-md-row align-items-center p-4 bg-light">
+
+                    <!-- Sign Up Form -->
+                    <div class="flex-fill pe-md-4 mb-4 mb-md-0 w-100">
+                        <h2 class="mb-4 text-center" style="color: #e84919;">Registrati</h2>
+                        <form #registrationForm="ngForm" (ngSubmit)="onSubmit(registrationForm)">
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" id="email" class="form-control" [(ngModel)]="model().email"
+                                    name="email" required #email="ngModel">
+                                    @if(email.invalid && (email.touched||registrationForm.submitted)) {
+                                        @if(email.errors?.['required']) {
+                                            <small class="text-red">Email obbligatoria</small>
+                                        } 
+                                        @else if(email.errors?.['email']) {
+                                            <small class="text-red">Formato email non valido</small>
+                                        }
+                                    }
+                                    
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Password</label>
+                                <input type="password" id="password" class="form-control" [(ngModel)]="model().password"
+                                    name="password" required #password="ngModel">
+                                    @if(password.invalid && (password.touched||registrationForm.submitted)) {
+                                        <small class="text-red">Password obbligatoria</small>
+                                    }
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="confirmPassword" class="form-label">Confirm Password</label>
+                                <input type="password" id="confirmPassword" class="form-control"
+                                    [(ngModel)]="model().confirmPassword" name="confirmPassword" required #confirmPassword="ngModel">
+                                    @if(confirmPassword.invalid && (confirmPassword.touched||registrationForm.submitted)) {
+                                        <small class="text-red">Conferma password obbligatoria</small>
+                                    }
+                            </div>
+
+                            <button type="submit" class="btn btn-light w-100 mt-3" style="border-color: #e84919;">
+                                <i class="bi bi-person-plus me-2" style="color: #e84919;"></i> Register
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Divider -->
+                    <div class="vr mx-4 d-none d-md-block" style="height: 400;"></div>
+                    <hr class="d-block d-md-none w-100 my-4">
+
+                    <!-- Extra content -->
+                    <div class="text-center ps-md-4 w-100">
+                        <h5 class="mb-3" style="color: #e84919;">Hai già un account?</h5>
+                        <button type="button" class="btn btn-light w-100" style="border-color: #e84919;"
+                            (click)="navigateToLogin()">
+                            <i class="bi bi-box-arrow-in-right me-2" style="color: #e84919;"></i> Login
+                        </button>
+                    </div>
+
                 </div>
-  
-                <div class="mb-3">
-                  <label for="password" class="form-label">Password</label>
-                  <input
-                    type="password"
-                    id="password"
-                    class="form-control"
-                    [(ngModel)]="model().password"
-                    name="password"
-                    required
-                  >
-                </div>
-  
-                <div class="mb-3">
-                  <label for="confirmPassword" class="form-label">Confirm Password</label>
-                  <input
-                    type="password"
-                    id="confirmPassword"
-                    class="form-control"
-                    [(ngModel)]="model().confirmPassword"
-                    name="confirmPassword"
-                    required
-                  >
-                </div>
-  
-                <button type="submit" class="btn btn-light w-100 mt-3" style="border-color: #e84919;">
-                  <i class="bi bi-person-plus me-2" style="color: #e84919;"></i> Register
-                </button>
-              </form>
             </div>
-  
-            <!-- Divider -->
-            <div class="vr mx-4 d-none d-md-block" style="height: 400;"></div>
-            <hr class="d-block d-md-none w-100 my-4">
-  
-            <!-- Extra content -->
-            <div class="text-center ps-md-4 w-100">
-              <h5 class="mb-3" style="color: #e84919;">Hai già un account?</h5>
-              <button type="button" class="btn btn-light w-100" style="border-color: #e84919;" (click)="navigateToLogin()">
-                <i class="bi bi-box-arrow-in-right me-2" style="color: #e84919;"></i> Login
-              </button>
-            </div>
-  
-          </div>
         </div>
-      </div>
     </div>
-  </div>
-  
+</div>

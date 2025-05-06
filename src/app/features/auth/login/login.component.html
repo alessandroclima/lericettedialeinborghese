@@ -6,16 +6,23 @@
         <!-- Login form -->
         <div class="flex-fill pe-md-4 mb-4 mb-md-0 w-100">
           <h2 class="mb-4 text-center" style="color: #e84919;">Accedi</h2>
-          <form (ngSubmit)="onSubmit()">
+          <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)">
             <div class="mb-3">
               <label for="email" class="form-label">Email</label>
-              <input type="email" class="form-control" id="email" name="email" placeholder="Inserisci email"
-                [(ngModel)]="model().email">
+              <input type="email" required class="form-control" id="email" name="email" placeholder="Inserisci email"
+                [(ngModel)]="model().email" #email="ngModel">
+                @if(email.invalid && (email.touched||loginForm.submitted)) {
+                  <small class="text-red" *ngIf="email.errors?.['required']">Email obbligatoria</small>
+                  <small *ngIf="email.errors?.['email']">Formato email non valido</small>
+                }
             </div>
             <div class="mb-3">
               <label for="password" class="form-label">Password</label>
-              <input type="password" class="form-control" id="password" name="password" placeholder="Inserisci password"
-                [(ngModel)]="model().password">
+              <input type="password" required class="form-control" id="password" name="password" placeholder="Inserisci password"
+                [(ngModel)]="model().password" #password="ngModel">
+                @if(password.invalid && (password.touched||loginForm.submitted)) {
+                  <small class="text-red" *ngIf="password.errors?.['required']">Password obbligatoria</small>
+                }
             </div>
             <button type="submit" class="btn btn-light w-100" style="border-color: #e84919;"><i
                 class="bi bi-box-arrow-in-right me-2" style="color: #e84919;"></i>Login</button>
