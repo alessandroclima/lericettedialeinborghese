@@ -7,7 +7,7 @@ export interface AddRecipeRequest {
     porzioni: number;
     procedimento: string;
     immagineUrl: string;
-    categoriaid: number;
-    alimentazioneid: number;
+    categoriaid: number | undefined;
+    alimentazioneid: number | undefined;
     ingredientiquantita: IngredientQuantity[];
 }

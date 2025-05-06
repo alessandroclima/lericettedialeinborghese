@@ -8,7 +8,7 @@ import { GetRecipeResponse } from '../models/get-recipe-response.model';
 import { Subscription } from 'rxjs';
 import { UpdateRecipeRequest } from '../models/update-recipe-request.model';
 import { CategoryService } from '../services/category.service';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { GetCategoryResponse } from '../models/get-category-response.model';
 import { DietService } from '../services/diet.service';
 import { GetDietResponse } from '../models/get-diet-response.model';
@@ -70,7 +70,13 @@ export class UpdateRecipeComponent {
       this.ingredientMeasure = '';
     }
   }
-  onSubmit() {
+  onSubmit(form: NgForm) {
+    console.log('Form submitted', form.value);
+    if (form.invalid) {
+      console.error('Form is invalid', form.errors);
+      return;
+    }
+    console.log('Form is valid', form.value);
     if (this.model) {
       this.updateRecipeSubscription = this.recipeService
         .updateRecipe(this.model)

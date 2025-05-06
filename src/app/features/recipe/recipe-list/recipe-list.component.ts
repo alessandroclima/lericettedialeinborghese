@@ -103,24 +103,17 @@ export class RecipeListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
-
     // Recupera il valore della ricerca dall'URL
     this.route.queryParams.subscribe(params => {
       this.searchQuery = params['search'] || '';
       this.categoryQuery = params['category'] || '';
       this.loadRecipes();
     });
-
   }
-
- 
 
   loadRecipes(): void {
     this.getRecipeSubscription = this.recipeService.getRecipes().subscribe({
       next: (response) => {
-        console.log('Recipe loaded', response);
-
         this.availableRecipes = response;
         this.filterRecipes();
       },
@@ -134,22 +127,19 @@ export class RecipeListComponent implements OnInit {
   }
 
   filterRecipes() {
-    console.log('Filtering recipes with category:', this.categoryQuery);
+    console.log('Filtering recipes with text:', this.searchQuery);
     if(this.searchQuery){
       this.filteredRecipes = this.availableRecipes.filter(recipe =>
         recipe.titolo.toLowerCase().includes(this.searchQuery.toLowerCase())
       );
     }
     else if (this.categoryQuery) {
-      console.log(this.availableRecipes)
-    
+      console.log('Filtering recipes with category:', this.categoryQuery);
       this.filteredRecipes = this.availableRecipes.filter(recipe =>
         recipe.categorianome.includes(this.categoryQuery)
       );
-      console.log(this.filteredRecipes)
     }
     else {
-      console.log(this.availableRecipes)
       this.filteredRecipes = this.availableRecipes;
     }
 

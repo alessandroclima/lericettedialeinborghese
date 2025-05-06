@@ -6,7 +6,7 @@ import { GetIngredientResponse } from '../models/get-ingredient-response.model';
 import { RecipeService } from '../services/recipe.service';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { GetCategoryResponse } from '../models/get-category-response.model';
 import { CategoryService } from '../services/category.service';
 import { GetDietResponse } from '../models/get-diet-response.model';
@@ -48,8 +48,8 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
       porzioni: 1,
       procedimento: '',
       immagineUrl: '',
-      categoriaid: 0,
-      alimentazioneid: 0,
+      categoriaid: undefined,
+      alimentazioneid: undefined,
       ingredientiquantita: [],
     };
   }
@@ -146,7 +146,13 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
     }
   }
 
-  onSubmit() {
+  onSubmit(form: NgForm) {
+    console.log('Form submitted', form.value);
+    if (form.invalid) {
+      console.error('Form is invalid', form.errors);
+      return;
+    }
+    console.log('Form is valid', form.value);
     console.log(this.model);
     this.addRecipeSubscription = this.recipeService
       .addRecipe(this.model)
