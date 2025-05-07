@@ -21,7 +21,8 @@
           <p><i class="fa-solid fa-carrot me-2"></i><strong style="color: #e84919">Tipo di alimentazione:
             </strong>{{recipe()!.alimentazionenome}}</p>
           <p><i class="fa-solid fa-user me-2"></i><strong style="color: #e84919">Autore: </strong>Alessandro Clima</p>
-          <p><i class="bi bi-calendar-date me-2"></i><strong style="color: #e84919">Data di creazione: </strong>{{recipe()!.dataCreazione | date:'d MMMM yyyy, HH:mm'}}</p>
+          <p><i class="bi bi-calendar-date me-2"></i><strong style="color: #e84919">Data di creazione:
+            </strong>{{recipe()!.dataCreazione | date:'d MMMM yyyy, HH:mm'}}</p>
           <p><i class="fa-solid fa-star me-2" style="color: gold;"></i><strong style="color: #e84919">Media voti:
             </strong>{{valutazioneMedia}}
           </p>
@@ -112,8 +113,7 @@
       <div class="card mb-3">
         <div class="card-body">
           <!-- lo username è da definire; la data è localizzata in italiano nel ts -->
-          <h6 class="card-title">{{ commento.email.split('@')[0] }} - {{commento.datainserimento| date:'d MMMM yyyy,
-            HH:mm' }}</h6>
+          <h6 class="card-title">{{ commento.email.split('@')[0] }} - {{commento.datainserimento| date:'d MMMM yyyy, HH:mm' }}</h6>
 
           @if(user.email == commento.email && showInput){
           <textarea class="form-control mb-2" rows="3" placeholder="Scrivi il tuo commento..."
@@ -195,11 +195,11 @@
       <strong style="color: #e84919; font-size: x-large;">Ricette correlate
       </strong>
     </div>
- 
+
     <app-carousel [carouselId]=carouselId [groupedSlides]=groupedRelatedRecipes></app-carousel>
     <app-carousel-mobile [carouselId]=carouselIdMobile [availableRecipes]=relatedRecipes></app-carousel-mobile>
-  
-</div>
+
+  </div>
   }
 
   } @else {

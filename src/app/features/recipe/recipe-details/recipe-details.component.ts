@@ -48,6 +48,7 @@ export class RecipeDetailsComponent implements OnInit {
 
   submitComment(newComment: string, newValutation: number): void {
     console.log('Commento inviato:', this.commentText);
+    console.log('Valutazione inviata:', newValutation);
     this.recipeService.voteRecipe({
       recipeid: this.recipeId!,
       email: this.user?.email!,
@@ -122,9 +123,9 @@ export class RecipeDetailsComponent implements OnInit {
   ngOnInit(): void {
     //versione corretta per il routerlink
     this.route.paramMap.subscribe(params => {
-      const id = params.get('id');
-      if (id) {
-        this.loadRecipe(id);
+      this.recipeId = params.get('id');
+      if (this.recipeId) {
+        this.loadRecipe(this.recipeId);
       }
     });
 
