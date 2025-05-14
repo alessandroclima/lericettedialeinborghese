@@ -37,6 +37,10 @@ const routes: Routes = [{
   loadComponent: () => import('./features/auth/login/login.component').then(m => m.LoginComponent)
 },
 {
+  path: 'reset-password',
+  loadComponent: () => import('./features/auth/reset-password/reset-password.component').then(m => m.ResetPasswordComponent)
+},
+{
   path: 'register',
   loadComponent: () => import('./features/auth/register/register.component').then(m => m.RegisterComponent)
 }];

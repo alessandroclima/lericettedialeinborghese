@@ -11,24 +11,61 @@
               <label for="email" class="form-label">Email</label>
               <input type="email" required class="form-control" id="email" name="email" placeholder="Inserisci email"
                 [(ngModel)]="model().email" #email="ngModel">
-                @if(email.invalid && (email.touched||loginForm.submitted)) {
-                  <small class="text-red" *ngIf="email.errors?.['required']">Email obbligatoria</small>
-                  <small *ngIf="email.errors?.['email']">Formato email non valido</small>
-                }
+              @if(email.invalid && (email.touched||loginForm.submitted)) {
+              <small class="text-red" *ngIf="email.errors?.['required']">Email obbligatoria</small>
+              <small *ngIf="email.errors?.['email']">Formato email non valido</small>
+              }
             </div>
             <div class="mb-3">
               <label for="password" class="form-label">Password</label>
-              <input type="password" required class="form-control" id="password" name="password" placeholder="Inserisci password"
-                [(ngModel)]="model().password" #password="ngModel">
-                @if(password.invalid && (password.touched||loginForm.submitted)) {
-                  <small class="text-red" *ngIf="password.errors?.['required']">Password obbligatoria</small>
-                }
+              <input type="password" required class="form-control" id="password" name="password"
+                placeholder="Inserisci password" [(ngModel)]="model().password" #password="ngModel">
+              @if(password.invalid && (password.touched||loginForm.submitted)) {
+              <small class="text-red" *ngIf="password.errors?.['required']">Password obbligatoria</small>
+              }
+            </div>
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-light w-100 mb-3" style="border-color: #e84919;" data-bs-toggle="modal" data-bs-target="#exampleModal">
+              Password dimenticata?
+            </button>
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+              aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Password dimenticata</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    @if(!success){
+                      <form #forgotForm="ngForm" (ngSubmit)="OnForgotPassword(forgotForm)">
+                        <div class="mb-3">
+                          <label for="email" class="form-label">Email</label>
+                          <input type="email" required class="form-control" id="email" name="email"
+                            placeholder="Inserisci la tua email" [(ngModel)]="model().email" #emailforreset="ngModel">
+                          @if(email.invalid && (email.touched||forgotForm.submitted)) {
+                          <small class="text-red" *ngIf="email.errors?.['required']">Email obbligatoria</small>
+                          <small *ngIf="email.errors?.['email']">Formato email non valido</small>
+                          }
+                        </div>
+                        <button type="submit" class="btn btn-light w-100" style="border-color: #e84919;"><i
+                            class="bi bi-box-arrow-in-right me-2" style="color: #e84919;"></i>Invia link per reset password</button>
+                      </form>
+                    }
+                    @if(success){
+                      <div class="alert alert-success">
+                        ✅ Email per il reset inviata con successo!
+                      </div>
+                    }
+                  </div>
+                </div>
+              </div>
             </div>
             <button type="submit" class="btn btn-light w-100" style="border-color: #e84919;"><i
                 class="bi bi-box-arrow-in-right me-2" style="color: #e84919;"></i>Login</button>
           </form>
         </div>
-
         <!-- Vertical divider (desktop only) -->
         <div class="vr mx-4 d-none d-md-block" style="height: 300px;"></div>
 
