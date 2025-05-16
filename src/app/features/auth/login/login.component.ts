@@ -91,7 +91,7 @@ export class LoginComponent {
   });
 
   modelForgotPassword = signal<ForgotPassword>({
-    Email: ''
+    Email:''
   });
 
   showPassword = signal<boolean>(false);

@@ -35,9 +35,10 @@ export const authGuard: CanActivateFn = (route, state) => {
     }
 
     // 🔐 Controllo ruoli (writer richiesto)
-    const roles = payload.roles || authService.getUser()?.roles || [];
-    if (!roles.includes('writer')) {
-      alert('Non hai i permessi per accedere a questa pagina!');
+    const userRoles = payload.roles || authService.getUser()?.roles || [];
+    const requiredRoles = route.data?.['roles'] as string[] | undefined;
+    if (requiredRoles && !requiredRoles.some(role => userRoles.includes(role))) {
+      alert('Accesso negato. Non hai i permessi necessari.');
       return false;
     }
 

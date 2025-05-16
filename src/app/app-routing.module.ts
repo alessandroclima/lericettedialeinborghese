@@ -18,7 +18,8 @@ const routes: Routes = [{
 {
   path: 'admin/recipes/add',
   loadComponent: () => import('./features/recipe/add-recipe/add-recipe.component').then(m => m.AddRecipeComponent),
-  canActivate: [authGuard]
+  canActivate: [authGuard],
+  data:{ roles: ['writer'] }
 },
 {
   path: 'admin/ingredients',
@@ -26,11 +27,15 @@ const routes: Routes = [{
 },
 {
   path: 'admin/recipes/:id',
-  loadComponent: () => import('./features/recipe/recipe-details/recipe-details.component').then(m => m.RecipeDetailsComponent)
+  loadComponent: () => import('./features/recipe/recipe-details/recipe-details.component').then(m => m.RecipeDetailsComponent),
+  canActivate: [authGuard],
+  data:{ roles: ['reader'] }
 },
 {
   path: 'admin/recipes/update/:id',
-  loadComponent: () => import('./features/recipe/update-recipe/update-recipe.component').then(m => m.UpdateRecipeComponent)
+  loadComponent: () => import('./features/recipe/update-recipe/update-recipe.component').then(m => m.UpdateRecipeComponent),
+  canActivate: [authGuard],
+  data:{ roles: ['reader'] }
 },
 {
   path: 'login',

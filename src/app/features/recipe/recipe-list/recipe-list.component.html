@@ -6,33 +6,37 @@
       <!-- Campo di ricerca + bottone -->
       <div class="col-12 col-md-5 mb-2 mb-md-0">
         <div class="input-group">
-          <input type="text" [(ngModel)]="searchQuery" (input)="filterRecipes()" placeholder="Filtra ricette..." class="form-control">
+          <input type="text" [(ngModel)]="searchQuery" (input)="filterRecipes()" placeholder="Filtra ricette..."
+            class="form-control">
           <button type="button" class="btn btn-light border-orange">
             <i class="fa-solid fa-magnifying-glass" style="color: #e84919;"></i>
           </button>
         </div>
       </div>
-    
+
       <!-- Bottone "Crea nuova ricetta" -->
+      @if(user !== undefined){
       <div class="col-12 col-md-3 text-md-end">
         <a [routerLink]="['/admin/recipes/add']" class="btn btn-light w-100 w-md-auto" style="border-color: #e84919;">
-          <i class="fa-solid fa-plus"></i> Crea Nuova Ricetta
+          <i class="fa-solid fa-plus me-1"></i>Nuova Ricetta
         </a>
       </div>
+      }
+
     </div>
-    
-    
+
+
     <ul class="list-group mb-4">
       @for (recipe of filteredRecipes; track recipe) {
       <div class="row g-0 mt-4">
         <div class="col-12 col-md-3">
           <a [routerLink]="['/admin/recipes', recipe.id]" class="text-decoration-none">
             <img [src]="'data:image/jpeg;base64,' + recipe.immagineurl" class="img-fluid d-block w-100"
-              style="width: 100%;" alt="..."></a>
+              style="width: 485px; height: 250px;" alt="..."></a>
         </div>
         <div class="col-12 col-md-5 d-flex flex-column" style="background-color: rgba(247, 246, 248, 1);">
           <div class="p-2 d-flex flex-column h-100">
-        
+
             <!-- Contenuto top -->
             <div>
               <p class="d-flex justify-content-between align-items-center">
@@ -48,7 +52,7 @@
               <p><strong style="color: #e84919">{{recipe.titolo}}</strong></p>
               <p>{{recipe.descrizione}}</p>
             </div>
-        
+
             <!-- Contenuto in fondo -->
             <div class="px-2 pt-2 mt-auto">
               <p class="d-flex justify-content-between align-items-center">
@@ -57,23 +61,25 @@
                   <strong style="color: #e84919"></strong>{{recipe.tempocottura}}
                   <i class="fa-solid fa-people-group ms-4 me-2"></i>
                   <strong style="color: #e84919"></strong>{{recipe.porzioni}}
-        
+
                   @if(recipe.alimentazionenome == "Vegetariana"){
-                    <i class="fa-solid fa-leaf ms-4 me-2"></i>
+                  <i class="fa-solid fa-leaf ms-4 me-2"></i>
                   }
                   @else if(recipe.alimentazionenome == "Vegana"){
-                    <i class="fa-solid fa-leaf ms-4 me-2"></i>
+                  <i class="fa-solid fa-leaf ms-4 me-2"></i>
                   }
                   @else if(recipe.alimentazionenome == "Celiaca"){
-                    <i class="fa-solid fa-bread-slice ms-4 me-2"></i>
+                  <i class="fa-solid fa-bread-slice ms-4 me-2"></i>
                   }
                 </span>
                 <span>
-                  <button class="btn btn-light btn-sm me-2" [routerLink]="['/admin/recipes/update', recipe.id]">
-                    <i class="bi bi-pencil"></i>
-                  </button>
+                  @if(user!== undefined && user.roles.includes('Admin')){
                   <button class="btn btn-light btn-sm me-2" (click)="openDeleteModal(recipe.id)">
                     <i class="bi bi-trash"></i>
+                  </button>
+                  }
+                  <button class="btn btn-light btn-sm me-2" [routerLink]="['/admin/recipes/update', recipe.id]">
+                    <i class="bi bi-pencil"></i>
                   </button>
                   <button class="btn btn-light btn-sm" [routerLink]="['/admin/recipes', recipe.id]">
                     <i class="bi bi-book"></i>
@@ -81,10 +87,10 @@
                 </span>
               </p>
             </div>
-        
+
           </div>
         </div>
-        
+
       </div>
       }
     </ul>

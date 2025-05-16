@@ -33,8 +33,8 @@ export class AuthService {
   resetPassword(resetPassword: ResetPassword): Observable<void> {
     return this.http.post<void>(`${environment.apiBaseUrl}/api/Auth/reset-password`, resetPassword);
   }
-  forgotPassword(email: ForgotPassword): Observable<void> {
-    return this.http.post<void>(`${environment.apiBaseUrl}/api/Auth/forgot-password`, { email });
+  forgotPassword(model: ForgotPassword): Observable<void> {
+    return this.http.post<void>(`${environment.apiBaseUrl}/api/Auth/forgot-password`,  model );
   }
 
   loginUser(model: LoginRequest): Observable<LoginResponse> {

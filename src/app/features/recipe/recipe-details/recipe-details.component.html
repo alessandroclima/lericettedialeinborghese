@@ -8,7 +8,7 @@
     <div class="row g-0">
       <div class="col-12 col-md-8">
         <img [src]="'data:image/jpeg;base64,' + recipe()!.immagineurl" class="img-fluid d-block w-100"
-          style="width: 100%;" alt="...">
+          style="height: 600px; width: 495px;" alt="...">
       </div>
       <div class="col-12 col-md-4" style="background-color: rgba(247, 246, 248, 1);">
         <div class="p-2">
@@ -69,8 +69,13 @@
                 @for(ingredient of ingredientiModificati(); track ingredient) {
 
                 <li class="list-group-item"><strong><u>{{ingredient.ingredienteNome}}</u></strong>
-                  {{ingredient.quantita}}
-                  {{ingredient.unitaMisura}}</li>
+                  @if(ingredient.quantita !== null && ingredient.quantita > 0){
+                    {{ingredient.quantita}}
+                  }
+                  @if(ingredient.unitaMisura !== null && ingredient.unitaMisura !== ''){
+                    {{ingredient.unitaMisura}}
+                  }
+                </li>
                 }
               </ul>
             </div>
@@ -113,8 +118,8 @@
       <div class="card mb-3">
         <div class="card-body">
           <!-- lo username è da definire; la data è localizzata in italiano nel ts -->
-          <h6 class="card-title">{{ commento.email.split('@')[0] }} - {{commento.datainserimento| date:'d MMMM yyyy,
-            HH:mm' }}</h6>
+          <h6 class="card-title">{{ commento.email.split('@')[0] }} - {{commento.datainserimento| date:'d MMMM yyyy, HH:mm' }}
+          </h6>
 
           @if(user.email == commento.email && showInput){
           <textarea class="form-control mb-2" rows="3" placeholder="Scrivi il tuo commento..."

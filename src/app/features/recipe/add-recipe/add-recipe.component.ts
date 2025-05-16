@@ -38,8 +38,6 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
   ingredientMeasure: string = '';
   imageUrl: string | ArrayBuffer | null = null;
 
-  /** Inserted by Angular inject() migration for backwards compatibility */
-  constructor(...args: unknown[]);
   constructor() {
     this.model = {
       titolo: '',

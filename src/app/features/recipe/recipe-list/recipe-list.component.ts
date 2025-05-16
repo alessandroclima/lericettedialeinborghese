@@ -6,6 +6,8 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 
 import { FormsModule } from '@angular/forms';
 import { GetRecipeDetailResponse } from '../models/get-recipe-detail-response.model';
+import { User } from '../../auth/models/user.model';
+import { AuthService } from '../../auth/services/auth.service';
 
 @Component({
   selector: 'app-recipe-list',
@@ -14,29 +16,29 @@ import { GetRecipeDetailResponse } from '../models/get-recipe-detail-response.mo
   imports: [FormsModule, RouterLink]
 })
 export class RecipeListComponent implements OnInit {
+
+  //inject dei services
+  private authService = inject(AuthService)
   private recipeService = inject(RecipeService);
   private route = inject(ActivatedRoute);
   private renderer = inject(Renderer2);
 
-
-
+  //dichiarazione delle variabili
   private getRecipeSubscription?: Subscription;
   private deleteRecipeSubscription?: Subscription;
   private detailsRecipeSubscription?: Subscription;
-
-  /** Inserted by Angular inject() migration for backwards compatibility */
-  constructor(...args: unknown[]);
-  constructor() { }
   availableRecipes: GetRecipeDetailResponse[] = [];
   errorMessage: string | null = null;
   filteredRecipes: GetRecipeDetailResponse[] = [];
   searchQuery: string = '';
   categoryQuery: string = '';
   recipeIdToDelete: string | null = null;
+  user?: User;
 
+  //costruttore
+  constructor() { }
 
-
-
+  //metodi per la logica
   detailsRecipe(arg0: string) {
     this.detailsRecipeSubscription = this.recipeService.getRecipeDetails(arg0).subscribe({
       next: (response) => {
@@ -103,6 +105,14 @@ export class RecipeListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    //recupero il valore dello user dall'auth service
+    this.authService.user().subscribe({
+      next: (response) => this.user = response
+    });
+
+    this.user = this.authService.getUser();
+    
     // Recupera il valore della ricerca dall'URL
     this.route.queryParams.subscribe(params => {
       this.searchQuery = params['search'] || '';
@@ -128,7 +138,7 @@ export class RecipeListComponent implements OnInit {
 
   filterRecipes() {
     console.log('Filtering recipes with text:', this.searchQuery);
-    if(this.searchQuery){
+    if (this.searchQuery) {
       this.filteredRecipes = this.availableRecipes.filter(recipe =>
         recipe.titolo.toLowerCase().includes(this.searchQuery.toLowerCase())
       );
