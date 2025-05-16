@@ -11,6 +11,6 @@ export interface GetRecipeResponse {
     immagineurl: string;
     categorianome: string;
     alimentazionenome: string;
-    dataCreazione: Date;
+    dataCreazione: Date|undefined;
     ingredientiQuantita: IngredientQuantity[];
 }

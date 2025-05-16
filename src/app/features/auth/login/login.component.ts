@@ -11,6 +11,7 @@ import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { User } from '../models/user.model';
+import { ForgotPassword } from '../models/forgot-password.model';
 
 @Component({
   selector: 'app-login',
@@ -19,6 +20,7 @@ import { User } from '../models/user.model';
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
+
   OnRegister() {
     this.router.navigate(['/register']);
   }
@@ -26,24 +28,24 @@ export class LoginComponent {
   private authService = inject(AuthService);
   private router = inject(Router)
   private cookieService = inject(CookieService)
-  
+
   OnForgotPassword(form: NgForm) {
     //se la mail è vuota o nulla mostra messaggio di errore sul form
-    if (form.value.email == null || form.value.email == '') {
-      form.controls['email'].setErrors({ 'required': true });
+    if (form.value.emailforreset == null || form.value.emailforreset == '') {
+      form.controls['emailforreset'].setErrors({ 'required': true });
       console.error('Email is required');
       return;
     }
     //se la mail non è valida mostra messaggio di errore sul form
-    if (!form.controls['email'].valid) {
+    if (!form.controls['emailforreset'].valid) {
       console.error('Email is not valid');
       return;
     }
     //se la mail è valida mostra messaggio di successo sul form
     this.success = true;
-    form.controls['email'].setErrors(null);
+    form.controls['emailforreset'].setErrors(null);
     console.log('Email is valid');
-    this.forgotPasswordSubscription = this.authService.forgotPassword(form.value.email)
+    this.forgotPasswordSubscription = this.authService.forgotPassword(this.modelForgotPassword())
       .subscribe({
         next: (response) => {
           console.log('Email sent', response);
@@ -54,29 +56,33 @@ export class LoginComponent {
       });
   }
 
-  onSubmit(form: any) {
-    if(form.valid){
+  onSubmit(form: NgForm) {
+    if (form.valid) {
       this.loginSubscription = this.authService.loginUser(this.model())
-      .subscribe({
-        next: (response) => {
-          console.log(response);
-          this.cookieService.set('Authorization', `Bearer ${response.token}`, undefined, '/', undefined, true, 'Strict');
-          const user: User = {
-            email: response.email,
-            roles: response.roles
-          };
-          this.authService.setUser(user);
-          this.router.navigate(['/admin/recipes']);
-        },
-        error: (error) => {
-          console.error('Error logging user', error);
-        },
-      });
+        .subscribe({
+          next: (response) => {
+            console.log(response);
+            this.cookieService.set('Authorization', `Bearer ${response.token}`, undefined, '/', undefined, true, 'Strict');
+            const user: User = {
+              email: response.email,
+              roles: response.roles
+            };
+            this.authService.setUser(user);
+            this.router.navigate(['/admin/recipes']);
+          },
+          error: (error) => {
+            console.error('Error logging user', error);
+          },
+        });
     }
-    else{
+    else {
       console.error('Form is invalid', form.errors);
     }
 
+  }
+
+  onShowPassword() {
+    this.showPassword.set(!this.showPassword());
   }
 
   model = signal<LoginRequest>({
@@ -84,6 +90,11 @@ export class LoginComponent {
     password: ''
   });
 
+  modelForgotPassword = signal<ForgotPassword>({
+    Email: ''
+  });
+
+  showPassword = signal<boolean>(false);
 
   success: boolean = false;
   private loginSubscription?: Subscription;

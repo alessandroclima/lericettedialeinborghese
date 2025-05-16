@@ -18,8 +18,12 @@
             </div>
             <div class="mb-3">
               <label for="password" class="form-label">Password</label>
-              <input type="password" required class="form-control" id="password" name="password"
+              <div class="input-group mb-3">
+                <input [type]="showPassword() ? 'text' : 'password'" required class="form-control" id="password" name="password"
                 placeholder="Inserisci password" [(ngModel)]="model().password" #password="ngModel">
+                <button class="btn btn-outline-secondary" type="button" id="button-addon2" (click)="onShowPassword()"><i [class]="showPassword() ? 'bi bi-eye-slash-fill' : 'bi bi-eye-fill'"></i></button>
+              </div>
+             
               @if(password.invalid && (password.touched||loginForm.submitted)) {
               <small class="text-red" *ngIf="password.errors?.['required']">Password obbligatoria</small>
               }
@@ -41,9 +45,9 @@
                     @if(!success){
                       <form #forgotForm="ngForm" (ngSubmit)="OnForgotPassword(forgotForm)">
                         <div class="mb-3">
-                          <label for="email" class="form-label">Email</label>
-                          <input type="email" required class="form-control" id="email" name="email"
-                            placeholder="Inserisci la tua email" [(ngModel)]="model().email" #emailforreset="ngModel">
+                          <label for="emailforreset" class="form-label">Email</label>
+                          <input type="email" required class="form-control" id="emailforreset" name="emailforreset"
+                            placeholder="Inserisci la tua email" [(ngModel)]="modelForgotPassword().Email" #emailforreset="ngModel">
                           @if(email.invalid && (email.touched||forgotForm.submitted)) {
                           <small class="text-red" *ngIf="email.errors?.['required']">Email obbligatoria</small>
                           <small *ngIf="email.errors?.['email']">Formato email non valido</small>

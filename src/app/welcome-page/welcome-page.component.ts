@@ -36,7 +36,7 @@ export class WelcomePageComponent implements OnInit {
     this.getRecipeSubscription = this.recipeService.getRecipes().subscribe({
       next: (response) => {
         //ordino le ricette in base alla data di creazione in modo decrescente
-        const dataorder = response.sort((a, b) => new Date(b.dataCreazione).getTime() - new Date(a.dataCreazione).getTime());
+        const dataorder = response.sort((a, b) => new Date(b.dataCreazione!).getTime() - new Date(a.dataCreazione!).getTime());
 
         // Ordino le ricette in base alla votazione in modo decrescente
         const mostvoted = response.sort((a, b) => b.tempocottura - a.tempocottura); 

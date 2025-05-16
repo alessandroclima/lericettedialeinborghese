@@ -1,14 +1,39 @@
-<nav class="navbar navbar-expand-lg" style="background-color: white;">
+<!-- <nav class="navbar navbar-expand-lg" style="background-color: white;">
   <div class="container-fluid">
 
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-      <span class="navbar-toggler-icon"></span>
+    <a class="btn btn-primary" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
+      Link with href
+    </a>
+    <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+      Button with data-bs-target
     </button>
+    
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasExampleLabel">Offcanvas</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body">
+        <div>
+          Some text as placeholder. In real life you can have the elements you have chosen. Like, text, images, lists, etc.
+        </div>
+        <div class="dropdown mt-3">
+          <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+            Dropdown button
+          </button>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Action</a></li>
+            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
 
-    <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <a class="navbar-brand" href="/">
-          <img src="assets/static/files/miafototest.jpeg" alt="Logo" style="height: 50px;">
+    <div class="collapse navbar-collapse  justify-content-between" id="navbarNav">
+      <ul class="navbar-nav mx-3 me-auto mb-2 mb-lg-0 align-items-center d-flex">
+        <a class="navbar-brand" routerLink="/">
+          <img src="assets/static/files/profilonavbar.jpg" alt="Logo" style="height: 100px;">
         </a>
         <li class="nav-item me-2">
           <a class="nav-link custom-link" routerLink="/"><i class="fa-solid fa-house me-2"></i>Home</a>
@@ -25,12 +50,8 @@
          
           </ul>
         </li>
-        <!-- <li class="nav-item">
-          <a class="nav-link custom-link" routerLink="/admin/ingredients"><i class="fa-solid fa-bowl-food me-2"></i>Ingredienti</a>
-        </li> -->
       </ul>
 
-       <!-- Search Bar -->
        <form class="d-flex flex-grow-1 mx-3" (ngSubmit)="onSearchRecipes()">
         <input class="form-control me-2" type="search" placeholder="Cerca una ricetta" aria-label="Search" name="searchText" [(ngModel)]="searchText">
         <button type="submit" class="btn btn-light"><i class="fa-solid fa-magnifying-glass" style="color: #e84919;"></i></button>
@@ -47,4 +68,105 @@
    
     </div>
   </div>
+</nav> -->
+
+<nav class="navbar navbar-expand-lg bg-body-tertiary mb-3" style="background-color: white;">
+  <div class="container mx-0">
+    <div class="row" style="width: 100%;">
+      <button class="navbar-toggler col-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#navbarOffcanvasLg"
+        aria-controls="navbarOffcanvasLg" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="offcanvas offcanvas-start col-4" tabindex="-1" id="navbarOffcanvasLg"
+        aria-labelledby="navbarOffcanvasLgLabel">
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Le ricette di Ale in borghese</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+          <ul class="navbar-nav justify-content-start flex-grow-1 pe-3">
+            <li class="nav-item me-2">
+              <a class="nav-link custom-link" routerLink="/"><i class="fa-solid fa-house me-2"></i>Home</a>
+            </li>
+            <li class="nav-item dropdown me-2">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                <i class="fa-solid fa-utensils me-1"></i> Ricette
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" routerLink="/admin/recipes">Tutte le ricette</a></li>
+                @for(category of availablableCategories; track category) {
+                <li><a class="dropdown-item" (click)="searchRecipesByCategory(category.name)">{{category.name}}</a>
+                </li>
+                }
+
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <form class="d-flex flex-grow-1 col-6" (ngSubmit)="onSearchRecipes()">
+        <input class="form-control me-2" type="search" placeholder="Cerca una ricetta" aria-label="Search" name="searchText" [(ngModel)]="searchText">
+        <button type="submit" class="btn btn-light"><i class="fa-solid fa-magnifying-glass" style="color: #e84919;"></i></button>
+        <div class="d-flex ms-2">
+          @if(user===undefined){
+            <button type="button" class="btn btn-light" [routerLink]="['login']"><i class="fa-solid fa-user" style="color: #e84919;"></i></button>
+          }
+          @else {
+          <button type="button" class="btn btn-light" (click)="onLogout()"><strong  style="color: #e84919;">Logout</strong></button>
+          }
+        </div>
+      </form>
+    </div>
+  </div>
+
 </nav>
+
+
+
+
+
+
+
+<!-- <nav class="navbar navbar-expand-lg bg-body-tertiary mb-3" style="background-color: white;">
+  <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#navbarOffcanvasLg" aria-controls="navbarOffcanvasLg" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="offcanvas offcanvas-start" tabindex="-1" id="navbarOffcanvasLg" aria-labelledby="navbarOffcanvasLgLabel">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Le ricette di Ale in borghese</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+      <ul class="navbar-nav justify-content-start flex-grow-1 pe-3">
+        <li class="nav-item me-2">
+          <a class="nav-link custom-link" routerLink="/"><i class="fa-solid fa-house me-2"></i>Home</a>
+        </li>
+        <li class="nav-item dropdown me-2">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fa-solid fa-utensils me-1"></i> Ricette
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" routerLink="/admin/recipes">Tutte le ricette</a></li>
+            @for(category of availablableCategories; track category) {
+              <li><a class="dropdown-item" (click)="searchRecipesByCategory(category.name)">{{category.name}}</a></li>
+            }
+         
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <form class="d-flex flex-grow-1 mx-3" (ngSubmit)="onSearchRecipes()">
+    <input class="form-control me-2" type="search" placeholder="Cerca una ricetta" aria-label="Search" name="searchText" [(ngModel)]="searchText">
+    <button type="submit" class="btn btn-light"><i class="fa-solid fa-magnifying-glass" style="color: #e84919;"></i></button>
+    <div class="d-flex ms-2">
+      @if(user===undefined){
+        <button type="button" class="btn btn-light" [routerLink]="['login']"><i class="fa-solid fa-user" style="color: #e84919;"></i></button>
+      }
+      @else {
+      <button type="button" class="btn btn-light" (click)="onLogout()"><strong  style="color: #e84919;">Logout</strong></button>
+      }
+    </div>
+  </form>
+</nav> -->

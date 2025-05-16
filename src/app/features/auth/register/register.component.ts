@@ -45,6 +45,9 @@ export class RegisterComponent {
     this.authService.registerUser(this.model()).subscribe({
       next: () => {
         console.log('User registered successfully');
+        //invia una mail di conferma all'utente
+        alert('Registration successful! Please check your email for confirmation.');
+        //reindirizza alla pagina di login
         this.router.navigate(['/login']);
       },
       error: (error) => {

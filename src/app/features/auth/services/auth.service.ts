@@ -8,6 +8,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { environment } from 'src/environments/environment';
 import { RegisterRequest } from '../models/register-request.model';
 import { ResetPassword } from '../models/reset-password.model';
+import { ForgotPassword } from '../models/forgot-password.model';
 
 
 
@@ -32,7 +33,7 @@ export class AuthService {
   resetPassword(resetPassword: ResetPassword): Observable<void> {
     return this.http.post<void>(`${environment.apiBaseUrl}/api/Auth/reset-password`, resetPassword);
   }
-  forgotPassword(email: string): Observable<void> {
+  forgotPassword(email: ForgotPassword): Observable<void> {
     return this.http.post<void>(`${environment.apiBaseUrl}/api/Auth/forgot-password`, { email });
   }
 

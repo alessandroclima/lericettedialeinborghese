@@ -113,7 +113,8 @@
       <div class="card mb-3">
         <div class="card-body">
           <!-- lo username è da definire; la data è localizzata in italiano nel ts -->
-          <h6 class="card-title">{{ commento.email.split('@')[0] }} - {{commento.datainserimento| date:'d MMMM yyyy, HH:mm' }}</h6>
+          <h6 class="card-title">{{ commento.email.split('@')[0] }} - {{commento.datainserimento| date:'d MMMM yyyy,
+            HH:mm' }}</h6>
 
           @if(user.email == commento.email && showInput){
           <textarea class="form-control mb-2" rows="3" placeholder="Scrivi il tuo commento..."
@@ -202,7 +203,13 @@
   </div>
   }
 
-  } @else {
-  <p>Loading...</p>
+  }
+  @else
+  {
+  <div class="text-center mt-5">
+    <div class="spinner-border" style="width: 4rem; height: 4rem; color: #e84919;" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
   }
 </div>

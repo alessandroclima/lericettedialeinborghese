@@ -73,3 +73,14 @@
     font-weight: bold;
     pointer-events: none;
   }
+
+  .spinner-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100dvh; /* più preciso di 100vh */
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+  
