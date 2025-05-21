@@ -12,5 +12,6 @@ export interface GetRecipeResponse {
     categorianome: string;
     alimentazionenome: string;
     dataCreazione: Date|undefined;
+    author:string;
     ingredientiQuantita: IngredientQuantity[];
 }

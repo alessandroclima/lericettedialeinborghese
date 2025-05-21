@@ -21,6 +21,7 @@ export class RegisterComponent {
   samePassword: boolean = false;
 
   model = signal<RegisterRequest>({
+    username:'',
     email: '',
     password: '',
     confirmPassword: '',

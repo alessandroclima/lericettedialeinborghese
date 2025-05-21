@@ -10,5 +10,6 @@ export interface UpdateRecipeRequest {
   immagineUrl: string;
   categoriaid: number;
   alimentazioneid: number;
+  EmailAuthor: string;
   ingredientiquantita: IngredientQuantity[];
 }

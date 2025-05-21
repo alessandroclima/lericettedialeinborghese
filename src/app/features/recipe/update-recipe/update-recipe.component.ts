@@ -12,20 +12,24 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { GetCategoryResponse } from '../models/get-category-response.model';
 import { DietService } from '../services/diet.service';
 import { GetDietResponse } from '../models/get-diet-response.model';
+import { AuthService } from '../../auth/services/auth.service';
+import { User } from '../../auth/models/user.model';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
-    selector: 'app-update-recipe',
-    templateUrl: './update-recipe.component.html',
-    styleUrls: ['./update-recipe.component.css'],
-    imports: [FormsModule]
+  selector: 'app-update-recipe',
+  templateUrl: './update-recipe.component.html',
+  styleUrls: ['./update-recipe.component.css'],
+  imports: [FormsModule]
 })
 export class UpdateRecipeComponent {
   private ingredientService = inject(IngredientService);
   private recipeService = inject(RecipeService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
-  private categoryService= inject(CategoryService);
+  private categoryService = inject(CategoryService);
   private dietService = inject(DietService);
+  private authService = inject(AuthService)
 
   removeIngredient(ingredientNome: string) {
     if (ingredientNome) {
@@ -77,6 +81,10 @@ export class UpdateRecipeComponent {
       return;
     }
     console.log('Form is valid', form.value);
+    if (this.user?.email !== undefined) {
+      this.model.EmailAuthor = this.user.email;
+    }
+
     if (this.model) {
       this.updateRecipeSubscription = this.recipeService
         .updateRecipe(this.model)
@@ -85,9 +93,18 @@ export class UpdateRecipeComponent {
             console.log('Recipe updated');
             this.router.navigate(['/admin/recipes']);
           },
-          error: (error) => {
-            console.error('Error updating recipe', error);
-          },
+          // error: (error: HttpErrorResponse) => {
+          //   console.error('Error updating recipe', error);
+          //   if (error.status === 403) {
+          //     alert('Non hai i permessi per modificare questa ricetta.');
+          //   } else if (error.status === 404) {
+          //     alert('Ricetta non trovata.');
+          //   } else if (error.error?.message) {
+          //     alert(`Errore: ${error.error.message}`);
+          //   } else {
+          //     alert('Si è verificato un errore imprevisto.');
+          //   }
+          // },
         });
     }
   }
@@ -103,6 +120,7 @@ export class UpdateRecipeComponent {
       immagineUrl: '',
       categoriaid: 0,
       alimentazioneid: 0,
+      EmailAuthor: '',
       ingredientiquantita: [],
     };
   }
@@ -120,8 +138,16 @@ export class UpdateRecipeComponent {
   getIngredientsSubscription?: Subscription;
   updateRecipeSubscription?: Subscription;
   recipeId: string | null = null;
+  user: User | undefined;
 
   ngOnInit(): void {
+    //recupero il valore dello user dall'auth service
+    this.authService.user().subscribe({
+      next: (response) => this.user = response
+
+    });
+    this.user = this.authService.getUser();
+    console.log(this.user?.username)
     this.recipeId = this.route.snapshot.paramMap.get('id');
     if (this.recipeId) {
       this.loadIngredients();

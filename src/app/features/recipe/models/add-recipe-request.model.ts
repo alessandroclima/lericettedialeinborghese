@@ -9,5 +9,6 @@ export interface AddRecipeRequest {
     immagineUrl: string;
     categoriaid: number | undefined;
     alimentazioneid: number | undefined;
+    EmailAuthor: string|undefined;
     ingredientiquantita: IngredientQuantity[];
 }

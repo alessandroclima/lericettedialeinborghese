@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { GetRecipeDetailResponse } from '../models/get-recipe-detail-response.model';
 import { User } from '../../auth/models/user.model';
 import { AuthService } from '../../auth/services/auth.service';
+import { Toast, ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-recipe-list',
@@ -22,6 +23,7 @@ export class RecipeListComponent implements OnInit {
   private recipeService = inject(RecipeService);
   private route = inject(ActivatedRoute);
   private renderer = inject(Renderer2);
+  private toastr = inject(ToastrService)
 
   //dichiarazione delle variabili
   private getRecipeSubscription?: Subscription;
@@ -104,15 +106,19 @@ export class RecipeListComponent implements OnInit {
     }
   }
 
+   showToast() {
+    console.log('Click sul bottone, mostro toast');
+    this.toastr.success('Test toast visibile!', 'Successo');}
+
   ngOnInit(): void {
 
     //recupero il valore dello user dall'auth service
     this.authService.user().subscribe({
       next: (response) => this.user = response
+      
     });
-
     this.user = this.authService.getUser();
-    
+            console.log(this.user?.username)
     // Recupera il valore della ricerca dall'URL
     this.route.queryParams.subscribe(params => {
       this.searchQuery = params['search'] || '';
@@ -121,10 +127,13 @@ export class RecipeListComponent implements OnInit {
     });
   }
 
+ 
+
   loadRecipes(): void {
     this.getRecipeSubscription = this.recipeService.getRecipes().subscribe({
       next: (response) => {
         this.availableRecipes = response;
+        console.log(this.availableRecipes)
         this.filterRecipes();
       },
       error: (error) => {

@@ -64,6 +64,7 @@ export class LoginComponent {
             console.log(response);
             this.cookieService.set('Authorization', `Bearer ${response.token}`, undefined, '/', undefined, true, 'Strict');
             const user: User = {
+              username:response.username,
               email: response.email,
               roles: response.roles
             };

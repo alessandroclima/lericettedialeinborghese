@@ -8,6 +8,20 @@
                     <div class="flex-fill pe-md-4 mb-4 mb-md-0 w-100">
                         <h2 class="mb-4 text-center" style="color: #e84919;">Registrati</h2>
                         <form #registrationForm="ngForm" (ngSubmit)="onSubmit(registrationForm)">
+                              <div class="mb-3">
+                                <label for="username" class="form-label">Username</label>
+                                <input type="email" id="username" class="form-control" [(ngModel)]="model().username"
+                                    name="username" required #username="ngModel">
+                                    @if(username.invalid && (username.touched||registrationForm.submitted)) {
+                                        @if(username.errors?.['required']) {
+                                            <small class="text-red">Username obbligatoria</small>
+                                        } 
+                                        @else if(username.errors?.['username']) {
+                                            <small class="text-red">Formato username non valido</small>
+                                        }
+                                    }
+                                    
+                            </div>
                             <div class="mb-3">
                                 <label for="email" class="form-label">Email</label>
                                 <input type="email" id="email" class="form-control" [(ngModel)]="model().email"

@@ -15,7 +15,7 @@ export const authGuard: CanActivateFn = (route, state) => {
   const cookieService = inject(CookieService);
   const router = inject(Router);
   const authService = inject(AuthService);
-  
+
   const tokenWithBearer = cookieService.get('Authorization');
   console.log(tokenWithBearer);
   if (!tokenWithBearer?.startsWith('Bearer ')) {
@@ -41,6 +41,15 @@ export const authGuard: CanActivateFn = (route, state) => {
       alert('Accesso negato. Non hai i permessi necessari.');
       return false;
     }
+
+    // Controllo dell'autore della ricetta nel caso di update
+    // const routeAuthor = route.paramMap.get('author');
+    // console.log(routeAuthor)
+    // const currentUsername = authService.getUser()?.username;
+    // if (routeAuthor !== null && routeAuthor !== currentUsername) {
+    //   alert('Non puoi modificare ricette di altri utenti.');
+    //   return false;
+    // }
 
     // ✅ Accesso consentito
     return true;

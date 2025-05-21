@@ -32,10 +32,10 @@ const routes: Routes = [{
   data:{ roles: ['reader'] }
 },
 {
-  path: 'admin/recipes/update/:id',
+  path: 'admin/recipes/update/:author/:id',
   loadComponent: () => import('./features/recipe/update-recipe/update-recipe.component').then(m => m.UpdateRecipeComponent),
   canActivate: [authGuard],
-  data:{ roles: ['reader'] }
+  data:{ roles: ['writer'] }
 },
 {
   path: 'login',

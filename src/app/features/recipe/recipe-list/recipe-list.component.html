@@ -78,9 +78,11 @@
                     <i class="bi bi-trash"></i>
                   </button>
                   }
-                  <button class="btn btn-light btn-sm me-2" [routerLink]="['/admin/recipes/update', recipe.id]">
+                  @if(user!== undefined && user.roles.includes('writer') && user.username === recipe.author){
+                  <button class="btn btn-light btn-sm me-2" [routerLink]="['/admin/recipes/update', recipe.author, recipe.id]">
                     <i class="bi bi-pencil"></i>
                   </button>
+                  }
                   <button class="btn btn-light btn-sm" [routerLink]="['/admin/recipes', recipe.id]">
                     <i class="bi bi-book"></i>
                   </button>

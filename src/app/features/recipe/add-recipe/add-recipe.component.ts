@@ -11,6 +11,8 @@ import { GetCategoryResponse } from '../models/get-category-response.model';
 import { CategoryService } from '../services/category.service';
 import { GetDietResponse } from '../models/get-diet-response.model';
 import { DietService } from '../services/diet.service';
+import { AuthService } from '../../auth/services/auth.service';
+import { User } from '../../auth/models/user.model';
 
 @Component({
     selector: 'app-add-recipe',
@@ -23,10 +25,11 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
   private categoryService = inject(CategoryService);
   private dietService = inject(DietService);
   private recipeService = inject(RecipeService);
+  private authService = inject(AuthService)
   private router = inject(Router);
 
   model: AddRecipeRequest;
-
+  user: User|undefined;
   private addRecipeSubscription?: Subscription;
 
   availableIngredients: GetIngredientResponse[] = [];
@@ -48,10 +51,23 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
       immagineUrl: '',
       categoriaid: undefined,
       alimentazioneid: undefined,
+      EmailAuthor: undefined,
       ingredientiquantita: [],
     };
   }
   ngOnInit(): void {
+      this.authService.user().subscribe({
+      next: (response) => this.user = response
+    });
+
+    this.user = this.authService.getUser();
+    if(this.user == undefined){
+      //metti un alert che l'utente è sconosciuto
+
+    }
+    else{
+      this.model.EmailAuthor = this.user.email;
+    }
     this.loadAvailableIngredients();
     this.loadAvailableCategories();
     this.loadAvailableDiets();

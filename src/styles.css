@@ -1,4 +1,7 @@
 @import "primeicons/primeicons.css";
+@import 'ngx-toastr/toastr';
+
+
 /* You can add global styles to this file, and also import other style files */
 html, body {
   height: 100%;
@@ -25,4 +28,25 @@ html, body {
 
 .border-orange {
   border-color: #e84919;
+}
+
+/* 1. Porta in primo piano il container degli overlay */
+.cdk-overlay-container {
+  z-index: 99999 !important;
+  position: fixed !important;
+  pointer-events: none;
+}
+
+/* 2. Assicura che i toast dentro siano visibili e interattivi */
+.toast-container {
+  z-index: 99999 !important;
+  pointer-events: auto !important;
+}
+
+/* 3. Se vuoi centrare completamente i toast */
+.toast-center {
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  position: fixed !important;
 }

@@ -3,6 +3,7 @@ import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { NavbarComponent } from './core/components/navbar/navbar.component';
 import { NgClass } from '@angular/common';
 import { WelcomePageComponent } from "./welcome-page/welcome-page.component";
+import { Toast, ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-root',
@@ -12,7 +13,7 @@ import { WelcomePageComponent } from "./welcome-page/welcome-page.component";
 })
 export class AppComponent {
   private router = inject(Router);
-
+  private toastr = inject(ToastrService)
   title = 'tocookistolivefe';
 
   isHomePage: boolean = false;
@@ -30,4 +31,7 @@ export class AppComponent {
       }
     });
   }
+
+
 }
+
