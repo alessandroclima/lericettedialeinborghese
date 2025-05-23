@@ -56,9 +56,9 @@ export class NavbarComponent implements OnInit {
 
   onSearchRecipes() {
     const query = this.searchText?.trim() ?? '';
-
+    console.log('Cercando ricette con query', query);
     this.router.navigate(['admin/recipes'], {
-      queryParams: query ? { q: query } : {}
+      queryParams: query ? { query: query } : {}
     });
   }
 

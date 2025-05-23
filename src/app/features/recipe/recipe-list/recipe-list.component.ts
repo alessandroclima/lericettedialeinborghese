@@ -41,18 +41,18 @@ export class RecipeListComponent implements OnInit {
   constructor() { }
 
   //metodi per la logica
-  detailsRecipe(arg0: string) {
-    this.detailsRecipeSubscription = this.recipeService.getRecipeDetails(arg0).subscribe({
-      next: (response) => {
-        console.log('Recipe details', response);
-      },
-      error: (error) => {
-        console.error('Error fetching recipe details', error);
-        this.errorMessage = error.message;
-      },
-      complete: () => console.log('Chiamata API completata')
-    });
-  }
+  // detailsRecipe(arg0: string) {
+  //   this.detailsRecipeSubscription = this.recipeService.getRecipeDetails(arg0).subscribe({
+  //     next: (response) => {
+  //       console.log('Recipe details', response);
+  //     },
+  //     error: (error) => {
+  //       console.error('Error fetching recipe details', error);
+  //       this.errorMessage = error.message;
+  //     },
+  //     complete: () => console.log('Chiamata API completata')
+  //   });
+  // }
   deleteRecipe(arg0: string) {
     this.deleteRecipeSubscription = this.recipeService.deleteRecipe(arg0).subscribe({
       next: (response) => {
@@ -121,7 +121,7 @@ export class RecipeListComponent implements OnInit {
             console.log(this.user?.username)
     // Recupera il valore della ricerca dall'URL
     this.route.queryParams.subscribe(params => {
-      this.searchQuery = params['search'] || '';
+      this.searchQuery = params['query'] || '';
       this.categoryQuery = params['category'] || '';
       this.loadRecipes();
     });

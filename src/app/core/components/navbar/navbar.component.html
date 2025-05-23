@@ -5,9 +5,16 @@
         aria-controls="navbarOffcanvasLg" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <a class="navbar-brand col-1" routerLink="/">
-        <img src="assets/static/files/profilonavbar.jpg" alt="Logo" style="height: 50px;">
-      </a>
+      <div class="row col-2" style="height: 50px;">
+        <a class="navbar-brand col-1" routerLink="/">
+          <img src="assets/static/files/profilonavbar.jpg" alt="Logo" style="height: 50px;">
+        </a>
+        <a class="navbar-brand col col-xxl-1 my-2 ms-3 d-none d-xxl-block" routerLink="/">
+          <strong class="text-orange">Le ricette di Ale in
+            borghese</strong>
+        </a>
+      </div>
+
       <div class="offcanvas offcanvas-start col-4" tabindex="-1" id="navbarOffcanvasLg"
         aria-labelledby="navbarOffcanvasLgLabel">
         <div class="offcanvas-header">
@@ -21,7 +28,7 @@
               <a class="nav-link custom-link" routerLink="/"><i class="fa-solid fa-house me-2"></i>Home</a>
             </li>
             <li class="nav-item dropdown me-4">
-              <a class="nav-link dropdown-toggle" routerLink="/" role="button" data-bs-toggle="dropdown"
+              <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"
                 aria-expanded="false">
                 <i class="fa-solid fa-utensils me-1"></i>Ricette
               </a>
@@ -34,15 +41,14 @@
               </ul>
             </li>
             <li class="nav-item">
-              <a [routerLink]="['/admin/recipes/add']" class="nav-link custom-link"
-                style="border-color: #e84919;">
+              <a [routerLink]="['/admin/recipes/add']" class="nav-link custom-link" style="border-color: #e84919;">
                 <i class="fa-solid fa-plus me-1"></i>Nuova Ricetta
               </a>
             </li>
           </ul>
         </div>
       </div>
-      <form class="d-flex flex-grow-1 col-5 my-2" style="height: 50%;" (ngSubmit)="onSearchRecipes()">
+      <form class="d-flex flex-grow-1 col-4 my-2" style="height: 50%;" (ngSubmit)="onSearchRecipes()">
         <input class="form-control me-2" type="search" placeholder="Cerca una ricetta" aria-label="Search"
           name="searchText" [(ngModel)]="searchText">
         <button type="submit" class="btn btn-light"><i class="fa-solid fa-magnifying-glass"

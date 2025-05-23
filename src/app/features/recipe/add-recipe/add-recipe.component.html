@@ -18,53 +18,59 @@
         <input type="text" class="form-control" id="description" name="description" [(ngModel)]="model.descrizione"
           placeholder="Inserisci la descrizione">
       </div>
-      <div class="mb-3">
-        <label for="cookTime" class="form-label text-orange text-bold">Tempo di cottura</label>
-        <input type="number" class="form-control" id="cookTime" name="cookTime" [(ngModel)]="model.tempocottura"
-          placeholder="Inserisci il tempo di cottura" required #tempocottura="ngModel">
-        @if(tempocottura.invalid && (tempocottura.touched||form.submitted)) {
-        @if(tempocottura.errors?.['required']) {
-        <small class="text-red">Il tempo di cottura è obbligatorio</small>
-        }
-        }
-      </div>
-      <div class="mb-3">
-        <label for="servings" class="form-label text-orange text-bold">Porzioni</label>
-        <input type="number" class="form-control" id="servings" name="servings" [(ngModel)]="model.porzioni"
-          placeholder="Inserisci il numero di porzioni" required #porzioni="ngModel">
-        @if(porzioni.invalid && (porzioni.touched||form.submitted)) {
-        @if(porzioni.errors?.['required']) {
-        <small class="text-red">Il numero di porzioni è obbligatorio</small>
-        }
-        }
-      </div>
-      <div class="mb-3">
-        <label for="ingredients" class="form-label text-orange text-bold">Categoria</label>
-        <select class="form-select" [(ngModel)]="model.categoriaid" name="categoriaid" required #categoriaid="ngModel">
-          <option [ngValue]="undefined" disabled selected>Seleziona una categoria</option>
-          @for (category of availableCategories; track category) {
-          <option [ngValue]="category.id">{{
-            category.name }}</option>
+      <div class="row mb-3">
+        <div class="col-2">
+          <label for="cookTime" class="form-label text-orange text-bold">Tempo di cottura</label>
+          <input type="number" class="form-control" id="cookTime" name="cookTime" [(ngModel)]="model.tempocottura"
+            placeholder="Inserisci il tempo di cottura" required #tempocottura="ngModel">
+          @if(tempocottura.invalid && (tempocottura.touched||form.submitted)) {
+          @if(tempocottura.errors?.['required']) {
+          <small class="text-red">Il tempo di cottura è obbligatorio</small>
           }
-        </select>
-        @if(categoriaid.invalid && (categoriaid.touched||form.submitted)) {
-        <small class="text-red">La categoria è obbligatoria</small>
-        }
-      </div>
-      <div class="mb-3">
-        <label for="ingredients" class="form-label text-orange text-bold">Tipo di alimentazione</label>
-        <select class="form-select" [(ngModel)]="model.alimentazioneid" name="alimentazioneid" required
-          #alimentazioneid="ngModel">
-          <option [ngValue]="undefined" disabled selected>Seleziona una alimentazione</option>
-          @for (diet of availableDiets; track diet) {
-          <option [value]="diet.id">{{
-            diet.name }}</option>
           }
-        </select>
-        @if(alimentazioneid.invalid && (alimentazioneid.touched||form.submitted)) {
-        <small class="text-red">Il tipo di alimentazione è obbligatoria</small>
-        }
+        </div>
+        <div class="col-2">
+          <label for="servings" class="form-label text-orange text-bold">Porzioni</label>
+          <input type="number" class="form-control" id="servings" name="servings" [(ngModel)]="model.porzioni"
+            placeholder="Inserisci il numero di porzioni" required #porzioni="ngModel">
+          @if(porzioni.invalid && (porzioni.touched||form.submitted)) {
+          @if(porzioni.errors?.['required']) {
+          <small class="text-red">Il numero di porzioni è obbligatorio</small>
+          }
+          }
+        </div>
+        <div class="col-4">
+          <label for="ingredients" class="form-label text-orange text-bold">Categoria</label>
+          <select class="form-select" [(ngModel)]="model.categoriaid" name="categoriaid" required
+            #categoriaid="ngModel">
+            <option [ngValue]="undefined" disabled selected>Seleziona una categoria</option>
+            @for (category of availableCategories; track category) {
+            <option [ngValue]="category.id">{{
+              category.name }}</option>
+            }
+          </select>
+          @if(categoriaid.invalid && (categoriaid.touched||form.submitted)) {
+          <small class="text-red">La categoria è obbligatoria</small>
+          }
+        </div>
+        <div class="col-4">
+          <label for="ingredients" class="form-label text-orange text-bold">Tipo di alimentazione</label>
+          <select class="form-select" [(ngModel)]="model.alimentazioneid" name="alimentazioneid" required
+            #alimentazioneid="ngModel">
+            <option [ngValue]="undefined" disabled selected>Seleziona una alimentazione</option>
+            @for (diet of availableDiets; track diet) {
+            <option [value]="diet.id">{{
+              diet.name }}</option>
+            }
+          </select>
+          @if(alimentazioneid.invalid && (alimentazioneid.touched||form.submitted)) {
+          <small class="text-red">Il tipo di alimentazione è obbligatoria</small>
+          }
+        </div>
       </div>
+
+
+
       <div class="mb-3">
         <label for="ingredients" class="form-label text-orange text-bold">Ingredienti</label>
         <div class="input-group mb-3 col-12">

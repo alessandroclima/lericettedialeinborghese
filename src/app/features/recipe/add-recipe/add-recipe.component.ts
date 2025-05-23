@@ -13,6 +13,7 @@ import { GetDietResponse } from '../models/get-diet-response.model';
 import { DietService } from '../services/diet.service';
 import { AuthService } from '../../auth/services/auth.service';
 import { User } from '../../auth/models/user.model';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
     selector: 'app-add-recipe',
@@ -27,6 +28,7 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
   private recipeService = inject(RecipeService);
   private authService = inject(AuthService)
   private router = inject(Router);
+  private toastr = inject(ToastrService);
 
   model: AddRecipeRequest;
   user: User|undefined;
@@ -173,6 +175,7 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (response) => {
           console.log('Recipe added');
+          this.toastr.success('Ricetta aggiunta con successo!', 'Successo'); 
           this.router.navigate(['/admin/recipes']);
         },
         error: (error) => {

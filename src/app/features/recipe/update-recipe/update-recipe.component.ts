@@ -15,6 +15,7 @@ import { GetDietResponse } from '../models/get-diet-response.model';
 import { AuthService } from '../../auth/services/auth.service';
 import { User } from '../../auth/models/user.model';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-update-recipe',
@@ -29,7 +30,8 @@ export class UpdateRecipeComponent {
   private route = inject(ActivatedRoute);
   private categoryService = inject(CategoryService);
   private dietService = inject(DietService);
-  private authService = inject(AuthService)
+  private authService = inject(AuthService);
+  private toastr = inject(ToastrService);
 
   removeIngredient(ingredientNome: string) {
     if (ingredientNome) {
@@ -63,7 +65,7 @@ export class UpdateRecipeComponent {
     if (this.selectedIngredient) {
       this.model?.ingredientiquantita.push({
         ingredienteId: this.selectedIngredient,
-        quantita: this.ingredientQuantity,
+        quantita: Number.parseFloat(this.ingredientQuantity!.toString().replace(',', '.')),
         ingredienteNome: this.availableIngredients.find(
           (x) => x.id == this.selectedIngredient
         )!.name,
@@ -91,20 +93,9 @@ export class UpdateRecipeComponent {
         .subscribe({
           next: () => {
             console.log('Recipe updated');
+            this.toastr.success('Ricetta aggiornata con successo!', 'Successo');
             this.router.navigate(['/admin/recipes']);
-          },
-          // error: (error: HttpErrorResponse) => {
-          //   console.error('Error updating recipe', error);
-          //   if (error.status === 403) {
-          //     alert('Non hai i permessi per modificare questa ricetta.');
-          //   } else if (error.status === 404) {
-          //     alert('Ricetta non trovata.');
-          //   } else if (error.error?.message) {
-          //     alert(`Errore: ${error.error.message}`);
-          //   } else {
-          //     alert('Si è verificato un errore imprevisto.');
-          //   }
-          // },
+          }
         });
     }
   }
