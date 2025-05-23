@@ -1,0 +1,1 @@
+import{Lc as i,N as r,Oc as n,T as e}from"./chunk-BF6ZZEZH.js";var h=(()=>{class t{constructor(){this.http=e(i),this.apiUrl=`${n.apiBaseUrl}/Ingredients/GetIngredients`}getIngredients(){return this.http.get(this.apiUrl)}static{this.\u0275fac=function(o){return new(o||t)}}static{this.\u0275prov=r({token:t,factory:t.\u0275fac,providedIn:"root"})}}return t})();export{h as a};
