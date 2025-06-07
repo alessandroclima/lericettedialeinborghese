@@ -9,6 +9,7 @@ import { GetRecipeDetailResponse } from '../models/get-recipe-detail-response.mo
 import { User } from '../../auth/models/user.model';
 import { AuthService } from '../../auth/services/auth.service';
 import { Toast, ToastrService } from 'ngx-toastr';
+import { GetRecipeListRequest } from '../models/get-recipe-list-request.modest';
 
 @Component({
   selector: 'app-recipe-list',
@@ -36,8 +37,13 @@ export class RecipeListComponent implements OnInit {
   categoryQuery: string = '';
   recipeIdToDelete: string | null = null;
   user?: User;
+  pagination: GetRecipeListRequest = {
+    pageNumber: 1,
+    pageSize: 10,
+    searchQuery: '',
+    categoryQuery: ''
+  }
 
-  //costruttore
   constructor() { }
 
   //metodi per la logica
@@ -130,7 +136,7 @@ export class RecipeListComponent implements OnInit {
  
 
   loadRecipes(): void {
-    this.getRecipeSubscription = this.recipeService.getRecipes().subscribe({
+    this.getRecipeSubscription = this.recipeService.getRecipes(this.pagination).subscribe({
       next: (response) => {
         this.availableRecipes = response;
         console.log(this.availableRecipes)

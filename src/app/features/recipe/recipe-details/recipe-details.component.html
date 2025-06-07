@@ -14,8 +14,15 @@
         <div class="p-2">
           <p><i class="bi bi-clock-fill me-2"></i><strong style="color: #e84919">Tempo di cottura:
             </strong>{{recipe()!.tempocottura}}</p>
-          <p><i class="fa-solid fa-people-group me-2"></i><strong style="color: #e84919">Porzioni:
-            </strong>{{recipe()!.porzioni}}</p>
+          <p><i class="fa-solid fa-people-group me-2"></i><strong style="color: #e84919">Dosi per porzioni:
+            </strong>
+            <input type="number" 
+                   class="form-control d-inline-block" 
+                   style="width: 60px;height: 25px; display: inline-block;" 
+                   min="1" 
+                   [value]="currentPortions" 
+                   (input)="onPortionsChange($event)">
+          </p>
           <p><i class="fa-solid fa-bowl-rice me-2"></i><strong style="color: #e84919">Categoria:
             </strong>{{recipe()!.categorianome}}</p>
           <p><i class="fa-solid fa-carrot me-2"></i><strong style="color: #e84919">Tipo di alimentazione:
@@ -67,7 +74,7 @@
           <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse">
             <div class="accordion-body">
               <ul class="list-group list-group-flush">
-                @for(ingredient of ingredientiModificati(); track ingredient) {
+                @for(ingredient of updatedIngredients; track ingredient) {
 
                 <li class="list-group-item"><strong><u>{{ingredient.ingredienteNome}}</u></strong>
                   @if(ingredient.quantita !== null && ingredient.quantita > 0){

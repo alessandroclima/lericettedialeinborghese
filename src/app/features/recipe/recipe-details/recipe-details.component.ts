@@ -67,7 +67,7 @@ export class RecipeDetailsComponent implements OnInit {
     });
   }
 
-  comeback(){
+  comeback() {
     this.showInput = false;
   }
 
@@ -95,6 +95,9 @@ export class RecipeDetailsComponent implements OnInit {
   // Variabile per gli ingredienti modificabili
   ingredientiModificati = signal<IngredientQuantity[]>([]);
 
+  // Variabile per gli ingredienti aggiornati
+  updatedIngredients:IngredientQuantity[]=[];
+
   // Variabile per i commenti
   recipeUser = signal<RecipeUser[]>([]);
 
@@ -112,7 +115,8 @@ export class RecipeDetailsComponent implements OnInit {
   groupedRelatedRecipes: GetRecipeResponse[][] = [];
   responsiveOptions: any[] | undefined;
   user?: User;
-
+  currentPortions: number = 1;
+  originalPortions: number = 1;
 
   /** Inserted by Angular inject() migration for backwards compatibility */
   constructor(...args: unknown[]);
@@ -136,9 +140,9 @@ export class RecipeDetailsComponent implements OnInit {
     //Quindi ngOnInit() non viene chiamato di nuovo a meno che tu non ti sottoscriva esplicitamente ai cambiamenti dei parametri
   }
 
-  calcolaMedia(){
+  calcolaMedia() {
     const media = this.recipeUser().reduce((acc, curr) => acc + curr.valutazione, 0) / this.recipeUser().length;
-    this.valutazioneMedia = Math.ceil(media*100)/100;
+    this.valutazioneMedia = Math.ceil(media * 100) / 100;
   }
 
   loadRecipe(id: string): void {
@@ -146,10 +150,12 @@ export class RecipeDetailsComponent implements OnInit {
       next: (response) => {
         // setta il signal recipe tramite il metodo set
         this.recipe.set(response);
-        console.log(this.recipe());
+        this.currentPortions = this.recipe()!.porzioni;
+        this.originalPortions = this.recipe()!.porzioni;
         this.loadRelatedRecipes(this.recipe()!.categorianome);
         this.numero = response.porzioni;
         this.ingredientiModificati.set(response.ingredientiQuantita);
+        this.updatedIngredients = response.ingredientiQuantita.map(ing => ({ ...ing }));
         this.recipeUser.set(response.recipeUser);
         this.calcolaMedia();
         this.user = this.authService.getUser();
@@ -163,7 +169,7 @@ export class RecipeDetailsComponent implements OnInit {
       }
     });
   }
-  
+
 
   loadRelatedRecipes(categorianome: string): void {
     this.recipeService.getRelatedRecipes(categorianome).subscribe(
@@ -180,11 +186,31 @@ export class RecipeDetailsComponent implements OnInit {
     );
   }
 
-   //funzione che cicla l'array a gruppi di size e lo push in un array di array
-   private groupIntoChunksForDataOrder(arr: GetRecipeResponse[], size: number): void {
+  //funzione che cicla l'array a gruppi di size e lo push in un array di array
+  private groupIntoChunksForDataOrder(arr: GetRecipeResponse[], size: number): void {
     for (let i = 0; i < arr.length; i += size) {
       this.groupedRelatedRecipes.push(arr.slice(i, i + size));
     }
   }
 
+  // Method to handle portions change
+  onPortionsChange(event: any) {
+    const newPortions = parseInt(event.target.value);
+    if (newPortions > 0) {
+      this.currentPortions = newPortions;
+      this.recalculateIngredientQuantities();
+    }
+  }
+
+  // Method to recalculate ingredient quantities
+  recalculateIngredientQuantities() {
+    const ratio = this.currentPortions / this.originalPortions;
+
+    // Update ingredientiModificati signal with recalculated quantities
+    this.updatedIngredients = this.ingredientiModificati().map(ingredient => ({
+      ...ingredient,
+      quantita: ingredient.quantita ? Math.round((ingredient.quantita * ratio) * 100) / 100 : ingredient.quantita
+    }));
+
+  }
 }

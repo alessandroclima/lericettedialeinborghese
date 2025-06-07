@@ -6,4 +6,8 @@
     border-color: #e84919;
     box-shadow: 0 0 0 0.2rem rgba(232, 73, 25, 0.25);
   }
+
+  .container {
+  overflow-x: hidden;
+}
   

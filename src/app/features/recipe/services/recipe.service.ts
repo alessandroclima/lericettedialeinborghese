@@ -8,6 +8,7 @@ import { environment } from 'src/environments/environment';
 import { UpdateRecipeRequest } from '../models/update-recipe-request.model';
 import { VoteRecipeRequest } from '../models/vote-recipe-request.model';
 import { GetRecipeDetailResponse } from '../models/get-recipe-detail-response.model';
+import { GetRecipeListRequest } from '../models/get-recipe-list-request.modest';
 
 @Injectable({
   providedIn: 'root'
@@ -37,8 +38,8 @@ export class RecipeService {
     return this.http.post<void>(this.apiUrlVote, model);
   }
 
-  getRecipes(): Observable<GetRecipeDetailResponse[]> {
-    return this.http.get<GetRecipeDetailResponse[]>(this.apiUrlGet).pipe(
+  getRecipes(model:GetRecipeListRequest): Observable<GetRecipeDetailResponse[]> {
+    return this.http.post<GetRecipeDetailResponse[]>(this.apiUrlGet, model).pipe(
       catchError(error => {
         console.error('Errore durante la richiesta:', error);
         return throwError(() => new Error('Errore nel caricamento delle ricette. Riprova più tardi.'));

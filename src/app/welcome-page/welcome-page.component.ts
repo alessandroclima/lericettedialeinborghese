@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { CarouselComponent } from "../features/graphics/carousel/carousel.component";
 import { CarouselMobileComponent } from "../features/graphics/carousel-mobile/carousel-mobile.component";
+import { GetRecipeListRequest } from '../features/recipe/models/get-recipe-list-request.modest';
 
 @Component({
   selector: 'app-welcome-page',
@@ -25,6 +26,12 @@ export class WelcomePageComponent implements OnInit {
   groupedSlidesDataOrder: GetRecipeResponse[][] = [];
   groupedSlidesForValutation: GetRecipeResponse[][] = [];
   availableRecipes: GetRecipeResponse[] = [];
+  pagination: GetRecipeListRequest = {
+    pageNumber: 1,
+    pageSize: 9,
+    searchQuery: '',
+    categoryQuery: ''
+  };
 
   //id dei caroselli
   carouselIdDataOrder: string = 'carouselDataOrder'; // ID del carosello per l'ordinamento per data
@@ -33,7 +40,7 @@ export class WelcomePageComponent implements OnInit {
   carouselIdValutationMobile: string = 'carouselValutationMobile'; // ID del carosello per l'ordinamento per valutazione
 
   ngOnInit(): void {
-    this.getRecipeSubscription = this.recipeService.getRecipes().subscribe({
+    this.getRecipeSubscription = this.recipeService.getRecipes(this.pagination).subscribe({
       next: (response) => {
         //ordino le ricette in base alla data di creazione in modo decrescente
         const dataorder = response.sort((a, b) => new Date(b.dataCreazione!).getTime() - new Date(a.dataCreazione!).getTime());
