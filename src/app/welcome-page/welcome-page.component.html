@@ -4,7 +4,7 @@
   <app-carousel [carouselId]="carouselIdDataOrder" [groupedSlides]="groupedSlidesDataOrder"></app-carousel>
   <!-- Carosello versione mobile -->
   <app-carousel-mobile [carouselId]="carouselIdDataOrderMobile"
-    [availableRecipes]="availableRecipes"></app-carousel-mobile>
+    [availableRecipes]="availableRecipesSortedByDate"></app-carousel-mobile>
 </div>
 <div class="mt-3 mb-3">
   <h3 class="text-center"><strong style="color: #e84919;">Le ricette più votate</strong></h3>
@@ -12,5 +12,5 @@
   <app-carousel [carouselId]="carouselIdValutation" [groupedSlides]="groupedSlidesForValutation"></app-carousel>
   <!-- Carosello versione mobile -->
   <app-carousel-mobile [carouselId]="carouselIdValutationMobile"
-    [availableRecipes]="availableRecipes"></app-carousel-mobile>
+    [availableRecipes]="availableRecipesSortedByVote"></app-carousel-mobile>
 </div>

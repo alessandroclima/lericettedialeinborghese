@@ -112,19 +112,20 @@ export class RecipeListComponent implements OnInit {
     }
   }
 
-   showToast() {
+  showToast() {
     console.log('Click sul bottone, mostro toast');
-    this.toastr.success('Test toast visibile!', 'Successo');}
+    this.toastr.success('Test toast visibile!', 'Successo');
+  }
 
   ngOnInit(): void {
 
     //recupero il valore dello user dall'auth service
     this.authService.user().subscribe({
       next: (response) => this.user = response
-      
+
     });
     this.user = this.authService.getUser();
-            console.log(this.user?.username)
+    console.log(this.user?.username)
     // Recupera il valore della ricerca dall'URL
     this.route.queryParams.subscribe(params => {
       this.searchQuery = params['query'] || '';
@@ -133,10 +134,10 @@ export class RecipeListComponent implements OnInit {
     });
   }
 
- 
+
 
   loadRecipes(): void {
-    this.getRecipeSubscription = this.recipeService.getRecipes(this.pagination).subscribe({
+    this.getRecipeSubscription = this.recipeService.getRecipes(this.categoryQuery, this.searchQuery).subscribe({
       next: (response) => {
         this.availableRecipes = response;
         console.log(this.availableRecipes)

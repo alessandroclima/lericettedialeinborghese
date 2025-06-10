@@ -20,12 +20,14 @@ export class WelcomePageComponent implements OnInit {
   private recipeService = inject(RecipeService);
 
   //creo variabile per subscription
-  private getRecipeSubscription?: Subscription;
+  private getRecipeSortByDateSubscription?: Subscription;
+  private getRecipeSortByVoteSubscription?: Subscription;
 
   //creo variabile per le ricette disponibili sia in versione desktop che mobile
   groupedSlidesDataOrder: GetRecipeResponse[][] = [];
   groupedSlidesForValutation: GetRecipeResponse[][] = [];
-  availableRecipes: GetRecipeResponse[] = [];
+  availableRecipesSortedByDate: GetRecipeResponse[] = [];
+  availableRecipesSortedByVote: GetRecipeResponse[] = [];
   pagination: GetRecipeListRequest = {
     pageNumber: 1,
     pageSize: 9,
@@ -40,26 +42,29 @@ export class WelcomePageComponent implements OnInit {
   carouselIdValutationMobile: string = 'carouselValutationMobile'; // ID del carosello per l'ordinamento per valutazione
 
   ngOnInit(): void {
-    this.getRecipeSubscription = this.recipeService.getRecipes(this.pagination).subscribe({
+    this.getRecipeSortByDateSubscription = this.recipeService.getRecipes(undefined, undefined, "Dataultimamodifica", "desc").subscribe({
       next: (response) => {
-        //ordino le ricette in base alla data di creazione in modo decrescente
-        const dataorder = response.sort((a, b) => new Date(b.dataCreazione!).getTime() - new Date(a.dataCreazione!).getTime());
 
-        // Ordino le ricette in base alla votazione in modo decrescente
-        const mostvoted = response.sort((a, b) => b.tempocottura - a.tempocottura); 
-
-        this.availableRecipes = dataorder.slice(-9); // Prendo le ultime 9 ricette
-        this.groupIntoChunksForDataOrder(this.availableRecipes, 3);;
-
-        this.availableRecipes = mostvoted.slice(-9); // Prendo le ultime 9 ricette
-        this.groupIntoChunksForValutation(this.availableRecipes, 3);
+        this.availableRecipesSortedByDate = response
+        this.groupIntoChunksForDataOrder(this.availableRecipesSortedByDate, 3);;
 
       },
       error: (error) => {
         console.error('Error loading recipes', error);
       }
     });
-   
+    this.getRecipeSortByVoteSubscription = this.recipeService.getRecipes(undefined, undefined, "Voti", "desc").subscribe({
+      next: (response) => {
+
+        this.availableRecipesSortedByVote = response
+        this.groupIntoChunksForValutation(this.availableRecipesSortedByVote, 3);;
+
+      },
+      error: (error) => {
+        console.error('Error loading recipes', error);
+      }
+    });
+
   }
 
   //funzione che cicla l'array a gruppi di size e lo push in un array di array
@@ -69,12 +74,12 @@ export class WelcomePageComponent implements OnInit {
     }
   }
 
-    //funzione che cicla l'array a gruppi di size e lo push in un array di array
-    private groupIntoChunksForValutation(arr: GetRecipeResponse[], size: number): void {
-      for (let i = 0; i < arr.length; i += size) {
-        this.groupedSlidesForValutation.push(arr.slice(i, i + size));
-      }
+  //funzione che cicla l'array a gruppi di size e lo push in un array di array
+  private groupIntoChunksForValutation(arr: GetRecipeResponse[], size: number): void {
+    for (let i = 0; i < arr.length; i += size) {
+      this.groupedSlidesForValutation.push(arr.slice(i, i + size));
     }
+  }
 
 
 

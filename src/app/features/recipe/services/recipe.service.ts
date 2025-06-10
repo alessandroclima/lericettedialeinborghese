@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { AddRecipeRequest } from '../models/add-recipe-request.model';
 import { catchError, Observable, throwError } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { GetRecipeResponse } from '../models/get-recipe-response.model';
 import { CookieService } from 'ngx-cookie-service';
 import { environment } from 'src/environments/environment';
@@ -38,8 +38,25 @@ export class RecipeService {
     return this.http.post<void>(this.apiUrlVote, model);
   }
 
-  getRecipes(model:GetRecipeListRequest): Observable<GetRecipeDetailResponse[]> {
-    return this.http.post<GetRecipeDetailResponse[]>(this.apiUrlGet, model).pipe(
+  getRecipes(categoryQuery?:string, searchQuery?:string, sortBy?:string, orderBy?:string): Observable<GetRecipeDetailResponse[]> {
+
+    let params = new HttpParams();
+    if (categoryQuery) {
+      params = params.set('categoryQuery', categoryQuery);
+    }
+
+    if (searchQuery) {
+      params = params.set('searchQuery', searchQuery);
+    }
+
+    if(sortBy) {
+      params = params.set('sortBy', sortBy);
+    }
+    if(orderBy) {
+      params = params.set('orderBy', orderBy);
+    }
+
+    return this.http.get<GetRecipeDetailResponse[]>(this.apiUrlGet,{params:params}).pipe(
       catchError(error => {
         console.error('Errore durante la richiesta:', error);
         return throwError(() => new Error('Errore nel caricamento delle ricette. Riprova più tardi.'));
