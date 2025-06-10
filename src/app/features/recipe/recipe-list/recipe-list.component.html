@@ -6,7 +6,7 @@
       <!-- Campo di ricerca + bottone -->
       <div class="col-12 col-md-5 mb-2 mb-md-0">
         <div class="input-group">
-          <input type="text" [(ngModel)]="searchQuery" (input)="filterRecipes()" placeholder="Filtra ricette..."
+          <input type="text" [(ngModel)]="filterText" (input)="onFilterTitle()" placeholder="Filtra ricette..."
             class="form-control">
           <button type="button" class="btn btn-light border-orange">
             <i class="fa-solid fa-magnifying-glass" style="color: #e84919;"></i>
@@ -99,16 +99,16 @@
     </ul>
     <nav aria-label="Page navigation example">
       <ul class="pagination">
-        <li class="page-item">
-          <a class="page-link" href="#" aria-label="Previous">
+        <li [ngClass]="pageNumber == 1 ? 'page-item disabled' : 'page-item'">
+          <a class="page-link" aria-label="Previous" (click)="goToPage(pageNumber - 1)" style="color: #e84919;">
             <span aria-hidden="true">&laquo;</span>
           </a>
         </li>
-        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-        <li class="page-item"><a class="page-link" href="#">2</a></li>
-        <li class="page-item"><a class="page-link" href="#">3</a></li>
-        <li class="page-item">
-          <a class="page-link" href="#" aria-label="Next">
+        @for(item of list; let ind = $index; track item) {
+         <li [ngClass]="pageNumber == (ind+1) ? 'page-item active' : 'page-item'" ><button [ngStyle]="pageNumber == (ind+1) ? {'background-color': '#e84919', 'border-color': '#e84919', 'color': 'white'} : {'color': '#e84919'}" class="page-link" (click)="goToPage(ind+1)">{{ind+1}}</button></li>
+}
+        <li [ngClass]="pageNumber == list.length ? 'page-item disabled' : 'page-item'">
+          <a class="page-link" aria-label="Next" (click)="goToPage(pageNumber + 1)" style="color: #e84919;">
             <span aria-hidden="true">&raquo;</span>
           </a>
         </li>

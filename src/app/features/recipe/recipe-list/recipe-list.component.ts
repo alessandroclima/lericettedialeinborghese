@@ -10,12 +10,13 @@ import { User } from '../../auth/models/user.model';
 import { AuthService } from '../../auth/services/auth.service';
 import { Toast, ToastrService } from 'ngx-toastr';
 import { GetRecipeListRequest } from '../models/get-recipe-list-request.modest';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-recipe-list',
   templateUrl: './recipe-list.component.html',
   styleUrls: ['./recipe-list.component.css'],
-  imports: [FormsModule, RouterLink]
+  imports: [FormsModule, RouterLink, CommonModule]
 })
 export class RecipeListComponent implements OnInit {
 
@@ -33,32 +34,18 @@ export class RecipeListComponent implements OnInit {
   availableRecipes: GetRecipeDetailResponse[] = [];
   errorMessage: string | null = null;
   filteredRecipes: GetRecipeDetailResponse[] = [];
+  filterText: string = '';
   searchQuery: string = '';
   categoryQuery: string = '';
+  recipesCount: number = 0;
+  pageNumber: number = 1;
+  pageSize: number = 5;
+  list: number[] = [];
   recipeIdToDelete: string | null = null;
   user?: User;
-  pagination: GetRecipeListRequest = {
-    pageNumber: 1,
-    pageSize: 10,
-    searchQuery: '',
-    categoryQuery: ''
-  }
 
   constructor() { }
 
-  //metodi per la logica
-  // detailsRecipe(arg0: string) {
-  //   this.detailsRecipeSubscription = this.recipeService.getRecipeDetails(arg0).subscribe({
-  //     next: (response) => {
-  //       console.log('Recipe details', response);
-  //     },
-  //     error: (error) => {
-  //       console.error('Error fetching recipe details', error);
-  //       this.errorMessage = error.message;
-  //     },
-  //     complete: () => console.log('Chiamata API completata')
-  //   });
-  // }
   deleteRecipe(arg0: string) {
     this.deleteRecipeSubscription = this.recipeService.deleteRecipe(arg0).subscribe({
       next: (response) => {
@@ -125,23 +112,40 @@ export class RecipeListComponent implements OnInit {
 
     });
     this.user = this.authService.getUser();
-    console.log(this.user?.username)
-    // Recupera il valore della ricerca dall'URL
     this.route.queryParams.subscribe(params => {
       this.searchQuery = params['query'] || '';
       this.categoryQuery = params['category'] || '';
-      this.loadRecipes();
-    });
+      this.recipeService.getRecipesCount(this.categoryQuery, this.searchQuery).subscribe({
+        next: (response) => {
+          this.recipesCount = response;
+          console.log('Total recipes count:', response);
+          // Calcola il numero di pagine necessarie
+          if (response < 5) {
+            this.pageSize = response;
+          }
+          else{
+            this.pageSize = 5;
+          }
+          this.list = new Array(Math.ceil(response / this.pageSize));
+          this.loadRecipes();
+
+        },
+        error: (error) => {
+          console.error('Error loading recipes count', error);
+        }
+      });
+
+    })
   }
 
 
 
   loadRecipes(): void {
-    this.getRecipeSubscription = this.recipeService.getRecipes(this.categoryQuery, this.searchQuery).subscribe({
+    this.getRecipeSubscription = this.recipeService.getRecipes(this.categoryQuery, this.searchQuery, undefined, undefined, this.pageNumber, this.pageSize).subscribe({
       next: (response) => {
         this.availableRecipes = response;
+        this.filteredRecipes = this.availableRecipes;
         console.log(this.availableRecipes)
-        this.filterRecipes();
       },
       error: (error) => {
         console.error('Error fetching recipes', error);
@@ -152,25 +156,20 @@ export class RecipeListComponent implements OnInit {
     );
   }
 
-  filterRecipes() {
-    console.log('Filtering recipes with text:', this.searchQuery);
-    if (this.searchQuery) {
-      this.filteredRecipes = this.availableRecipes.filter(recipe =>
-        recipe.titolo.toLowerCase().includes(this.searchQuery.toLowerCase())
-      );
-    }
-    else if (this.categoryQuery) {
-      console.log('Filtering recipes with category:', this.categoryQuery);
-      this.filteredRecipes = this.availableRecipes.filter(recipe =>
-        recipe.categorianome.includes(this.categoryQuery)
-      );
-    }
-    else {
+
+  goToPage(page: number): void {
+    this.pageNumber = page;
+    this.loadRecipes();
+  }
+
+
+  onFilterTitle(): void {
+    if (this.filterText.trim() === '') {
       this.filteredRecipes = this.availableRecipes;
+    } else {
+      this.filteredRecipes = this.availableRecipes.filter(recipe =>
+        recipe.titolo.toLowerCase().includes(this.filterText.toLowerCase())
+      );
     }
-
-
-  };
-
-
+  }
 }

@@ -42,7 +42,7 @@ export class WelcomePageComponent implements OnInit {
   carouselIdValutationMobile: string = 'carouselValutationMobile'; // ID del carosello per l'ordinamento per valutazione
 
   ngOnInit(): void {
-    this.getRecipeSortByDateSubscription = this.recipeService.getRecipes(undefined, undefined, "Dataultimamodifica", "desc").subscribe({
+     this.getRecipeSortByDateSubscription = this.recipeService.getRecipes(undefined, undefined, "Dataultimamodifica", "desc").subscribe({
       next: (response) => {
 
         this.availableRecipesSortedByDate = response

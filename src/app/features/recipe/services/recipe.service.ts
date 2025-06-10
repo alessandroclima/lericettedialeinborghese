@@ -16,7 +16,7 @@ import { GetRecipeListRequest } from '../models/get-recipe-list-request.modest';
 export class RecipeService {
   private http = inject(HttpClient);
   private cookieService = inject(CookieService)
-
+  private apiUrlCount = `${environment.apiBaseUrl}/Recipes/Count`;
   private apiUrlCreate = `${environment.apiBaseUrl}/Recipes/CreateRecipe`;
   private apiUrlGet = `${environment.apiBaseUrl}/Recipes/GetRecipes`;
   private apiUrlDelete = `${environment.apiBaseUrl}/Recipes/DeleteRecipe`;
@@ -38,7 +38,24 @@ export class RecipeService {
     return this.http.post<void>(this.apiUrlVote, model);
   }
 
-  getRecipes(categoryQuery?:string, searchQuery?:string, sortBy?:string, orderBy?:string): Observable<GetRecipeDetailResponse[]> {
+  getRecipesCount(categoryQuery?: string, searchQuery?: string): Observable<number> {
+     let params = new HttpParams();
+    if (categoryQuery) {
+      params = params.set('categoryQuery', categoryQuery);
+    }
+
+    if (searchQuery) {
+      params = params.set('searchQuery', searchQuery);
+    }
+    return this.http.get<number>(`${this.apiUrlCount}`,{ params: params }).pipe(
+      catchError(error => {
+        console.error('Errore durante la richiesta:', error);
+        return throwError(() => new Error('Errore nel caricamento del conteggio delle ricette. Riprova più tardi.'));
+      })
+    );
+  }
+
+  getRecipes(categoryQuery?: string, searchQuery?: string, sortBy?: string, orderBy?: string, pageNumber?: number, pageSize?: number): Observable<GetRecipeDetailResponse[]> {
 
     let params = new HttpParams();
     if (categoryQuery) {
@@ -49,14 +66,23 @@ export class RecipeService {
       params = params.set('searchQuery', searchQuery);
     }
 
-    if(sortBy) {
+    if (sortBy) {
       params = params.set('sortBy', sortBy);
     }
-    if(orderBy) {
+
+    if (orderBy) {
       params = params.set('orderBy', orderBy);
     }
 
-    return this.http.get<GetRecipeDetailResponse[]>(this.apiUrlGet,{params:params}).pipe(
+    if (pageNumber) {
+      params = params.set('pageNumber', pageNumber);
+    }
+
+    if (pageSize) {
+      params = params.set('pageSize', pageSize);
+    }
+
+    return this.http.get<GetRecipeDetailResponse[]>(this.apiUrlGet, { params: params }).pipe(
       catchError(error => {
         console.error('Errore durante la richiesta:', error);
         return throwError(() => new Error('Errore nel caricamento delle ricette. Riprova più tardi.'));
@@ -73,7 +99,7 @@ export class RecipeService {
     );
   }
 
-  getRecipeDetails(id:string): Observable<GetRecipeDetailResponse> {
+  getRecipeDetails(id: string): Observable<GetRecipeDetailResponse> {
     return this.http.get<GetRecipeDetailResponse>(`${this.apiUrlGetDetails}/${id}`).pipe(
       catchError(error => {
         console.error('Errore durante la richiesta:', error);
