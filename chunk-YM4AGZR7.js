@@ -1,0 +1,1 @@
+import{Mc as e,N as i,Pc as o,T as r}from"./chunk-XS7DYC3C.js";var h=(()=>{class t{constructor(){this.http=r(e),this.apiUrl=`${o.apiBaseUrl}/Diet/GetDiets`}getDiets(){return this.http.get(this.apiUrl)}static{this.\u0275fac=function(n){return new(n||t)}}static{this.\u0275prov=i({token:t,factory:t.\u0275fac,providedIn:"root"})}}return t})();export{h as a};
