@@ -3,6 +3,7 @@ import { CanActivateFn, Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { AuthService } from '../services/auth.service';
 import { decodeJwt } from 'jose';
+import { catchError, map, of } from 'rxjs';
 
 interface JwtPayload {
   exp: number;
@@ -18,7 +19,19 @@ export const authGuard: CanActivateFn = (route, state) => {
 
   const tokenWithBearer = cookieService.get('Authorization');
   console.log(tokenWithBearer);
+  
   if (!tokenWithBearer?.startsWith('Bearer ')) {
+    // Try refresh token before redirecting
+    if (authService.hasValidRefreshToken()) {
+      return authService.refreshToken().pipe(
+        map(() => true),
+        catchError(() => {
+          authService.logout();
+          return of(router.createUrlTree(['/login'], { queryParams: { returnUrl: state.url } }));
+        })
+      );
+    }
+    
     authService.logout();
     return router.createUrlTree(['/login'], { queryParams: { returnUrl: state.url } });
   }
@@ -28,10 +41,29 @@ export const authGuard: CanActivateFn = (route, state) => {
   try {
     const payload = decodeJwt<JwtPayload>(token);
 
-    // ⏳ Verifica scadenza
-    if (!payload.exp || payload.exp * 1000 < Date.now()) {
+    // Check if token is expired or about to expire (within 1 minute)
+    const expirationTime = payload.exp * 1000;
+    const currentTime = Date.now();
+    const bufferTime = 60 * 1000; // 1 minute buffer
+
+    if (expirationTime < currentTime) {
+      // Token expired, try refresh
+      if (authService.hasValidRefreshToken()) {
+        return authService.refreshToken().pipe(
+          map(() => true),
+          catchError(() => {
+            authService.logout();
+            return of(router.createUrlTree(['/login'], { queryParams: { returnUrl: state.url } }));
+          })
+        );
+      }
       authService.logout();
       return router.createUrlTree(['/login'], { queryParams: { returnUrl: state.url } });
+    }
+
+    // Proactively refresh if token is about to expire
+    if (expirationTime - currentTime < bufferTime && authService.hasValidRefreshToken()) {
+      authService.refreshToken().subscribe(); // Fire and forget
     }
 
     // 🔐 Controllo ruoli (writer richiesto)

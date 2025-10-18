@@ -62,9 +62,9 @@ export class LoginComponent {
         .subscribe({
           next: (response) => {
             console.log(response);
-            this.cookieService.set('Authorization', `Bearer ${response.token}`, undefined, '/', undefined, true, 'Strict');
+            // Tokens are now stored automatically in authService.loginUser via storeTokens()
             const user: User = {
-              username:response.username,
+              username: response.username,
               email: response.email,
               roles: response.roles
             };

@@ -3,4 +3,6 @@ export interface LoginResponse{
     email: string;
     roles: string[];
     token: string;
+    refreshToken: string;
+    tokenExpiration: Date;
 }
